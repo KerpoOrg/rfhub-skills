@@ -27,8 +27,10 @@ operator".
 
 ## Install
 
-[APM](https://github.com/microsoft/apm) fetches the package from this repo, so no
-manual checkout is needed either way.
+Installing with [APM](https://github.com/microsoft/apm) is the default — it
+fetches a pinned tag from this repo and never needs a source checkout. Clone the
+repo only if you want to modify the skills, instructions, or evals (see
+[Develop from source](#develop-from-source)).
 
 ### Global (recommended)
 
@@ -142,7 +144,10 @@ the MCP install step after a normal package install.
 | Instruction | `rfhub-leaf-suites` | Catalog/orchestrator leaf layout |
 | Instruction | `rfhub-failure-evidence` | Attachment paths in FAIL messages |
 
-## Quick start (this package)
+## Develop from source
+
+Only for changing this package. Regular consumers install with APM above. Clone
+the repo, then:
 
 ```bash
 # Create a new skill
