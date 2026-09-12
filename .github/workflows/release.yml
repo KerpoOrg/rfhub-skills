@@ -1,0 +1,126 @@
+name: Release
+
+# Manual version cut for the rfhub-skills APM package.
+# Actions -> Release -> Run workflow (choose patch/minor/major, or an explicit version).
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Semver bump"
+        type: choice
+        options: [patch, minor, major]
+        default: patch
+      version:
+        description: "Explicit version (e.g. 0.4.0). Overrides bump when set."
+        type: string
+        required: false
+      dry_run:
+        description: "Preview only (no commit, tag, or release)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Validate package layout
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          set -euo pipefail
+          if [[ "${GITHUB_REF_NAME}" != "${DEFAULT_BRANCH}" ]]; then
+            echo "Release must run from ${DEFAULT_BRANCH} (got ${GITHUB_REF_NAME})" >&2
+            exit 1
+          fi
+          test -f apm.yml || { echo "apm.yml missing"; exit 1; }
+          test -d .apm/skills || { echo ".apm/skills missing"; exit 1; }
+          grep -Eq '^name:[[:space:]]*rfhub-skills' apm.yml || { echo "unexpected package name"; exit 1; }
+
+      - name: Compute next version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+          EXPLICIT: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          current="$(sed -nE 's/^version:[[:space:]]*//p' apm.yml | head -n1 | tr -d '"'"'"' ')"
+          if [[ ! "$current" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Cannot read current version from apm.yml (got '$current')" >&2
+            exit 1
+          fi
+
+          if [[ -n "${EXPLICIT:-}" ]]; then
+            next="${EXPLICIT#v}"
+            [[ "$next" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid version '$EXPLICIT'" >&2; exit 1; }
+          else
+            IFS=. read -r major minor patch <<< "$current"
+            case "$BUMP" in
+              major) major=$((major + 1)); minor=0; patch=0 ;;
+              minor) minor=$((minor + 1)); patch=0 ;;
+              patch) patch=$((patch + 1)) ;;
+              *) echo "Unknown bump '$BUMP'" >&2; exit 1 ;;
+            esac
+            next="$major.$minor.$patch"
+          fi
+
+          if git rev-parse -q --verify "refs/tags/v$next" >/dev/null; then
+            echo "Tag v$next already exists" >&2
+            exit 1
+          fi
+
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          echo "Bumping $current -> $next"
+
+      - name: Bump apm.yml and version references
+        if: ${{ !inputs.dry_run }}
+        env:
+          CURRENT: ${{ steps.version.outputs.current }}
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          sed -i -E "s/^version:.*/version: $NEXT/" apm.yml
+          # Keep docs/skills examples in sync with the released semver.
+          while IFS= read -r -d '' file; do
+            sed -i "s/$CURRENT/$NEXT/g" "$file"
+          done < <(git ls-files -z -- '*.md' '*.yml' '*.yaml' '*.json')
+
+      - name: Commit, tag, and release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "No file changes to commit; tagging anyway."
+          else
+            git add -A
+            git commit -m "release: v$NEXT"
+          fi
+
+          git tag -a "v$NEXT" -m "rfhub-skills $NEXT"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git push origin "v$NEXT"
+          gh release create "v$NEXT" --generate-notes --title "rfhub-skills $NEXT"
+
+      - name: Dry run summary
+        if: ${{ inputs.dry_run }}
+        run: |
+          echo "::notice::Dry run: would release v${{ steps.version.outputs.next }} (from ${{ steps.version.outputs.current }}). No changes made."

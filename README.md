@@ -191,11 +191,16 @@ This package is versioned independently of the Robot Framework Hub product.
 
 **Release**
 
-1. Bump `version:` in `apm.yml` (and this README's `ref:` example).
-2. Keep the hub MCP's expected skills semver in sync when shipping MCP contract changes.
-3. Commit, then `git tag -a vX.Y.Z -m "rfhub-skills X.Y.Z"` and push the tag.
-4. Consumers change `ref:` and run `apm install`. Set the MCP header
-   `X-Rfhub-Skills-Version` to the new semver so the hub does not warn.
+Cut versions with the manual workflow: **Actions → Release → Run workflow**
+(choose `patch` / `minor` / `major`, or an explicit `version`; enable `dry_run` to
+preview). It bumps `apm.yml` and the version references, commits to the default
+branch, creates the annotated `vX.Y.Z` tag, and opens the GitHub Release.
+
+After releasing, sync the hub product repo's expected skills semver
+(`apps/web/skills-package.version` in `KerpoOrg/rf-hub`) when the MCP contract
+changes — the hub warns consumers whose installed skills are behind. Consumers
+change `ref:` and run `apm install`, and set the MCP header
+`X-Rfhub-Skills-Version` to the new semver.
 
 ## Server name / header conventions
 
