@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+#MISE description="Manage rfhub-skills package: audit, triggers, evals"
+#USAGE cmd "audit" help="Fast apm audit of all skill markdown (unicode/structure, no evals)"
+#USAGE cmd "lint" help="Run shellcheck on all skill scripts"
+#USAGE cmd "evals" help="Run output quality evals for all skills (needs claude CLI)"
+#USAGE cmd "triggers" help="Run trigger accuracy tests for all skills (needs claude CLI)"
+#USAGE cmd "conventions" help="Run Robocop convention-drift gate over .apm primitives"
+set -euo pipefail
+
+ROOT="${MISE_PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+cd "$ROOT"
+
+cmd="${usage_cmd:-}"
+if [[ -z "$cmd" ]]; then
+  cat <<'EOF'
+Usage: mise run skills -- <subcommand>
+
+Subcommands:
+  audit         Fast apm audit of skill markdown (unicode/structure, no evals)
+  lint          Run shellcheck on all skill scripts
+  evals         Run output quality evals for all skills (needs claude CLI)
+  triggers      Run trigger accuracy tests for all skills (needs claude CLI)
+  conventions   Run Robocop convention-drift gate over .apm primitives
+
+Run `mise run skills --help` for full usage.
+EOF
+  exit 0
+fi
+
+cmd_audit() {
+  ./scripts/audit-skills.sh
+}
+
+cmd_lint() {
+  local -a files=()
+  local f
+  while IFS= read -r f; do
+    [[ -n "$f" ]] || continue
+    files+=("$f")
+  done < <(find scripts .mise/tasks -type f \( -name '*.sh' -o -path './.mise/tasks/*' ! -name '*.*' \) ! -name '.*' | sort)
+
+  if [[ ${#files[@]} -eq 0 ]]; then
+    echo "Info: no shell scripts to lint" >&2
+    return 0
+  fi
+  shellcheck "${files[@]}"
+  echo "shellcheck ok (${#files[@]} file(s))"
+}
+
+cmd_evals() {
+  local skill_name
+  local count
+  local total=0
+  local evaluated=0
+
+  while IFS= read -r skill_name; do
+    [[ -n "$skill_name" ]] || continue
+    local evals_file=".apm/skills/$skill_name/evals/evals.json"
+    [[ -f "$evals_file" ]] || continue
+    count=$(jq 'if type == "array" then length else (.evals | length) end' "$evals_file" 2>/dev/null || echo 0)
+    total=$((total + count))
+    if [[ "$count" -gt 0 ]]; then
+      ./scripts/run-evals.sh "$skill_name"
+      evaluated=$((evaluated + 1))
+    fi
+  done < <(list_skills)
+
+  echo "Evals summary: $evaluated skill(s) evaluated, $total eval case(s)"
+}
+
+cmd_triggers() {
+  local skill_name
+  local total_passed=0
+  local total_failed=0
+  local skill_count=0
+
+  while IFS= read -r skill_name; do
+    [[ -n "$skill_name" ]] || continue
+    skill_count=$((skill_count + 1))
+
+    local result passed failed
+    result=$(./scripts/test-triggers.sh "$skill_name" 1 2>&1 || true)
+    passed=$(echo "$result" | grep -c '\[PASS\]' || true)
+    failed=$(echo "$result" | grep -c '\[FAIL\]' || true)
+
+    total_passed=$((total_passed + passed))
+    total_failed=$((total_failed + failed))
+
+    echo "$skill_name: $passed passed, $failed failed"
+  done < <(list_skills)
+
+  echo ""
+  echo "Total: $total_passed passed, $total_failed failed out of $skill_count skills"
+
+  if [[ "$total_failed" -gt 0 ]]; then
+    exit 1
+  fi
+}
+
+cmd_conventions() {
+  ./scripts/check-conventions.sh
+}
+
+list_skills() {
+  find .apm/skills -name 'evals.json' | while IFS= read -r f; do
+    dirname "$(dirname "$(dirname "$f")")" | xargs basename
+  done | sort -u
+}
+
+case "$cmd" in
+  audit) cmd_audit ;;
+  lint) cmd_lint ;;
+  evals) cmd_evals ;;
+  triggers) cmd_triggers ;;
+  conventions) cmd_conventions ;;
+  *)
+    echo "Error: unknown subcommand: $cmd" >&2
+    echo "Run: mise run skills --help" >&2
+    exit 1
+    ;;
+esac
