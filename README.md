@@ -25,20 +25,38 @@ Python-keyword and argumentfile skills is served from a private registry today
 `library/rf-hub-runner` later; treat those references as "provided by your hub
 operator".
 
-## Install in your suite repo
+## Install
 
-Requires [mise](https://mise.jdx.dev) and [gh](https://cli.github.com) (only for
-hub access; installing this package does not need KerpoOrg SSH access, since this
-repo is public).
+[APM](https://github.com/microsoft/apm) fetches the package from this repo, so no
+manual checkout is needed either way.
 
-**1. Add to your project's `mise.toml`:**
+### Global (recommended)
+
+Install once per machine into `~/.apm/` — agents in any workspace get the skills,
+with nothing to check out or commit:
+
+```bash
+apm install -g KerpoOrg/rfhub-skills#v0.3.0
+apm compile -g   # refresh harness root context (e.g. opencode)
+```
+
+The `#vX.Y.Z` selector is required; without it APM tracks the branch and warns
+about drift. Global scope fully supports claude, opencode, agent-skills, and
+others; Cursor instruction rules (`.mdc`) are only fully supported at project
+scope, so use the project install below when a specific repo needs them.
+
+### Project-scoped (skills + Cursor rules pinned per repo)
+
+Use this when a suite repo should commit the pin and get the Cursor rules.
+
+**1. Add to the repo's `mise.toml`:**
 
 ```toml
 [tools]
 "github:microsoft/apm" = "0.30.0"
 ```
 
-**2. Add the APM dependency** in the suite repo's `apm.yml`:
+**2. Add the APM dependency** in `apm.yml`:
 
 ```yaml
 dependencies:
