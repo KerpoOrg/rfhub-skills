@@ -16,9 +16,9 @@ metadata:
 ---
 # rfhub-investigate
 
-> **Access requirement:** reads results through a hub you are authorized on and
-> requires a Bearer access key. Non-functional without hub access. See the
-> package README, "Access requirements".
+> **Access requirement:** reads results through a hub you are authorized on
+> (log in via MCP OAuth, or use an API key for HTTP). Non-functional without
+> hub access. See the package README, "Access requirements".
 
 Read results through hub MCP. Compact first; HTML artifacts last.
 

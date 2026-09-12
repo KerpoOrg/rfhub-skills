@@ -13,12 +13,12 @@ only work if you are connected to a **running hub you are authorized to use**:
 
 | You have | Most skills work? |
 |----------|-------------------|
-| Hub URL + Bearer access key | Yes — MCP, queue, investigate, feedback |
+| Hub URL + an account that can log in (MCP OAuth) | Yes — MCP, queue, investigate, feedback |
 | Hub access + runner image access | Yes, including `rfhub-write-pythonkeyword` / `rfhub-write-argumentfile` |
 | Only Robot authoring needs | Partially — the `rfhub-write-*` skills and the always-on instructions stand alone; anything driving MCP/queue/metrics does not |
 
 The `rfhub-connect`, `rfhub-queue`, `rfhub-investigate`, and `rfhub-feedback`
-skills are **non-functional without hub access and a Bearer key**. The hub MCP has
+skills are **non-functional without hub access**. The hub MCP has
 no value to anyone who cannot reach a hub. The runner image referenced by the
 Python-keyword and argumentfile skills is served from a private registry today
 (`harbor.kerpo.org/library-private/...`) and will move to a public
@@ -44,11 +44,11 @@ repo is public).
 dependencies:
   apm:
     - git: https://github.com/KerpoOrg/rfhub-skills.git
-      ref: v0.2.5
+      ref: v0.3.0
 ```
 
 Pin `ref` to a `vX.Y.Z` tag (see [Versioning](#versioning)). Equivalent short form
-if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.2.5`.
+if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.3.0`.
 
 **3. Install:**
 
@@ -62,13 +62,35 @@ Gitignore generated `.agents/skills/` and `.cursor/rules/rfhub-*.mdc`.
 
 ## Set up the hub MCP (requires hub access)
 
-Install the skills package with `apm install`, then add the remote MCP entry with
-APM's CLI. This is the supported pattern when the hub URL is only known at install
-time, because Microsoft APM requires a literal remote `url:` in package manifests.
+The hub is its own OAuth Authorization Server. Install the skills package with
+`apm install`, then add the remote MCP entry with APM's CLI. The client
+discovers the OAuth flow from the unauthenticated `401` +
+`resource_metadata` on `POST /api/mcp`, so no static token is needed in the
+config.
 
 ```bash
 export RFHUB_MCP_URL="https://<your-hub-host>/api/mcp"
-export RFHUB_ACCESS_KEY="rfhub_..."
+apm install --target cursor \
+  --mcp rf-hub \
+  --transport http \
+  --url "$RFHUB_MCP_URL"
+```
+
+Hub developers running the Compose hub use `RFHUB_MCP_URL="http://127.0.0.1:2998/api/mcp"`
+and the server name `rfhub-dev`.
+
+On first connect the client opens the hub authorize URL in a browser — log in
+with Pocket ID (you must be in the hub's allowed group) and consent. The result
+is a 30-day app token (`agent` + `mcp` scope) you can revoke any time in the hub
+**Settings → API Keys**. This is the supported pattern when the hub URL is only
+known at install time, because Microsoft APM requires a literal remote `url:` in
+package manifests.
+
+Manual fallback (clients without MCP OAuth, or scripted setups): mint a key under
+the hub **Settings → API Keys** (preset “MCP / Agent”) and send it as an
+`Authorization: Bearer` header:
+
+```bash
 apm install --target cursor \
   --mcp rf-hub \
   --transport http \
@@ -76,26 +98,17 @@ apm install --target cursor \
   --header "Authorization=Bearer ${RFHUB_ACCESS_KEY}"
 ```
 
-Hub developers running the Compose hub use `RFHUB_MCP_URL="http://127.0.0.1:2998/api/mcp"`
-and the server name `rfhub-dev`.
-
-APM owns the MCP entry in client config after that. Re-run the same install
-command when the URL or auth changes. A later plain `apm install` removes
-undeclared MCP entries, so if your project does not keep the MCP in its manifest
-you must re-run the MCP install step after a normal package install.
-
-For the `cursor` target specifically, Microsoft APM resolves `${VAR}` /
-`${env:VAR}` in remote MCP config at install time, so Cursor still ends up with
-concrete values in its generated MCP config. APM helps with install, upgrade, and
-removal, but does **not** keep the Bearer out of Cursor config for remote MCP
-today.
+APM owns the MCP entry in client config after that. Re-run the install when the
+URL or method changes. A later plain `apm install` removes undeclared MCP
+entries, so if your project does not keep the MCP in its manifest you must re-run
+the MCP install step after a normal package install.
 
 ## What you get
 
 | Kind | Name | When |
 |------|------|------|
 | Skill | `rfhub` | Map: which hub workflow to run |
-| Skill | `rfhub-connect` | MCP URL + Bearer |
+| Skill | `rfhub-connect` | MCP URL + OAuth login |
 | Skill | `rfhub-queue` | Queue suites / poll a batch |
 | Skill | `rfhub-investigate` | Failures, logs, flake, metrics |
 | Skill | `rfhub-feedback` | Bugs / features / feedback on hub, orch, skills, runner |

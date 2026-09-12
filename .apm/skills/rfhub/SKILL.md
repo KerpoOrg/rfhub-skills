@@ -16,10 +16,10 @@ metadata:
 # rfhub
 
 > **Access requirement:** hub-facing skills (`rfhub-connect`, `rfhub-queue`,
-> `rfhub-investigate`, `rfhub-feedback`) need a running hub URL and a Bearer
-> access key. Without hub access only the `rfhub-write-*` skills and the
-> always-on instructions are useful. See the package README, "Access
-> requirements".
+> `rfhub-investigate`, `rfhub-feedback`) need a running hub URL and an account
+> that can log in to it (MCP uses OAuth). Without hub access only the
+> `rfhub-write-*` skills and the always-on instructions are useful. See the
+> package README, "Access requirements".
 
 Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MCP over scraping the UI or Robot HTML.
 
@@ -37,7 +37,7 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 
 | User intent | Skill |
 |-------------|--------|
-| Wire MCP / access key / “not connected” | `rfhub-connect` |
+| Wire MCP / OAuth login / “not connected” | `rfhub-connect` |
 | Run / play / queue suites, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
 | Bug / feature / feedback on hub, orch, skills, runner | `rfhub-feedback` |
@@ -57,4 +57,4 @@ MCP tool names and compact use-cases: [references/mcp-map.md](references/mcp-map
 
 - `suiteIds` is an unordered set; LPT schedules leaves. Array order is not a run order.
 - Identity tags (`project_id:`, `suite_id:`, `test_id:`) must stay stable across renames.
-- Do not declare hub MCP as a static APM `mcp:` dependency — URL and Bearer are per environment.
+- Do not declare hub MCP as a static APM `mcp:` dependency — the URL is per environment and MCP auth is OAuth (or a manually minted key).

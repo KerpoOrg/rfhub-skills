@@ -20,9 +20,9 @@ metadata:
 ---
 # rfhub-queue
 
-> **Access requirement:** queueing runs through a hub you are authorized on and
-> requires a Bearer access key. Non-functional without hub access. See the
-> package README, "Access requirements".
+> **Access requirement:** queueing runs through a hub you are authorized on
+> (log in via MCP OAuth, or use an API key for HTTP). Non-functional without
+> hub access. See the package README, "Access requirements".
 
 Queue work to an **online** orchestrator for `project` + `branch`. Selection is an unordered set of suite ids; the orch schedules leaves with online LPT.
 

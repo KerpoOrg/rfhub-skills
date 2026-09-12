@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "rf-hub MCP is disconnected in Cursor. Set up .cursor/mcp.json against the local hub.",
-      "expected_output": "Writes Streamable HTTP URL + Bearer; does not add APM mcp: dependency; asks hub port if unknown.",
+      "expected_output": "Writes Streamable HTTP URL; uses MCP OAuth login (no static Bearer); does not add APM mcp: dependency; asks hub port if unknown.",
       "assertions": []
     },
     {
       "id": 2,
-      "prompt": "Where do I put HUB_ACCESS_KEY for Cursor MCP?",
-      "expected_output": "Authorization Bearer header in mcp.json from hub accesskeys.json.",
+      "prompt": "How do I authenticate the hub MCP?",
+      "expected_output": "OAuth login with Pocket ID via 401 resource_metadata discovery; manual API key (Settings -> API Keys) only as fallback.",
       "assertions": []
     }
   ]
