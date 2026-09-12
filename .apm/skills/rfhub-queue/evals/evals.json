@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "prompt": "Mark checkout as wip without committing Force Tags and queue that tag.",
+      "prompt": "Mark checkout as wip without committing Test Tags and queue that tag.",
       "expected_output": "rfhub_tag_set kind suite (not each test) then rfhub_queue with tag; does not use --include wip.",
       "assertions": []
     },

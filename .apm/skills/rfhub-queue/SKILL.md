@@ -32,7 +32,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 - Poll status of a returned `handle` (`runId`)
 - Fix failures **while** a multi-hour batch is still running
 - Create an **acceptance report** from ≥2 passed runs for one commit
-- Queue WIP via Redis marks (usually the whole suite) instead of committing `Force Tags    wip`
+- Queue WIP via Redis marks (usually the whole suite) instead of committing `Test Tags    wip`
 
 ## Instructions
 

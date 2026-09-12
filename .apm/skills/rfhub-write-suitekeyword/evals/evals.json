@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Add a suite-local keyword in checkout.robot that only those tests use.",
-      "expected_output": "Keywords section in the same .robot; no identity tags; Gherkin-facing names stay human (customer memorizes / uses the memorized order number); one '${business}' inlined, not ending on the variable; VAR scope=TEST in-case, scope=SUITE to the next case in the same leaf; prefer Process for simple commands; deeper keywords / Python are how; does not swallow the Gherkin actor path; if Keywords grow, move to leaf-local .resource.",
+      "expected_output": "Keywords section in the same .robot; no identity tags; Gherkin-facing names stay human (customer memorizes / uses the memorized order number); one '${business}' inlined, not ending on the variable; Set Suite Variable for cross-step handoff, carried to the next case in the same leaf; prefer Process for simple commands; deeper keywords / Python are how; does not swallow the Gherkin actor path; if Keywords grow, move to leaf-local .resource.",
       "assertions": []
     }
   ]

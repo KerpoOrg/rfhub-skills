@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "Add a test case that checkout completes and tag it for the hub.",
-      "expected_output": "Adds a Gherkin case (Given/When/Then, one path) with stable test_id UUID; human actor steps (customer memorizes / uses the memorized order number); one '${arg}' per Gherkin-facing keyword; VAR scope=TEST in-case, scope=SUITE to the next case in the same leaf; after indent only single spaces; FAIL attachment path if screenshots exist; does not repeat parent Force Tags.",
+      "expected_output": "Adds a Gherkin case (Given/When/Then, one path) with stable test_id UUID; human actor steps (customer memorizes / uses the memorized order number); one '${arg}' per Gherkin-facing keyword; Set Suite Variable for cross-step handoff, carried to the next case in the same leaf; after indent only single spaces; FAIL attachment path if screenshots exist; does not repeat parent Test Tags.",
       "assertions": []
     },
     {
