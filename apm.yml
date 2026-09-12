@@ -1,5 +1,5 @@
 name: rfhub-skills
-version: 0.3.1
+version: 0.4.0
 description: >-
   Agent skills and Cursor/Claude instructions for consuming Robot Framework Hub
   from a suite repo — MCP workflows plus hub-compatible Robot sources.

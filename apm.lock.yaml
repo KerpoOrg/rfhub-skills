@@ -433,7 +433,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:fd4d4c9cea11c3c574ca2db50e3c1562ba2c421cd4f5d083dd22e661ed6bf565
+  content_hash: sha256:fd4d4c9cea11c3c574ca2db50.4.0562ba2c421cd4f5d083dd22e661ed6bf565
 - kind: project-relative
   target: claude
   value: .claude/rules/rfhub-leaf-suites.md
@@ -937,7 +937,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870a361a0db7ca769ce271a
+  content_hash: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870.4.0a0db7ca769ce271a
 - kind: project-relative
   target: cursor
   value: .cursor/rules/rfhub-leaf-suites.mdc
@@ -1165,7 +1165,7 @@ local_deployed_file_hashes:
   .agents/skills/rfhub/evals/evals.json: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
   .agents/skills/rfhub/references/mcp-map.md: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
   .claude/rules/rfhub-failure-evidence.md: sha256:6ad8f76873d699ed9e6961a6b6cf1838e8f2e1e4e99519b47cd1375ced4a5ef8
-  .claude/rules/rfhub-gherkin.md: sha256:fd4d4c9cea11c3c574ca2db50e3c1562ba2c421cd4f5d083dd22e661ed6bf565
+  .claude/rules/rfhub-gherkin.md: sha256:fd4d4c9cea11c3c574ca2db50.4.0562ba2c421cd4f5d083dd22e661ed6bf565
   .claude/rules/rfhub-leaf-suites.md: sha256:47389ef2e0f15d9cffbf65bffc9ee818e2784f25c7cfda95ce368bdacf19e7d5
   .claude/rules/rfhub-stable-ids.md: sha256:02d884559b32373946bc932f4580bb544a00554de2411699364dd105ac97de69
   .claude/rules/rfhub-tag-placement.md: sha256:127c0569a13adfc78acaf64fc622636c05fe272ee3ee802168052c4b1cae4998
@@ -1210,7 +1210,7 @@ local_deployed_file_hashes:
   .claude/skills/rfhub/evals/evals.json: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
   .claude/skills/rfhub/references/mcp-map.md: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
   .cursor/rules/rfhub-failure-evidence.mdc: sha256:e8b60a2baca2966c2f466b03f2be1e6ff44db2ae0e1786aae481b896665ccd10
-  .cursor/rules/rfhub-gherkin.mdc: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870a361a0db7ca769ce271a
+  .cursor/rules/rfhub-gherkin.mdc: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870.4.0a0db7ca769ce271a
   .cursor/rules/rfhub-leaf-suites.mdc: sha256:d936dc15c84cc0a0e39a2d9f9ebe3d2cc8e95b9363370ad9960440a9766beb4f
   .cursor/rules/rfhub-stable-ids.mdc: sha256:4a6878994c3af2b4ca08e556a228bfb8ad92e08f8e2c7a306393d457e07548d7
   .cursor/rules/rfhub-tag-placement.mdc: sha256:9d120a138f7d3d9b97b9e82e33ae9187b9f4f521c117521402bb7b958280cbc8
