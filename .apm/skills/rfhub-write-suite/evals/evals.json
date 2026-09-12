@@ -9,14 +9,14 @@
     },
     {
       "id": 2,
-      "prompt": "Write __init__.robot for smoke with Force Tags suite_id.",
-      "expected_output": "Settings + Force Tags UUID; points test cases at rfhub-write-testcase.",
+      "prompt": "Write __init__.robot for smoke with Test Tags suite_id.",
+      "expected_output": "Settings + Test Tags UUID; points test cases at rfhub-write-testcase.",
       "assertions": []
     },
     {
       "id": 3,
       "prompt": "Every test in checkout/ has tag smoke — move it up so we do not repeat it on each case.",
-      "expected_output": "Promotes smoke to suite Force Tags; does not use Default Tags; does not copy the tag onto every child.",
+      "expected_output": "Promotes smoke to suite Test Tags; does not use Default Tags; does not copy the tag onto every child.",
       "assertions": []
     }
   ]

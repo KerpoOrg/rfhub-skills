@@ -3,8 +3,8 @@ description: Stable Robot identity tags the hub uses for history, queue, and met
 applyTo: "**/*.{robot,resource}"
 ---
 
-- Give every product one `project_id:<uuid>` on the suite root (`Force Tags` in the top `__init__.robot`). One id per product/repo; the hub is single-tenant and uses it only to filter runs.
-- Give every catalog leaf (and each `__init__.robot` that should be selectable) a `suite_id:<uuid>` via `Force Tags`. Nested dirs may add their own `suite_id`; do not reuse a sibling’s id.
+- Give every product one `project_id:<uuid>` on the suite root (`Test Tags` in the top `__init__.robot`). One id per product/repo; the hub is single-tenant and uses it only to filter runs.
+- Give every catalog leaf (and each `__init__.robot` that should be selectable) a `suite_id:<uuid>` via `Test Tags`. Nested dirs may add their own `suite_id`; do not reuse a sibling’s id.
 - Give every test case a `[Tags]    test_id:<uuid>`. Keywords never get identity tags.
 - Keep those UUIDs **stable** when you rename files or titles. Names are labels; ids are identity.
 - Generate new UUIDs with `uuidgen | tr '[:upper:]' '[:lower:]'`. Do not invent look-alike strings.

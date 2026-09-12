@@ -48,7 +48,7 @@ Customer completes checkout
    - The case states **what** is checked and **what must hold** (business artifacts and outcomes: `hub web production image`, `order is confirmed`). Tool names (`pnpm`, `hadolint`, script paths) belong in keywords / deeper HOW, not in Gherkin steps. Optional `[Documentation]` can spell What / Expected in business terms.
    - Keywords tell **how**. Deeper in the hierarchy the steps get technical; prefer Robot `Process` / `OperatingSystem` before Python (**rfhub-write-pythonkeyword**). User interactions stay in the case unless the step is totally technical.
    - Keywords on the Gherkin line take **one** inlined `'${name}'` (single quotes) and must not end on the variable. Right: `My nice keyword takes '${businessArguments}' inlined`. Wrong: `My nasty keyword takes inlined ${businessArguments}`. After indent, only single spaces — two or more spaces is a new Robot cell.
-   - Several values for a later step **in the same case**: one Gherkin line per value, `VAR    ${name}    ${value}    scope=TEST`. Carry a value **to the next test case** in this leaf with `scope=SUITE` (`customer memorizes the order number` → `customer uses the memorized order number`). Both cases must stay in the same `.robot` leaf — hub runs one Robot process per leaf. Do not cram `'${email}'` and `'${name}'` into one first-level keyword. Deeper keywords may take arguments any way.
+   - Several values for a later step **in the same case**: one Gherkin line per value, `Set Suite Variable    ${name}    ${value}`. Carry a value **to the next test case** in this leaf with `Set Suite Variable` too (`customer memorizes the order number` → `customer uses the memorized order number`). Both cases must stay in the same `.robot` leaf — hub runs one Robot process per leaf. Do not cram `'${email}'` and `'${name}'` into one first-level keyword. Deeper keywords may take arguments any way. Do not hand off with `VAR … scope=TEST` / `scope=SUITE` — Robocop (`VAR06` `no-test-variable`, `MISC04`) flags it; `Set Suite Variable` is Robocop-clean.
 
 ```robot
 Customer registers
@@ -73,13 +73,13 @@ Customer sees the order on the dashboard
 5. On failure with a sidecar, include an `OUT_DIR`-relative path in the message (`attachment #1: test-results/…/test-failed-1.png`). Hub matches message text to uploads.
 6. Set a per-case `[Timeout]` from expected runtime / execution history (observed max × ~3, with a small floor for fast checks). Prefer case-level timeouts over one large suite `Test Timeout` when cases have very different costs.
 7. Keep the case in one leaf; do not rely on `--test` in a consumer args file for orch batches.
-8. `[Tags]` holds `test_id` and tags **unique to this case**. Do not repeat parent `Force Tags`. If every case in the leaf would get the same extra tag, put it on the suite (**rfhub-write-suite**). Do not stamp `wip` on each test — mark the suite via **rfhub-queue** Redis (`kind: suite`) unless the leaf is only partially WIP. Never use identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) as ephemeral labels.
+8. `[Tags]` holds `test_id` and tags **unique to this case**. Do not repeat parent `Test Tags`. If every case in the leaf would get the same extra tag, put it on the suite (**rfhub-write-suite**). Do not stamp `wip` on each test — mark the suite via **rfhub-queue** Redis (`kind: suite`) unless the leaf is only partially WIP. Never use identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) as ephemeral labels.
 
 ## Gotchas
 
 - Missing `test_id` means hub history keys off names — renames split the series.
-- `Default Tags` do not apply once a case has `[Tags]` (every hub case does). Shared tags must be `Force Tags` on the suite.
-- `VAR` without `scope=TEST` (or `SUITE`) stays local to the keyword. Later Gherkin steps will not see `${username}`. `scope=SUITE` is for the next test case in this leaf, not for another hub leaf.
+- `Default Tags` do not apply once a case has `[Tags]` (every hub case does). Shared tags must be `Test Tags` on the suite.
+- `Set Suite Variable` values live for the leaf process; suite variables do not cross hub leaves. A plain `VAR` (without `scope=`) stays keyword-local.
 - Unquoted `${var}` in a Gherkin-facing name is formatter bait: `takes ${businessArguments}` becomes `takes    ${businessArguments}` (two spaces = new cell) and it is a different keyword. Keep `'${businessArguments}'` and a word after it so the step stays one cell.
 - `And they pay with    ${card}` (separate argument cell) is wrong at case level. Inline it, quoted, and do not end on the variable: `And they pay with '${card}' as payment`. Never `And they pay with '${card}'` or `And they pay with ${card}`.
 - Do not `Fail` with only an absolute host path the hub cannot open.
