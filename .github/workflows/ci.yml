@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality-gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - name: apm audit --ci (lockfile integrity)
+        run: apm audit --ci
+
+      - name: Structure audit (skill markdown)
+        run: mise run skills -- audit
+
+      - name: Convention-drift gate (Robocop regressions)
+        run: mise run skills -- conventions
+
+      - name: Lint scripts and tasks (shellcheck)
+        run: mise run ci -- lint
+
+      - name: Test mise tasks (bats)
+        run: mise run ci -- test
+
+      # Trigger-accuracy and output-quality evals stay manual: they need LLM keys.
+      # Run locally via `mise run skills -- triggers` / `mise run skills -- evals`.

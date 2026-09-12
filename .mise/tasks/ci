@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+#MISE description="Lint and test mise file tasks (shellcheck + bats)"
+#MISE raw=true
+#USAGE cmd "lint" help="Run shellcheck on .mise/tasks scripts"
+#USAGE cmd "test" help="Run bats tests under tests/mise-tasks"
+set -euo pipefail
+
+ROOT="${MISE_PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+cd "$ROOT"
+
+cmd="${usage_cmd:-}"
+if [[ -z "$cmd" ]]; then
+  cat <<'EOF'
+Usage: mise run ci -- <subcommand>
+
+Subcommands:
+  lint   Run shellcheck on .mise/tasks scripts
+  test   Run bats tests under tests/mise-tasks
+
+Run `mise run ci --help` for full usage.
+EOF
+  exit 0
+fi
+
+cmd_lint() {
+  local -a files=()
+  local f
+  while IFS= read -r f; do
+    [[ -n "$f" ]] || continue
+    files+=("$f")
+  done < <(find .mise/tasks -type f \( -name '*.sh' -o ! -name '*.*' \) ! -name '.*' | sort)
+
+  if [[ ${#files[@]} -eq 0 ]]; then
+    echo "Error: no task scripts under .mise/tasks" >&2
+    exit 1
+  fi
+  shellcheck "${files[@]}"
+  echo "shellcheck ok (${#files[@]} file(s))"
+}
+
+cmd_test() {
+  if [[ ! -d tests/mise-tasks ]]; then
+    echo "Error: tests/mise-tasks missing" >&2
+    exit 1
+  fi
+  # raw=true + exec: avoid mise output-wrapper deadlocks with bats' `run` helper.
+  exec bats tests/mise-tasks
+}
+
+case "$cmd" in
+  lint) cmd_lint ;;
+  test) cmd_test ;;
+  *)
+    echo "Error: unknown subcommand: $cmd" >&2
+    echo "Run: mise run ci --help" >&2
+    exit 1
+    ;;
+esac
