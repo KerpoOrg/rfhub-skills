@@ -1,0 +1,29 @@
+{
+  "skill_name": "rfhub-write-testcase",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a test case that checkout completes and tag it for the hub.",
+      "expected_output": "Adds a Gherkin case (Given/When/Then, one path) with stable test_id UUID; human actor steps (customer memorizes / uses the memorized order number); one '${arg}' per Gherkin-facing keyword; VAR scope=TEST in-case, scope=SUITE to the next case in the same leaf; after indent only single spaces; FAIL attachment path if screenshots exist; does not repeat parent Force Tags.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Rename Login works to Login succeeds — keep hub history.",
+      "expected_output": "Keeps the existing test_id; only changes the title.",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "Rewrite checkout as Gherkin. Do not hide the clicks inside Complete Checkout.",
+      "expected_output": "Actor steps stay in the case; keywords only implement how (including IF/loops); business args inlined as '${arg}' with a word after the variable; no IF/ELSE in the case body; user interactions not buried unless totally technical.",
+      "assertions": []
+    },
+    {
+      "id": 4,
+      "prompt": "Write a smoke case that verifies the hub web production image Dockerfile meets container build rules.",
+      "expected_output": "Case names the business artifact and expected outcome; a manual tester could follow the steps; tool names like hadolint stay out of Gherkin (in keywords/Documentation how); stable test_id; one path.",
+      "assertions": []
+    }
+  ]
+}

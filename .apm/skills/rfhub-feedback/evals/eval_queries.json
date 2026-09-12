@@ -1,0 +1,13 @@
+[
+  {"query": "rfhub-queue isn't activating when I say play from hub", "should_trigger": true},
+  {"query": "report a bug in the rfhub skills package", "should_trigger": true},
+  {"query": "feature request for the orchestrator", "should_trigger": true},
+  {"query": "the hub should show worktree on the runs list — file it", "should_trigger": true},
+  {"query": "send feedback about rfhub-investigate", "should_trigger": true},
+  {"query": "how do I give feedback about Robot Framework Hub", "should_trigger": true},
+  {"query": "file an issue on this suite repo about login.robot", "should_trigger": false},
+  {"query": "kerpo-tdd isn't working, report it", "should_trigger": false},
+  {"query": "queue the smoke suite on the hub", "should_trigger": false},
+  {"query": "implement the ingest fix in apps/web", "should_trigger": false},
+  {"query": "connect Cursor MCP to the hub", "should_trigger": false}
+]

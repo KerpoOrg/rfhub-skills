@@ -1,0 +1,17 @@
+{
+  "skill_name": "rfhub-write-argumentfile",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add an argument file that sets ENV=staging for hub runner batches.",
+      "expected_output": "Creates suite-repo *.args; ROBOT_EXTRA_ARGS; does not touch OUT_DIR/rfhub.args or add --listener.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Put --suite Smoke in an args file so the hub runs only smoke.",
+      "expected_output": "Rejects using args as catalog selection; points at rfhub-queue suiteIds.",
+      "assertions": []
+    }
+  ]
+}

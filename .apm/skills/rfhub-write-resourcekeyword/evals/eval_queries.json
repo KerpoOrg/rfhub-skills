@@ -1,0 +1,7 @@
+[
+  {"query": "Add a shared keyword to keywords.resource", "should_trigger": true},
+  {"query": "Write a Robot resource file helper for every leaf suite", "should_trigger": true},
+  {"query": "Move growing Keywords from smoke.robot into wave1-smoke-checks.resource", "should_trigger": true},
+  {"query": "Keyword only used in this one .robot file — keep it in Keywords section", "should_trigger": false},
+  {"query": "Python library keyword on PYTHONPATH", "should_trigger": false}
+]

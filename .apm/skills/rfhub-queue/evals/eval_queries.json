@@ -1,0 +1,9 @@
+[
+  {"query": "Queue the smoke suite on RF Hub", "should_trigger": true},
+  {"query": "Play these suites from the hub for branch feat/foo", "should_trigger": true},
+  {"query": "Poll the batch handle from rfhub_queue", "should_trigger": true},
+  {"query": "Mark the checkout suite as wip and queue that tag", "should_trigger": true},
+  {"query": "Rerun failed leaves into the same batch handle", "should_trigger": true},
+  {"query": "Add a test_id tag to Login works", "should_trigger": false},
+  {"query": "Fix .cursor/mcp.json Bearer header", "should_trigger": false}
+]

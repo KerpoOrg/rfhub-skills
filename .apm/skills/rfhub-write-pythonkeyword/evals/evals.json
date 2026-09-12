@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfhub-write-pythonkeyword",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a Python library keyword our hub executors can import via PYTHONPATH.",
+      "expected_output": "Library under suite/overlay; used only when Process/OperatingSystem/Collections are not enough (API client, structured parse, math), or for complex CSS/DOM/JS / complex branching with logger.info; does not reimplement subprocess; Gherkin-facing names stay in Robot; Python keywords are technical HOW; simple IF/FOR left in Robot; no custom listener; dry-run-safe import; actor goal stays in the case.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "We need to run pnpm lint from Robot — put it in a Python library with subprocess.",
+      "expected_output": "Does not add a custom subprocess library; uses Robot Process (Run Process) from a .resource or suite keyword; Python only if parsing or branching exceeds Process.",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "Add a Python library keyword that parses skill frontmatter for acceptance.",
+      "expected_output": "Adds library under suite path; includes pytest unit tests and coverage baseline; Wave 1 acceptance-libraries gate stays green; Gherkin stays in Robot.",
+      "assertions": []
+    }
+  ]
+}

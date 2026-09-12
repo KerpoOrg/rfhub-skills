@@ -1,0 +1,10 @@
+[
+  {"query": "Write a Python library keyword for Robot on the hub runner", "should_trigger": true},
+  {"query": "Add Library MyLib.py with PYTHONPATH in the executor", "should_trigger": true},
+  {"query": "Put this API call and the complex branching in Python so the Robot log stays tidy", "should_trigger": true},
+  {"query": "Hide this CSS selector and Execute Javascript snippet in a Python keyword", "should_trigger": true},
+  {"query": "Edit rfhub_listener.py in the hub image", "should_trigger": false},
+  {"query": "Add a keyword to keywords.resource", "should_trigger": false},
+  {"query": "Add a simple IF in this Robot keyword", "should_trigger": false},
+  {"query": "Run pnpm lint with Robot Process library in a resource", "should_trigger": false}
+]

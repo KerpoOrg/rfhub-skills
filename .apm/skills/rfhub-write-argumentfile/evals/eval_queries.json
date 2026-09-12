@@ -1,0 +1,6 @@
+[
+  {"query": "Write a Robot argument file for hub extra variables", "should_trigger": true},
+  {"query": "Add --argumentfile for ROBOT_EXTRA_ARGS", "should_trigger": true},
+  {"query": "Queue smoke on the hub", "should_trigger": false},
+  {"query": "Add test_id to the login test case", "should_trigger": false}
+]

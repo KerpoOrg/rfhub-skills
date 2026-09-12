@@ -1,0 +1,7 @@
+[
+  {"query": "What can RF Hub do from this test repo?", "should_trigger": true},
+  {"query": "Help me use the hub MCP tools", "should_trigger": true},
+  {"query": "rfhub — where do I start?", "should_trigger": true},
+  {"query": "Refactor the Next.js hub ingest route", "should_trigger": false},
+  {"query": "Write a Prisma migration for orchestrators", "should_trigger": false}
+]

@@ -1,0 +1,7 @@
+[
+  {"query": "Connect Cursor MCP to Robot Framework Hub", "should_trigger": true},
+  {"query": "rf-hub tools missing, fix mcp.json", "should_trigger": true},
+  {"query": "401 on /api/mcp what's the access key header", "should_trigger": true},
+  {"query": "Queue the smoke suite on the hub", "should_trigger": false},
+  {"query": "Why did login test fail last night", "should_trigger": false}
+]

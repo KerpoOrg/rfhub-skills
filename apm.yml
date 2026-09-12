@@ -1,0 +1,15 @@
+name: rfhub-skills
+version: 0.2.5
+description: >-
+  Agent skills and Cursor/Claude instructions for consuming Robot Framework Hub
+  from a suite repo — MCP workflows plus hub-compatible Robot sources.
+author: kerpo
+license: MIT
+dependencies:
+  apm: []
+  mcp: []
+includes: auto
+targets:
+  - claude
+  - cursor
+scripts: {}

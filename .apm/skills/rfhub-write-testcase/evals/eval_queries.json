@@ -1,0 +1,9 @@
+[
+  {"query": "Add a Robot test case with test_id for the hub", "should_trigger": true},
+  {"query": "Write the Login works test so screenshots show in hub logs", "should_trigger": true},
+  {"query": "Rewrite this checkout flow in Gherkin so a human can follow it", "should_trigger": true},
+  {"query": "Keep the checkout clicks in the Gherkin case, not inside Complete Checkout", "should_trigger": true},
+  {"query": "Verify hub web production image Dockerfile meets container build rules as a Gherkin case", "should_trigger": true},
+  {"query": "Create __init__.robot for a new leaf suite", "should_trigger": false},
+  {"query": "Queue this test on the orchestrator", "should_trigger": false}
+]

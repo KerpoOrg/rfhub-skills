@@ -1,0 +1,1216 @@
+lockfile_version: '1'
+generated_at: '2026-09-12T06:59:47.084888+00:00'
+dependencies: []
+deployments:
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-connect
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-connect/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3c40f4919bcb00c4f49b27ebf9e22299ebef01e8ca0f45e827365ec626ee4043
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-connect/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5857cb4a96949a2918cdd5b63ad286a97fddfbfc3299a69d7d0f29f2ac79e48b
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-connect/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:0136c924a6d39e83d5dd486e0c2ea0c0c383a5fc62f429a1154b4a464fccfb04
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-connect/references/mcp-json.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f5cb35cb9c79557493fdf0009320fc30dcae9423543c04af87da077b27a2b1dd
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-investigate
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-investigate/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1f96a6cfbb18d547541aa6a135f80ad68821b4f06db44fd7f45359ddc72b4f8f
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-investigate/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4a13850b817c5d5bb6a9c67777f449992be07702c519cac30ee0cbfac961b2ee
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-investigate/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:99beff9e25839014db62e43ca655f32011b608738d0e6892f42d93d58201c1a4
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-investigate/references/metrics.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-queue
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-queue/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eb5f6faee0a7e162bb3e295a5530701d79b02c67446a39db09dd2d3920955eac
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-queue/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4a93e615c12bb631c3ab7a822938ff32cdb7497b758fe82be54c0160569b1fe5
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-queue/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9636d2f53f894936a4e2b1941da78fc9dbb8698f075575cab6b3b51c20ba836d
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-queue/references/queue.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:dfe9b1afcaa9586ad7950b009121478a1c20a5d416668ab6e245abd3a18c40fb
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-argumentfile
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-argumentfile/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-argumentfile/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-argumentfile/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-argumentfile/references/args-example.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-pythonkeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-pythonkeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:35ffd96b0bb7ca934c0ec87cc245b024a552fd75d243383da313724917a4bddd
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-pythonkeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e09a6322ee0bace1b6fbe439c7941d855f1d20a115870c7b59c52db876a376c3
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-pythonkeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:510f01e006a63328f40d96e25032c1fce0d8b0da20c21216f653f4984db11c7d
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-pythonkeyword/references/overlay.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:713492d97abba84d8eebecda65e514990c5c94e1682d9dc19cd79f7eef06dbb9
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-resourcekeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-resourcekeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:17c03a48ab076cf4ee1be40426b7b033b249b06ced0e6c2877cf98ecd651d258
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-resourcekeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-resourcekeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suite
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suite/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7240f5305653fb2249f279b6a8b7265edcb48f67b37876c93a3ff03b57ef99ee
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suite/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suite/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6e95011fdb9d759dc2592042922a1a9b62a1bba5c2025a9529ac29b77fb00d30
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suitekeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suitekeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:03f9cfcfabf6255e732200d0a5a44d61c51cfbc6b6d24005ba8a046124d654e4
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suitekeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-suitekeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4339b67e02080ba745d624408ff834c52dbcbea2a456d701f71c639cadefeb91
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-testcase
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-testcase/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ab7042bf9ca62958394d727f18863baa945665e826a48f52307aacc57eb6c556
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-testcase/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub-write-testcase/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9f25d1df37f678ac24453d3aa4f7cdc820fde727eaec78ecea746f213ec97ec7
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c0fc2ad824e629717dc408e533581e74a4d85a78f4a9bef148276c6e593e718a
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b30a52a10ba094a1c8358221319e377f73f2c894b3cc53e5f2c9095f1a2e523c
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
+- kind: project-relative
+  target: agents
+  value: .agents/skills/rfhub/references/mcp-map.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rfhub-failure-evidence.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6ad8f76873d699ed9e6961a6b6cf1838e8f2e1e4e99519b47cd1375ced4a5ef8
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rfhub-gherkin.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fd4d4c9cea11c3c574ca2db50e3c1562ba2c421cd4f5d083dd22e661ed6bf565
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rfhub-leaf-suites.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:47389ef2e0f15d9cffbf65bffc9ee818e2784f25c7cfda95ce368bdacf19e7d5
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rfhub-stable-ids.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:02d884559b32373946bc932f4580bb544a00554de2411699364dd105ac97de69
+- kind: project-relative
+  target: claude
+  value: .claude/rules/rfhub-tag-placement.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:127c0569a13adfc78acaf64fc622636c05fe272ee3ee802168052c4b1cae4998
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-connect
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-connect/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3c40f4919bcb00c4f49b27ebf9e22299ebef01e8ca0f45e827365ec626ee4043
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-connect/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5857cb4a96949a2918cdd5b63ad286a97fddfbfc3299a69d7d0f29f2ac79e48b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-connect/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:0136c924a6d39e83d5dd486e0c2ea0c0c383a5fc62f429a1154b4a464fccfb04
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-connect/references/mcp-json.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f5cb35cb9c79557493fdf0009320fc30dcae9423543c04af87da077b27a2b1dd
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-feedback
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-feedback/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fa4f392e567f45c8d2357b7d33458feec1988098a466307eb7af94a555388c7a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-feedback/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-feedback/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:364181d5c0ec362f3a87c23a9cca5cfe4e0b91d39a190f7bc4da39603fd2f2e2
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-feedback/references/issue-templates.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d174861e8b138ac65f458c0471a574577f50665b484f28ea4e9efd11f3bfc510
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-investigate
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-investigate/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:1f96a6cfbb18d547541aa6a135f80ad68821b4f06db44fd7f45359ddc72b4f8f
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-investigate/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4a13850b817c5d5bb6a9c67777f449992be07702c519cac30ee0cbfac961b2ee
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-investigate/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:99beff9e25839014db62e43ca655f32011b608738d0e6892f42d93d58201c1a4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-investigate/references/metrics.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-queue
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-queue/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:eb5f6faee0a7e162bb3e295a5530701d79b02c67446a39db09dd2d3920955eac
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-queue/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4a93e615c12bb631c3ab7a822938ff32cdb7497b758fe82be54c0160569b1fe5
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-queue/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9636d2f53f894936a4e2b1941da78fc9dbb8698f075575cab6b3b51c20ba836d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-queue/references/queue.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:dfe9b1afcaa9586ad7950b009121478a1c20a5d416668ab6e245abd3a18c40fb
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-argumentfile
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-argumentfile/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-argumentfile/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-argumentfile/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-argumentfile/references/args-example.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-pythonkeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-pythonkeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:35ffd96b0bb7ca934c0ec87cc245b024a552fd75d243383da313724917a4bddd
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-pythonkeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e09a6322ee0bace1b6fbe439c7941d855f1d20a115870c7b59c52db876a376c3
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-pythonkeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:510f01e006a63328f40d96e25032c1fce0d8b0da20c21216f653f4984db11c7d
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-pythonkeyword/references/overlay.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:713492d97abba84d8eebecda65e514990c5c94e1682d9dc19cd79f7eef06dbb9
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-resourcekeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-resourcekeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:17c03a48ab076cf4ee1be40426b7b033b249b06ced0e6c2877cf98ecd651d258
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-resourcekeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-resourcekeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suite
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suite/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:7240f5305653fb2249f279b6a8b7265edcb48f67b37876c93a3ff03b57ef99ee
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suite/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suite/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:6e95011fdb9d759dc2592042922a1a9b62a1bba5c2025a9529ac29b77fb00d30
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suitekeyword
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suitekeyword/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:03f9cfcfabf6255e732200d0a5a44d61c51cfbc6b6d24005ba8a046124d654e4
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suitekeyword/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-suitekeyword/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4339b67e02080ba745d624408ff834c52dbcbea2a456d701f71c639cadefeb91
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-testcase
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-testcase/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:ab7042bf9ca62958394d727f18863baa945665e826a48f52307aacc57eb6c556
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-testcase/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub-write-testcase/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9f25d1df37f678ac24453d3aa4f7cdc820fde727eaec78ecea746f213ec97ec7
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:c0fc2ad824e629717dc408e533581e74a4d85a78f4a9bef148276c6e593e718a
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:b30a52a10ba094a1c8358221319e377f73f2c894b3cc53e5f2c9095f1a2e523c
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
+- kind: project-relative
+  target: claude
+  value: .claude/skills/rfhub/references/mcp-map.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
+- kind: project-relative
+  target: cursor
+  value: .cursor/rules/rfhub-failure-evidence.mdc
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:e8b60a2baca2966c2f466b03f2be1e6ff44db2ae0e1786aae481b896665ccd10
+- kind: project-relative
+  target: cursor
+  value: .cursor/rules/rfhub-gherkin.mdc
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870a361a0db7ca769ce271a
+- kind: project-relative
+  target: cursor
+  value: .cursor/rules/rfhub-leaf-suites.mdc
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d936dc15c84cc0a0e39a2d9f9ebe3d2cc8e95b9363370ad9960440a9766beb4f
+- kind: project-relative
+  target: cursor
+  value: .cursor/rules/rfhub-stable-ids.mdc
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:4a6878994c3af2b4ca08e556a228bfb8ad92e08f8e2c7a306393d457e07548d7
+- kind: project-relative
+  target: cursor
+  value: .cursor/rules/rfhub-tag-placement.mdc
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:9d120a138f7d3d9b97b9e82e33ae9187b9f4f521c117521402bb7b958280cbc8
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/rfhub-feedback
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: null
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/rfhub-feedback/SKILL.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:fa4f392e567f45c8d2357b7d33458feec1988098a466307eb7af94a555388c7a
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/rfhub-feedback/evals/eval_queries.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/rfhub-feedback/evals/evals.json
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:364181d5c0ec362f3a87c23a9cca5cfe4e0b91d39a190f7bc4da39603fd2f2e2
+- kind: project-relative
+  target: legacy
+  value: .agents/skills/rfhub-feedback/references/issue-templates.md
+  runtime: null
+  scope: project
+  owners:
+  - .
+  active_owner: .
+  content_hash: sha256:d174861e8b138ac65f458c0471a574577f50665b484f28ea4e9efd11f3bfc510
+local_deployed_files:
+- .agents/skills/rfhub
+- .agents/skills/rfhub-connect
+- .agents/skills/rfhub-connect/SKILL.md
+- .agents/skills/rfhub-connect/evals/eval_queries.json
+- .agents/skills/rfhub-connect/evals/evals.json
+- .agents/skills/rfhub-connect/references/mcp-json.md
+- .agents/skills/rfhub-feedback
+- .agents/skills/rfhub-feedback/SKILL.md
+- .agents/skills/rfhub-feedback/evals/eval_queries.json
+- .agents/skills/rfhub-feedback/evals/evals.json
+- .agents/skills/rfhub-feedback/references/issue-templates.md
+- .agents/skills/rfhub-investigate
+- .agents/skills/rfhub-investigate/SKILL.md
+- .agents/skills/rfhub-investigate/evals/eval_queries.json
+- .agents/skills/rfhub-investigate/evals/evals.json
+- .agents/skills/rfhub-investigate/references/metrics.md
+- .agents/skills/rfhub-queue
+- .agents/skills/rfhub-queue/SKILL.md
+- .agents/skills/rfhub-queue/evals/eval_queries.json
+- .agents/skills/rfhub-queue/evals/evals.json
+- .agents/skills/rfhub-queue/references/queue.md
+- .agents/skills/rfhub-write-argumentfile
+- .agents/skills/rfhub-write-argumentfile/SKILL.md
+- .agents/skills/rfhub-write-argumentfile/evals/eval_queries.json
+- .agents/skills/rfhub-write-argumentfile/evals/evals.json
+- .agents/skills/rfhub-write-argumentfile/references/args-example.md
+- .agents/skills/rfhub-write-pythonkeyword
+- .agents/skills/rfhub-write-pythonkeyword/SKILL.md
+- .agents/skills/rfhub-write-pythonkeyword/evals/eval_queries.json
+- .agents/skills/rfhub-write-pythonkeyword/evals/evals.json
+- .agents/skills/rfhub-write-pythonkeyword/references/overlay.md
+- .agents/skills/rfhub-write-resourcekeyword
+- .agents/skills/rfhub-write-resourcekeyword/SKILL.md
+- .agents/skills/rfhub-write-resourcekeyword/evals/eval_queries.json
+- .agents/skills/rfhub-write-resourcekeyword/evals/evals.json
+- .agents/skills/rfhub-write-suite
+- .agents/skills/rfhub-write-suite/SKILL.md
+- .agents/skills/rfhub-write-suite/evals/eval_queries.json
+- .agents/skills/rfhub-write-suite/evals/evals.json
+- .agents/skills/rfhub-write-suitekeyword
+- .agents/skills/rfhub-write-suitekeyword/SKILL.md
+- .agents/skills/rfhub-write-suitekeyword/evals/eval_queries.json
+- .agents/skills/rfhub-write-suitekeyword/evals/evals.json
+- .agents/skills/rfhub-write-testcase
+- .agents/skills/rfhub-write-testcase/SKILL.md
+- .agents/skills/rfhub-write-testcase/evals/eval_queries.json
+- .agents/skills/rfhub-write-testcase/evals/evals.json
+- .agents/skills/rfhub/SKILL.md
+- .agents/skills/rfhub/evals/eval_queries.json
+- .agents/skills/rfhub/evals/evals.json
+- .agents/skills/rfhub/references/mcp-map.md
+- .claude/rules/rfhub-failure-evidence.md
+- .claude/rules/rfhub-gherkin.md
+- .claude/rules/rfhub-leaf-suites.md
+- .claude/rules/rfhub-stable-ids.md
+- .claude/rules/rfhub-tag-placement.md
+- .claude/skills/rfhub
+- .claude/skills/rfhub-connect
+- .claude/skills/rfhub-connect/SKILL.md
+- .claude/skills/rfhub-connect/evals/eval_queries.json
+- .claude/skills/rfhub-connect/evals/evals.json
+- .claude/skills/rfhub-connect/references/mcp-json.md
+- .claude/skills/rfhub-feedback
+- .claude/skills/rfhub-feedback/SKILL.md
+- .claude/skills/rfhub-feedback/evals/eval_queries.json
+- .claude/skills/rfhub-feedback/evals/evals.json
+- .claude/skills/rfhub-feedback/references/issue-templates.md
+- .claude/skills/rfhub-investigate
+- .claude/skills/rfhub-investigate/SKILL.md
+- .claude/skills/rfhub-investigate/evals/eval_queries.json
+- .claude/skills/rfhub-investigate/evals/evals.json
+- .claude/skills/rfhub-investigate/references/metrics.md
+- .claude/skills/rfhub-queue
+- .claude/skills/rfhub-queue/SKILL.md
+- .claude/skills/rfhub-queue/evals/eval_queries.json
+- .claude/skills/rfhub-queue/evals/evals.json
+- .claude/skills/rfhub-queue/references/queue.md
+- .claude/skills/rfhub-write-argumentfile
+- .claude/skills/rfhub-write-argumentfile/SKILL.md
+- .claude/skills/rfhub-write-argumentfile/evals/eval_queries.json
+- .claude/skills/rfhub-write-argumentfile/evals/evals.json
+- .claude/skills/rfhub-write-argumentfile/references/args-example.md
+- .claude/skills/rfhub-write-pythonkeyword
+- .claude/skills/rfhub-write-pythonkeyword/SKILL.md
+- .claude/skills/rfhub-write-pythonkeyword/evals/eval_queries.json
+- .claude/skills/rfhub-write-pythonkeyword/evals/evals.json
+- .claude/skills/rfhub-write-pythonkeyword/references/overlay.md
+- .claude/skills/rfhub-write-resourcekeyword
+- .claude/skills/rfhub-write-resourcekeyword/SKILL.md
+- .claude/skills/rfhub-write-resourcekeyword/evals/eval_queries.json
+- .claude/skills/rfhub-write-resourcekeyword/evals/evals.json
+- .claude/skills/rfhub-write-suite
+- .claude/skills/rfhub-write-suite/SKILL.md
+- .claude/skills/rfhub-write-suite/evals/eval_queries.json
+- .claude/skills/rfhub-write-suite/evals/evals.json
+- .claude/skills/rfhub-write-suitekeyword
+- .claude/skills/rfhub-write-suitekeyword/SKILL.md
+- .claude/skills/rfhub-write-suitekeyword/evals/eval_queries.json
+- .claude/skills/rfhub-write-suitekeyword/evals/evals.json
+- .claude/skills/rfhub-write-testcase
+- .claude/skills/rfhub-write-testcase/SKILL.md
+- .claude/skills/rfhub-write-testcase/evals/eval_queries.json
+- .claude/skills/rfhub-write-testcase/evals/evals.json
+- .claude/skills/rfhub/SKILL.md
+- .claude/skills/rfhub/evals/eval_queries.json
+- .claude/skills/rfhub/evals/evals.json
+- .claude/skills/rfhub/references/mcp-map.md
+- .cursor/rules/rfhub-failure-evidence.mdc
+- .cursor/rules/rfhub-gherkin.mdc
+- .cursor/rules/rfhub-leaf-suites.mdc
+- .cursor/rules/rfhub-stable-ids.mdc
+- .cursor/rules/rfhub-tag-placement.mdc
+local_deployed_file_hashes:
+  .agents/skills/rfhub-connect/SKILL.md: sha256:3c40f4919bcb00c4f49b27ebf9e22299ebef01e8ca0f45e827365ec626ee4043
+  .agents/skills/rfhub-connect/evals/eval_queries.json: sha256:5857cb4a96949a2918cdd5b63ad286a97fddfbfc3299a69d7d0f29f2ac79e48b
+  .agents/skills/rfhub-connect/evals/evals.json: sha256:0136c924a6d39e83d5dd486e0c2ea0c0c383a5fc62f429a1154b4a464fccfb04
+  .agents/skills/rfhub-connect/references/mcp-json.md: sha256:f5cb35cb9c79557493fdf0009320fc30dcae9423543c04af87da077b27a2b1dd
+  .agents/skills/rfhub-feedback/SKILL.md: sha256:fa4f392e567f45c8d2357b7d33458feec1988098a466307eb7af94a555388c7a
+  .agents/skills/rfhub-feedback/evals/eval_queries.json: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
+  .agents/skills/rfhub-feedback/evals/evals.json: sha256:364181d5c0ec362f3a87c23a9cca5cfe4e0b91d39a190f7bc4da39603fd2f2e2
+  .agents/skills/rfhub-feedback/references/issue-templates.md: sha256:d174861e8b138ac65f458c0471a574577f50665b484f28ea4e9efd11f3bfc510
+  .agents/skills/rfhub-investigate/SKILL.md: sha256:1f96a6cfbb18d547541aa6a135f80ad68821b4f06db44fd7f45359ddc72b4f8f
+  .agents/skills/rfhub-investigate/evals/eval_queries.json: sha256:4a13850b817c5d5bb6a9c67777f449992be07702c519cac30ee0cbfac961b2ee
+  .agents/skills/rfhub-investigate/evals/evals.json: sha256:99beff9e25839014db62e43ca655f32011b608738d0e6892f42d93d58201c1a4
+  .agents/skills/rfhub-investigate/references/metrics.md: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
+  .agents/skills/rfhub-queue/SKILL.md: sha256:eb5f6faee0a7e162bb3e295a5530701d79b02c67446a39db09dd2d3920955eac
+  .agents/skills/rfhub-queue/evals/eval_queries.json: sha256:4a93e615c12bb631c3ab7a822938ff32cdb7497b758fe82be54c0160569b1fe5
+  .agents/skills/rfhub-queue/evals/evals.json: sha256:9636d2f53f894936a4e2b1941da78fc9dbb8698f075575cab6b3b51c20ba836d
+  .agents/skills/rfhub-queue/references/queue.md: sha256:dfe9b1afcaa9586ad7950b009121478a1c20a5d416668ab6e245abd3a18c40fb
+  .agents/skills/rfhub-write-argumentfile/SKILL.md: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  .agents/skills/rfhub-write-argumentfile/evals/eval_queries.json: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
+  .agents/skills/rfhub-write-argumentfile/evals/evals.json: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
+  .agents/skills/rfhub-write-argumentfile/references/args-example.md: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
+  .agents/skills/rfhub-write-pythonkeyword/SKILL.md: sha256:35ffd96b0bb7ca934c0ec87cc245b024a552fd75d243383da313724917a4bddd
+  .agents/skills/rfhub-write-pythonkeyword/evals/eval_queries.json: sha256:e09a6322ee0bace1b6fbe439c7941d855f1d20a115870c7b59c52db876a376c3
+  .agents/skills/rfhub-write-pythonkeyword/evals/evals.json: sha256:510f01e006a63328f40d96e25032c1fce0d8b0da20c21216f653f4984db11c7d
+  .agents/skills/rfhub-write-pythonkeyword/references/overlay.md: sha256:713492d97abba84d8eebecda65e514990c5c94e1682d9dc19cd79f7eef06dbb9
+  .agents/skills/rfhub-write-resourcekeyword/SKILL.md: sha256:17c03a48ab076cf4ee1be40426b7b033b249b06ced0e6c2877cf98ecd651d258
+  .agents/skills/rfhub-write-resourcekeyword/evals/eval_queries.json: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
+  .agents/skills/rfhub-write-resourcekeyword/evals/evals.json: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
+  .agents/skills/rfhub-write-suite/SKILL.md: sha256:7240f5305653fb2249f279b6a8b7265edcb48f67b37876c93a3ff03b57ef99ee
+  .agents/skills/rfhub-write-suite/evals/eval_queries.json: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
+  .agents/skills/rfhub-write-suite/evals/evals.json: sha256:6e95011fdb9d759dc2592042922a1a9b62a1bba5c2025a9529ac29b77fb00d30
+  .agents/skills/rfhub-write-suitekeyword/SKILL.md: sha256:03f9cfcfabf6255e732200d0a5a44d61c51cfbc6b6d24005ba8a046124d654e4
+  .agents/skills/rfhub-write-suitekeyword/evals/eval_queries.json: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
+  .agents/skills/rfhub-write-suitekeyword/evals/evals.json: sha256:4339b67e02080ba745d624408ff834c52dbcbea2a456d701f71c639cadefeb91
+  .agents/skills/rfhub-write-testcase/SKILL.md: sha256:ab7042bf9ca62958394d727f18863baa945665e826a48f52307aacc57eb6c556
+  .agents/skills/rfhub-write-testcase/evals/eval_queries.json: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
+  .agents/skills/rfhub-write-testcase/evals/evals.json: sha256:9f25d1df37f678ac24453d3aa4f7cdc820fde727eaec78ecea746f213ec97ec7
+  .agents/skills/rfhub/SKILL.md: sha256:c0fc2ad824e629717dc408e533581e74a4d85a78f4a9bef148276c6e593e718a
+  .agents/skills/rfhub/evals/eval_queries.json: sha256:b30a52a10ba094a1c8358221319e377f73f2c894b3cc53e5f2c9095f1a2e523c
+  .agents/skills/rfhub/evals/evals.json: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
+  .agents/skills/rfhub/references/mcp-map.md: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
+  .claude/rules/rfhub-failure-evidence.md: sha256:6ad8f76873d699ed9e6961a6b6cf1838e8f2e1e4e99519b47cd1375ced4a5ef8
+  .claude/rules/rfhub-gherkin.md: sha256:fd4d4c9cea11c3c574ca2db50e3c1562ba2c421cd4f5d083dd22e661ed6bf565
+  .claude/rules/rfhub-leaf-suites.md: sha256:47389ef2e0f15d9cffbf65bffc9ee818e2784f25c7cfda95ce368bdacf19e7d5
+  .claude/rules/rfhub-stable-ids.md: sha256:02d884559b32373946bc932f4580bb544a00554de2411699364dd105ac97de69
+  .claude/rules/rfhub-tag-placement.md: sha256:127c0569a13adfc78acaf64fc622636c05fe272ee3ee802168052c4b1cae4998
+  .claude/skills/rfhub-connect/SKILL.md: sha256:3c40f4919bcb00c4f49b27ebf9e22299ebef01e8ca0f45e827365ec626ee4043
+  .claude/skills/rfhub-connect/evals/eval_queries.json: sha256:5857cb4a96949a2918cdd5b63ad286a97fddfbfc3299a69d7d0f29f2ac79e48b
+  .claude/skills/rfhub-connect/evals/evals.json: sha256:0136c924a6d39e83d5dd486e0c2ea0c0c383a5fc62f429a1154b4a464fccfb04
+  .claude/skills/rfhub-connect/references/mcp-json.md: sha256:f5cb35cb9c79557493fdf0009320fc30dcae9423543c04af87da077b27a2b1dd
+  .claude/skills/rfhub-feedback/SKILL.md: sha256:fa4f392e567f45c8d2357b7d33458feec1988098a466307eb7af94a555388c7a
+  .claude/skills/rfhub-feedback/evals/eval_queries.json: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
+  .claude/skills/rfhub-feedback/evals/evals.json: sha256:364181d5c0ec362f3a87c23a9cca5cfe4e0b91d39a190f7bc4da39603fd2f2e2
+  .claude/skills/rfhub-feedback/references/issue-templates.md: sha256:d174861e8b138ac65f458c0471a574577f50665b484f28ea4e9efd11f3bfc510
+  .claude/skills/rfhub-investigate/SKILL.md: sha256:1f96a6cfbb18d547541aa6a135f80ad68821b4f06db44fd7f45359ddc72b4f8f
+  .claude/skills/rfhub-investigate/evals/eval_queries.json: sha256:4a13850b817c5d5bb6a9c67777f449992be07702c519cac30ee0cbfac961b2ee
+  .claude/skills/rfhub-investigate/evals/evals.json: sha256:99beff9e25839014db62e43ca655f32011b608738d0e6892f42d93d58201c1a4
+  .claude/skills/rfhub-investigate/references/metrics.md: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
+  .claude/skills/rfhub-queue/SKILL.md: sha256:eb5f6faee0a7e162bb3e295a5530701d79b02c67446a39db09dd2d3920955eac
+  .claude/skills/rfhub-queue/evals/eval_queries.json: sha256:4a93e615c12bb631c3ab7a822938ff32cdb7497b758fe82be54c0160569b1fe5
+  .claude/skills/rfhub-queue/evals/evals.json: sha256:9636d2f53f894936a4e2b1941da78fc9dbb8698f075575cab6b3b51c20ba836d
+  .claude/skills/rfhub-queue/references/queue.md: sha256:dfe9b1afcaa9586ad7950b009121478a1c20a5d416668ab6e245abd3a18c40fb
+  .claude/skills/rfhub-write-argumentfile/SKILL.md: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  .claude/skills/rfhub-write-argumentfile/evals/eval_queries.json: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
+  .claude/skills/rfhub-write-argumentfile/evals/evals.json: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
+  .claude/skills/rfhub-write-argumentfile/references/args-example.md: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
+  .claude/skills/rfhub-write-pythonkeyword/SKILL.md: sha256:35ffd96b0bb7ca934c0ec87cc245b024a552fd75d243383da313724917a4bddd
+  .claude/skills/rfhub-write-pythonkeyword/evals/eval_queries.json: sha256:e09a6322ee0bace1b6fbe439c7941d855f1d20a115870c7b59c52db876a376c3
+  .claude/skills/rfhub-write-pythonkeyword/evals/evals.json: sha256:510f01e006a63328f40d96e25032c1fce0d8b0da20c21216f653f4984db11c7d
+  .claude/skills/rfhub-write-pythonkeyword/references/overlay.md: sha256:713492d97abba84d8eebecda65e514990c5c94e1682d9dc19cd79f7eef06dbb9
+  .claude/skills/rfhub-write-resourcekeyword/SKILL.md: sha256:17c03a48ab076cf4ee1be40426b7b033b249b06ced0e6c2877cf98ecd651d258
+  .claude/skills/rfhub-write-resourcekeyword/evals/eval_queries.json: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
+  .claude/skills/rfhub-write-resourcekeyword/evals/evals.json: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
+  .claude/skills/rfhub-write-suite/SKILL.md: sha256:7240f5305653fb2249f279b6a8b7265edcb48f67b37876c93a3ff03b57ef99ee
+  .claude/skills/rfhub-write-suite/evals/eval_queries.json: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
+  .claude/skills/rfhub-write-suite/evals/evals.json: sha256:6e95011fdb9d759dc2592042922a1a9b62a1bba5c2025a9529ac29b77fb00d30
+  .claude/skills/rfhub-write-suitekeyword/SKILL.md: sha256:03f9cfcfabf6255e732200d0a5a44d61c51cfbc6b6d24005ba8a046124d654e4
+  .claude/skills/rfhub-write-suitekeyword/evals/eval_queries.json: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
+  .claude/skills/rfhub-write-suitekeyword/evals/evals.json: sha256:4339b67e02080ba745d624408ff834c52dbcbea2a456d701f71c639cadefeb91
+  .claude/skills/rfhub-write-testcase/SKILL.md: sha256:ab7042bf9ca62958394d727f18863baa945665e826a48f52307aacc57eb6c556
+  .claude/skills/rfhub-write-testcase/evals/eval_queries.json: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
+  .claude/skills/rfhub-write-testcase/evals/evals.json: sha256:9f25d1df37f678ac24453d3aa4f7cdc820fde727eaec78ecea746f213ec97ec7
+  .claude/skills/rfhub/SKILL.md: sha256:c0fc2ad824e629717dc408e533581e74a4d85a78f4a9bef148276c6e593e718a
+  .claude/skills/rfhub/evals/eval_queries.json: sha256:b30a52a10ba094a1c8358221319e377f73f2c894b3cc53e5f2c9095f1a2e523c
+  .claude/skills/rfhub/evals/evals.json: sha256:95339c07d5a1275e198539f55271fc60ca4cce262931165a2e3d3260916d20d7
+  .claude/skills/rfhub/references/mcp-map.md: sha256:5cb558044d65c126ee1857116fd4072d2b04eb9a7c5b202234016d42ae6d3dd3
+  .cursor/rules/rfhub-failure-evidence.mdc: sha256:e8b60a2baca2966c2f466b03f2be1e6ff44db2ae0e1786aae481b896665ccd10
+  .cursor/rules/rfhub-gherkin.mdc: sha256:4d8f17664ce2c113a6967c4264623b0f9ca966a8e870a361a0db7ca769ce271a
+  .cursor/rules/rfhub-leaf-suites.mdc: sha256:d936dc15c84cc0a0e39a2d9f9ebe3d2cc8e95b9363370ad9960440a9766beb4f
+  .cursor/rules/rfhub-stable-ids.mdc: sha256:4a6878994c3af2b4ca08e556a228bfb8ad92e08f8e2c7a306393d457e07548d7
+  .cursor/rules/rfhub-tag-placement.mdc: sha256:9d120a138f7d3d9b97b9e82e33ae9187b9f4f521c117521402bb7b958280cbc8

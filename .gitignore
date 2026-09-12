@@ -1,0 +1,7 @@
+apm_modules/
+build/
+.agents/skills/
+.claude/skills/
+.claude/rules/
+.cursor/rules/
+.github/instructions/

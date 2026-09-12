@@ -1,0 +1,17 @@
+{
+  "skill_name": "rfhub-write-resourcekeyword",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add a shared keyword in keywords.resource that all smoke leaves can import.",
+      "expected_output": "Edits *.resource with Settings Documentation for purpose/scope; dry-run safe; leaves Resource-import it; no test_id on the keyword; Gherkin-facing names inline '${arg}' in single quotes and do not end on the variable; prefer Process for commands; deeper keywords any arg style; does not hide user interactions unless totally technical.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Move the growing Keywords section from wave1/smoke.robot into wave1-smoke-checks.resource beside it.",
+      "expected_output": "Creates leaf-local *.resource next to the consumer (not a tree-wide gates.resource); documents Wave 1 scope; Gherkin-facing keywords stay in the resource; Process for shell; smoke.robot Resources the file.",
+      "assertions": []
+    }
+  ]
+}

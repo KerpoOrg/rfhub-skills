@@ -1,0 +1,7 @@
+[
+  {"query": "Add a keyword in this .robot file only these tests use", "should_trigger": true},
+  {"query": "Write a suite-local Robot keyword for hub", "should_trigger": true},
+  {"query": "Put this helper in keywords.resource so every leaf can import it", "should_trigger": false},
+  {"query": "Implement the keyword as a Python library", "should_trigger": false},
+  {"query": "Keep the checkout clicks in the Gherkin case, not inside Complete Checkout", "should_trigger": false}
+]

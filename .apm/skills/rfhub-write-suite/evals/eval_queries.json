@@ -1,0 +1,7 @@
+[
+  {"query": "Add a new leaf suite folder for checkout", "should_trigger": true},
+  {"query": "Write __init__.robot with suite_id for the hub", "should_trigger": true},
+  {"query": "Promote the shared smoke tag up to the parent suite", "should_trigger": true},
+  {"query": "Add a test case Login works with test_id", "should_trigger": false},
+  {"query": "Investigate last night's failures", "should_trigger": false}
+]

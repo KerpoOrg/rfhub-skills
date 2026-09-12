@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfhub-queue",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Queue the smoke suite on the hub for branch main.",
+      "expected_output": "Uses rfhub_queue with project+branch+suiteIds; polls rfhub_batch; does not treat array order as run order.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Mark checkout as wip without committing Force Tags and queue that tag.",
+      "expected_output": "rfhub_tag_set kind suite (not each test) then rfhub_queue with tag; does not use --include wip.",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "The Wave2 batch handle finished with two failed leaves. Join a rerun into that same run.",
+      "expected_output": "Uses rfhub_rerun with the same handle; reads units/overlay; polls rfhub_batch; does not open a new rfhub_queue to join.",
+      "assertions": []
+    }
+  ]
+}

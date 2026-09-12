@@ -1,0 +1,17 @@
+{
+  "skill_name": "rfhub",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "What can Robot Framework Hub do from this suite repo, and which MCP tools should I use?",
+      "expected_output": "Routes to the map: prefer MCP over UI scrape; names connect/queue/investigate/write-* sub-skills.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "We're using rfhub — should I queue this suite or look at yesterday's failures first?",
+      "expected_output": "Picks rfhub-queue vs rfhub-investigate from intent; does not start editing .robot files.",
+      "assertions": []
+    }
+  ]
+}

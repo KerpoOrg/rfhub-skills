@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfhub-feedback",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "rfhub-queue treated my argument file as suite selection. File a bug on the skills package.",
+      "expected_output": "Bug template, component skills, issue on KerpoOrg/rf-hub with labels rfhub-skills and bug.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Feature request: the orchestrator should pause a batch without cancelling queued jobs.",
+      "expected_output": "Feature-request template, component orchestrator, issue on KerpoOrg/rf-hub with label feature-request, no rfhub-skills label.",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "The hub UI should let me filter runs by git worktree. Can you file that?",
+      "expected_output": "Feature-request, component hub, KerpoOrg/rf-hub, not the current suite origin.",
+      "assertions": []
+    }
+  ]
+}

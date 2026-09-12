@@ -1,0 +1,23 @@
+{
+  "skill_name": "rfhub-write-suite",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create a new leaf suite checkout/ under the existing product for hub catalog.",
+      "expected_output": "Adds __init__.robot with stable suite_id and inherited project_id; dry-run safe; no test bodies beyond structure.",
+      "assertions": []
+    },
+    {
+      "id": 2,
+      "prompt": "Write __init__.robot for smoke with Force Tags suite_id.",
+      "expected_output": "Settings + Force Tags UUID; points test cases at rfhub-write-testcase.",
+      "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "Every test in checkout/ has tag smoke — move it up so we do not repeat it on each case.",
+      "expected_output": "Promotes smoke to suite Force Tags; does not use Default Tags; does not copy the tag onto every child.",
+      "assertions": []
+    }
+  ]
+}
