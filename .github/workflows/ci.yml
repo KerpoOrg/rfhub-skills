@@ -28,5 +28,6 @@ jobs:
       - name: Test mise tasks (bats)
         run: mise run ci -- test
 
-      # Trigger-accuracy and output-quality evals stay manual: they need LLM keys.
-      # Run locally via `mise run skills -- triggers` / `mise run skills -- evals`.
+      # Trigger-accuracy and output-quality evals run in a separate workflow
+      # (.github/workflows/skills-evals.yml) on a free OpenCode model, nightly
+      # and on demand — not on PRs. Locally: `mise run skills -- triggers`. See docs/evals.md.

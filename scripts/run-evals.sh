@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR/lib/opencode-eval.sh"
+
 SKILL_NAME="${1:-}"
 ITERATION="${2:-1}"
 
@@ -18,70 +22,55 @@ if [[ ! -f "$EVALS_FILE" ]]; then
   exit 1
 fi
 
-if ! command -v jq &>/dev/null; then
-  echo "Error: jq is required" >&2
-  exit 1
-fi
+eval_require_tools || exit 1
 
-if ! command -v claude &>/dev/null; then
-  echo "Error: claude CLI is required" >&2
-  exit 1
-fi
+# Two isolated projects: one exposing just this skill, one exposing no skills.
+# Grading reuses the no-skill project so it cannot load the skill under test.
+eval_make_project "$SKILL_DIR"
+WITH_PROJECT="$EVAL_PROJECT_DIR"
+eval_make_project -
+WITHOUT_PROJECT="$EVAL_PROJECT_DIR"
 
 run_eval() {
-  local eval_id="$1"
-  local prompt="$2"
-  local mode="$3"     # with_skill | without_skill
-  local eval_dir="$4"
+  local prompt="$1"
+  local mode="$2"     # with_skill | without_skill
+  local eval_dir="$3"
 
   local out_dir="$WORKSPACE/$eval_dir/$mode"
   mkdir -p "$out_dir/outputs"
+
+  local project
+  if [[ "$mode" == "with_skill" ]]; then
+    project="$WITH_PROJECT"
+  else
+    project="$WITHOUT_PROJECT"
+  fi
 
   local start_ms end_ms duration_ms
   # Portable ms timestamp (macOS date lacks %3N)
   start_ms=$(python3 -c 'import time; print(int(time.time()*1000))')
 
-  local json_output
-  local plugin_dir=""
-  if [[ "$mode" == "with_skill" ]]; then
-    # Claude CLI no longer supports --skill-path; load a one-skill plugin dir.
-    plugin_dir=$(mktemp -d "${TMPDIR:-/tmp}/rfhub-eval-skill.XXXXXX")
-    mkdir -p "$plugin_dir/.claude-plugin" "$plugin_dir/skills/$SKILL_NAME"
-    cp -R "$SKILL_DIR"/. "$plugin_dir/skills/$SKILL_NAME/"
-    printf '%s\n' '{"name":"rfhub-eval-skill","version":"0.0.0"}' \
-      > "$plugin_dir/.claude-plugin/plugin.json"
-    json_output=$(claude -p "$prompt" \
-      --model haiku \
-      --plugin-dir "$plugin_dir" \
-      --output-format json 2>/dev/null || echo '{}')
-    rm -rf "$plugin_dir"
-  else
-    json_output=$(claude -p "$prompt" \
-      --model haiku \
-      --output-format json 2>/dev/null || echo '{}')
-  fi
+  local events="$out_dir/events.json"
+  local log="$out_dir/opencode.log"
+  eval_run "$project" "$prompt" "$events" "$log" || true
 
   end_ms=$(python3 -c 'import time; print(int(time.time()*1000))')
   duration_ms=$((end_ms - start_ms))
 
-  local total_tokens
-  total_tokens=$(echo "$json_output" | jq -r '
-    ((.usage.input_tokens // 0)
-     + (.usage.output_tokens // 0)
-     + (.usage.cache_creation_input_tokens // 0)
-     + (.usage.cache_read_input_tokens // 0))
-  ' 2>/dev/null || echo 0)
+  local total_tokens cost
+  total_tokens=$(eval_total_tokens "$events")
+  cost=$(eval_total_cost "$events")
 
   jq -n \
     --argjson total_tokens "$total_tokens" \
     --argjson duration_ms "$duration_ms" \
-    '{total_tokens: $total_tokens, duration_ms: $duration_ms}' \
+    --argjson cost "$cost" \
+    '{total_tokens: $total_tokens, duration_ms: $duration_ms, cost: $cost}' \
     > "$out_dir/timing.json"
 
-  echo "$json_output" | jq -r '.result // .content[0].text // ""' \
-    > "$out_dir/outputs/response.txt" 2>/dev/null || true
+  eval_extract_text "$events" > "$out_dir/outputs/response.txt"
 
-  echo "  [$mode] tokens: $total_tokens, duration: ${duration_ms}ms"
+  echo "  [$mode] tokens: $total_tokens, cost: $cost, duration: ${duration_ms}ms"
 }
 
 grade_eval() {
@@ -123,9 +112,12 @@ Respond with JSON only:
   ]
 }"
 
+  local grading_events="$out_dir/grading.events.json"
+  eval_run "$WITHOUT_PROJECT" "$grading_prompt" "$grading_events" "$out_dir/grading.log" || true
+  eval_extract_text "$grading_events" > "$out_dir/grading.raw.txt"
+
   local grading_json
-  grading_json=$(claude -p "$grading_prompt" --output-format json 2>/dev/null \
-    | jq -r '.content[0].text // "{}"' || echo '{}')
+  grading_json=$(eval_extract_json "$out_dir/grading.raw.txt")
 
   local passed failed total pass_rate
   passed=$(echo "$grading_json" | jq '[.assertion_results[] | select(.passed == true)] | length' 2>/dev/null || echo 0)
@@ -147,6 +139,7 @@ Respond with JSON only:
 mkdir -p "$WORKSPACE"
 
 echo "Running evals for $SKILL_NAME (iteration $ITERATION)"
+echo "Model: $EVAL_MODEL"
 echo "Workspace: $WORKSPACE"
 echo ""
 
@@ -160,8 +153,8 @@ for i in $(seq 0 $((count - 1))); do
 
   echo "Eval $eval_id: ${prompt:0:60}..."
 
-  run_eval "$eval_id" "$prompt" "with_skill" "$eval_dir"
-  run_eval "$eval_id" "$prompt" "without_skill" "$eval_dir"
+  run_eval "$prompt" "with_skill" "$eval_dir"
+  run_eval "$prompt" "without_skill" "$eval_dir"
   grade_eval "$eval_dir" "$assertions" "with_skill"
   grade_eval "$eval_dir" "$assertions" "without_skill"
   echo ""

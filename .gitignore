@@ -5,3 +5,6 @@ build/
 .claude/rules/
 .cursor/rules/
 .github/instructions/
+# Eval artifacts (local runs; CI uploads them instead of committing)
+*-workspace/
+.apm/skills/*/evals/trigger-results.json

@@ -1,0 +1,68 @@
+name: Skill evals
+
+# Trigger-accuracy (and, opt-in, output-quality) evals against a free OpenCode
+# model. Kept out of the PR quality-gates job: free-model latency and
+# near-miss noise make it a poor required check. Run nightly, or on demand.
+#
+# Auth: OPENCODE_API_KEY (repo/org secret). Free Zen models also work without
+# it, at the cost of anonymous rate limits.
+# Optional repo variables: EVAL_MODEL, EVAL_TIMEOUT (empty = harness default).
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_evals:
+        description: Also run output-quality evals (slow)
+        type: boolean
+        default: false
+  schedule:
+    - cron: "17 3 * * *"
+
+concurrency:
+  group: skills-evals-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  triggers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+      EVAL_MODEL: ${{ vars.EVAL_MODEL }}
+      EVAL_TIMEOUT: ${{ vars.EVAL_TIMEOUT }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+
+      - name: Trigger-accuracy evals (all skills)
+        run: |
+          set -euo pipefail
+          if [[ -z "${OPENCODE_API_KEY:-}" ]]; then
+            unset OPENCODE_API_KEY
+            echo "OPENCODE_API_KEY not set; using anonymous free-model access"
+          fi
+          mise run skills -- triggers
+
+      - name: Output-quality evals (all skills)
+        if: ${{ inputs.run_evals }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${OPENCODE_API_KEY:-}" ]]; then
+            unset OPENCODE_API_KEY
+          fi
+          mise run skills -- evals
+
+      - name: Upload eval artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: skill-eval-results
+          path: |
+            **/evals/trigger-results.json
+            **/*-workspace/**
+          if-no-files-found: ignore
+          retention-days: 14

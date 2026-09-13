@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck disable=SC1091
+. "$SCRIPT_DIR/lib/opencode-eval.sh"
+
 SKILL_NAME="${1:-}"
 RUNS="${2:-3}"
 
@@ -9,33 +13,24 @@ if [[ -z "$SKILL_NAME" ]]; then
   exit 1
 fi
 
-QUERIES_FILE=".apm/skills/$SKILL_NAME/evals/eval_queries.json"
-RESULTS_FILE=".apm/skills/$SKILL_NAME/evals/trigger-results.json"
+SKILL_DIR=".apm/skills/$SKILL_NAME"
+QUERIES_FILE="$SKILL_DIR/evals/eval_queries.json"
+RESULTS_FILE="$SKILL_DIR/evals/trigger-results.json"
+
+if [[ ! -d "$SKILL_DIR" ]]; then
+  echo "Error: $SKILL_DIR not found" >&2
+  exit 1
+fi
 
 if [[ ! -f "$QUERIES_FILE" ]]; then
   echo "Error: $QUERIES_FILE not found" >&2
   exit 1
 fi
 
-if ! command -v jq &>/dev/null; then
-  echo "Error: jq is required" >&2
-  exit 1
-fi
-
-if ! command -v claude &>/dev/null; then
-  echo "Error: claude CLI is required for skill testing" >&2
-  exit 1
-fi
-
-check_triggered() {
-  local query="$1"
-  claude -p "$query" --model haiku --output-format json 2>/dev/null \
-    | jq -s -e --arg skill "$SKILL_NAME" \
-      'any(.[]; .type == "assistant" and (.message.content[]? | .type == "tool_use" and .name == "Skill" and .input.skill == $skill))' \
-      > /dev/null 2>&1
-}
+eval_require_tools || exit 1
 
 echo "Testing trigger accuracy for $SKILL_NAME ($RUNS runs per query)"
+echo "Model: $EVAL_MODEL"
 echo "Queries file: $QUERIES_FILE"
 echo ""
 
@@ -45,13 +40,21 @@ results=()
 passed=0
 failed=0
 
+# One isolated project for the whole run: only this skill is visible and every
+# tool except `skill` is disabled.
+eval_make_project "$SKILL_DIR"
+project="$EVAL_PROJECT_DIR"
+
 for i in $(seq 0 $((count - 1))); do
   query=$(jq -r ".[$i].query" "$QUERIES_FILE")
   should_trigger=$(jq -r ".[$i].should_trigger" "$QUERIES_FILE")
   triggers=0
 
   for _run in $(seq 1 "$RUNS"); do
-    check_triggered "$query" && triggers=$((triggers + 1)) || true
+    events="$project/events.json"
+    log="$project/opencode.log"
+    eval_run "$project" "$query" "$events" "$log" || true
+    eval_skill_triggered "$events" "$SKILL_NAME" && triggers=$((triggers + 1)) || true
   done
 
   trigger_rate=$(echo "scale=2; $triggers / $RUNS" | bc)

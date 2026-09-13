@@ -158,7 +158,15 @@ apm audit --file .apm/skills/rfhub-write-example/SKILL.md
 
 # Preview Cursor deploy without writing
 apm install --dry-run --target cursor
+
+# Trigger accuracy + output-quality evals (free OpenCode model)
+mise run skills -- triggers
+mise run skills -- evals
 ```
+
+Evals run a free OpenCode Zen model in an isolated project — no Claude or paid
+API key. See [docs/evals.md](docs/evals.md) for prerequisites
+(`opencode auth login`), the `EVAL_MODEL` override, and result layout.
 
 ## Repo structure
 
