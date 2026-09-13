@@ -4,6 +4,8 @@ build/
 .claude/skills/
 .claude/rules/
 .cursor/rules/
+.cursor/mcp.json
+.mcp.json
 .github/instructions/
 # Eval artifacts (local runs; CI uploads them instead of committing)
 *-workspace/

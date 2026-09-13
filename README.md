@@ -38,7 +38,7 @@ Install once per machine into `~/.apm/` — agents in any workspace get the skil
 with nothing to check out or commit:
 
 ```bash
-apm install -g KerpoOrg/rfhub-skills#v0.3.0
+apm install -g KerpoOrg/rfhub-skills#v0.4.1
 apm compile -g   # refresh harness root context (e.g. opencode)
 ```
 
@@ -64,11 +64,11 @@ Use this when a suite repo should commit the pin and get the Cursor rules.
 dependencies:
   apm:
     - git: https://github.com/KerpoOrg/rfhub-skills.git
-      ref: v0.3.0
+      ref: v0.4.1
 ```
 
 Pin `ref` to a `vX.Y.Z` tag (see [Versioning](#versioning)). Equivalent short form
-if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.3.0`.
+if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.4.1`.
 
 **3. Install:**
 
@@ -77,51 +77,96 @@ apm install
 ```
 
 Skills land in `.agents/skills/`. Instructions compile to `.cursor/rules/*.mdc`
-(Cursor) and `.claude/rules/` (Claude). Commit `apm.yml` and `apm.lock.yaml`.
-Gitignore generated `.agents/skills/` and `.cursor/rules/rfhub-*.mdc`.
+(Cursor) and `.claude/rules/` (Claude). The declared hub MCP is written to each
+harness's MCP config (`.mcp.json`, `.cursor/mcp.json`). Commit `apm.yml` and
+`apm.lock.yaml`. Gitignore generated `.agents/skills/`,
+`.cursor/rules/rfhub-*.mdc`, `.mcp.json`, and `.cursor/mcp.json`.
 
 ## Set up the hub MCP (requires hub access)
 
-The hub is its own OAuth Authorization Server. Install the skills package with
-`apm install`, then add the remote MCP entry with APM's CLI. The client
-discovers the OAuth flow from the unauthenticated `401` +
-`resource_metadata` on `POST /api/mcp`, so no static token is needed in the
-config.
+The package declares the standard hub MCP (`rf-hub`) as an APM MCP dependency,
+so installing the skills wires the MCP in the same step. The hub is its own
+OAuth Authorization Server: the client discovers the flow from the
+unauthenticated `401` + `resource_metadata` on `POST /api/mcp`, so no static
+token is stored.
+
+### One-command connect (standard hub)
 
 ```bash
-export RFHUB_MCP_URL="https://<your-hub-host>/api/mcp"
-apm install --target cursor \
-  --mcp rf-hub \
-  --transport http \
-  --url "$RFHUB_MCP_URL"
+apm install -g KerpoOrg/rfhub-skills#v0.4.1
+apm compile -g   # refresh harness root context (e.g. opencode)
 ```
 
-Hub developers running the Compose hub use `RFHUB_MCP_URL="http://127.0.0.1:2998/api/mcp"`
-and the server name `rfhub-dev`.
+Project-scoped installs (see [Install](#install)) do the same: `apm install`
+writes `rf-hub` into every detected harness from the package's
+`dependencies.mcp`. Commit `apm.yml` and `apm.lock.yaml` and the MCP wiring stays
+reproducible for teammates and CI.
 
 On first connect the client opens the hub authorize URL in a browser — log in
 with Pocket ID (you must be in the hub's allowed group) and consent. The result
 is a 30-day app token (`agent` + `mcp` scope) you can revoke any time in the hub
-**Settings → API Keys**. This is the supported pattern when the hub URL is only
-known at install time, because Microsoft APM requires a literal remote `url:` in
-package manifests.
+**Settings → API Keys**.
+
+### Self-hosted or non-standard hub
+
+The declared URL is the standard `https://rfhub.kerpo.org/api/mcp`. APM requires
+a literal `http(s)` remote `url:` and expands `${VAR}` only in `headers:` and
+`env:` (not `url:`), so the manifest cannot carry a per-user URL. Override it by
+declaring `rf-hub` in your repo's own `apm.yml`; your entry wins over the
+package copy:
+
+```yaml
+dependencies:
+  mcp:
+    - name: rf-hub
+      registry: false
+      transport: http
+      url: "https://<your-hub-host>/api/mcp"
+      headers:
+        X-Rfhub-Skills-Version: "0.4.1"
+```
+
+Or let APM write that entry for you:
+
+```bash
+export RFHUB_MCP_URL="https://<your-hub-host>/api/mcp"
+apm install --target claude,cursor \
+  --mcp rf-hub \
+  --transport http \
+  --url "$RFHUB_MCP_URL" \
+  --header "X-Rfhub-Skills-Version=0.4.1"
+```
+
+Hub developers running the Compose hub get `rfhub-dev`
+(`http://127.0.0.1:2998/api/mcp`) from the package's `devDependencies`: a plain
+`apm install` in this repo wires it, and `apm install` of this package as a
+dependency excludes devDependencies, so suite repos do not receive it.
+
+### Trust boundary for self-defined MCP servers
+
+`rf-hub` is a **self-defined** server (`registry: false`). APM trusts it only
+when this package is a **direct** dependency. If `rfhub-skills` is pulled in
+transitively, APM warns and skips the entry unless the consumer passes
+`--trust-transitive-mcp` or re-declares `rf-hub` in their own `apm.yml`. See
+APM's
+[MCP as a primitive](https://microsoft.github.io/apm/producer/author-primitives/mcp-as-primitive/#direct-vs-transitive-the-trust-boundary).
 
 Manual fallback (clients without MCP OAuth, or scripted setups): mint a key under
 the hub **Settings → API Keys** (preset “MCP / Agent”) and send it as an
 `Authorization: Bearer` header:
 
 ```bash
-apm install --target cursor \
+apm install --target claude,cursor \
   --mcp rf-hub \
   --transport http \
   --url "$RFHUB_MCP_URL" \
-  --header "Authorization=Bearer ${RFHUB_ACCESS_KEY}"
+  --header "Authorization=Bearer ${RFHUB_ACCESS_KEY}" \
+  --header "X-Rfhub-Skills-Version=0.4.1"
 ```
 
 APM owns the MCP entry in client config after that. Re-run the install when the
-URL or method changes. A later plain `apm install` removes undeclared MCP
-entries, so if your project does not keep the MCP in its manifest you must re-run
-the MCP install step after a normal package install.
+URL or method changes; a later plain `apm install` removes MCP entries that are
+not declared in `apm.yml`.
 
 ## What you get
 
