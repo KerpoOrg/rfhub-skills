@@ -1,4 +1,4 @@
-name: CI
+name: Quality gates
 
 on:
   push:
@@ -71,7 +71,7 @@ jobs:
           }
 
           {
-            echo "## CI quality gates"
+            echo "## Quality gates"
             echo
             echo "Event: \`$EVENT\` · Commit: \`$SHA\`"
             echo

@@ -8,7 +8,7 @@ Two harnesses, both driven by a **free OpenCode model** instead of Claude:
 | Output quality | `scripts/run-evals.sh` | With the skill loaded, is the work better than without it? |
 
 They run an isolated OpenCode instance per case, so they are hermetic and safe
-to run locally (and, later, in CI).
+to run locally and in CI.
 
 ## Prerequisites
 
@@ -139,7 +139,7 @@ events and stderr, kept for debugging.
   assertions are only as good as that judge. Keep assertions concrete and
   re-check grading JSON when a score looks wrong.
 
-## CI
+## Evals workflow (CI)
 
 `.github/workflows/skills-evals.yml` runs the trigger evals nightly (03:17 UTC)
 and on `workflow_dispatch`:
@@ -155,11 +155,11 @@ and on `workflow_dispatch`:
   (14-day retention).
 - **Summary** — each run writes a Markdown summary (model, per-skill
   passed/failed, and the failing queries) to the Actions run **Summary** tab via
-  `scripts/summarize-triggers.sh`. The PR `CI` workflow writes a per-gate table
-  the same way.
+  `scripts/summarize-triggers.sh`. The PR **Quality gates** workflow writes a
+  per-gate table the same way.
 
-It is deliberately separate from the PR `CI` workflow: a free model is slow and
-near-miss noise is high, so a required PR check would be flaky. To gate PRs on
+It is deliberately separate from the PR **Quality gates** workflow: a free model
+is slow and near-miss noise is high, so a required PR check would be flaky. To gate PRs on
 changed skills later, add a `pull_request` trigger that diffs `.apm/skills/` and
 runs `./scripts/test-triggers.sh <skill> 1` for each touched skill.
 
