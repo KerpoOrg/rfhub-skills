@@ -2,6 +2,17 @@
 
 Hub serves MCP at `POST {HUB_URL}/api/mcp`. Suite workspaces do not copy a server file.
 
+The package declares `rf-hub` (`https://rfhub.kerpo.org/api/mcp`) under
+`dependencies.mcp`, so `apm install` writes it to the harness — no hand-editing.
+`rfhub-dev` (Compose) comes from the package's `devDependencies` (root install
+only; `apm install` of the package as a dependency excludes it). APM expands
+`${VAR}` only in `headers:`/`env:`, not `url:`, so a self-hosted hub overrides
+`rf-hub` in its own `apm.yml` (the root entry wins) or with
+`apm install --mcp rf-hub --transport http --url "$RFHUB_MCP_URL"`. `rf-hub` is
+self-defined (`registry: false`): APM trusts it only for a direct dependency;
+transitive consumers get a warning and skip unless they pass
+`--trust-transitive-mcp`.
+
 | Server (Cursor name) | Hub you started | URL |
 |----------------------|-----------------|-----|
 | `rfhub-dev` | `mise run dev` (Compose) | `http://127.0.0.1:2998/api/mcp` |
@@ -39,13 +50,13 @@ behind — bump the skills pin and `apm install`.
     "rfhub-dev": {
       "url": "http://127.0.0.1:2998/api/mcp",
       "headers": {
-        "X-Rfhub-Skills-Version": "0.3.0"
+        "X-Rfhub-Skills-Version": "0.4.1"
       }
     },
     "rf-hub": {
       "url": "https://rfhub.kerpo.org/api/mcp",
       "headers": {
-        "X-Rfhub-Skills-Version": "0.3.0"
+        "X-Rfhub-Skills-Version": "0.4.1"
       }
     }
   }

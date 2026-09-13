@@ -36,6 +36,9 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # APM is pinned in mise.toml; the lockfile refresh below uses it.
+      - uses: jdx/mise-action@v2
+
       - name: Validate package layout
         env:
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -104,6 +107,15 @@ jobs:
             sed -i "s/${escaped}/${NEXT}/g" "$file"
           done < <(git ls-files -z -- '*.md' '*.yml' '*.yaml' '*.json' \
             ':(exclude).github/**' ':(exclude)apm.lock.yaml')
+
+      - name: Refresh lockfile for the new version
+        if: ${{ !inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          # The declared MCP header embeds the package semver, so regenerate the
+          # lockfile baseline with APM (never sed it -- see the v0.4.0 bug) or
+          # `apm audit --ci` config-consistency fails on the release commit.
+          apm install
 
       - name: Commit, tag, and release
         if: ${{ !inputs.dry_run }}

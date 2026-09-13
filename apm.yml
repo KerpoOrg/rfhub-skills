@@ -7,7 +7,29 @@ author: kerpo
 license: MIT
 dependencies:
   apm: []
-  mcp: []
+  # Standard hub, declared so `apm install KerpoOrg/rfhub-skills` wires the MCP
+  # too (direct dependencies only; transitive consumers need
+  # --trust-transitive-mcp). Self-hosted hubs override this in their own apm.yml
+  # or with `apm install --mcp rf-hub --transport http --url "$RFHUB_MCP_URL"`.
+  mcp:
+    - name: rf-hub
+      registry: false
+      transport: http
+      url: "https://rfhub.kerpo.org/api/mcp"
+      headers:
+        X-Rfhub-Skills-Version: "0.4.1"
+devDependencies:
+  apm: []
+  # Hub developers: `apm install` in this repo wires the Compose hub without
+  # hand-editing config. `apm install` of this package as a dependency excludes
+  # devDependencies, so suite repos do not receive it.
+  mcp:
+    - name: rfhub-dev
+      registry: false
+      transport: http
+      url: "http://127.0.0.1:2998/api/mcp"
+      headers:
+        X-Rfhub-Skills-Version: "0.4.1"
 includes: auto
 targets:
   - claude
