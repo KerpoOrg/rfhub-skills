@@ -93,10 +93,17 @@ jobs:
         run: |
           set -euo pipefail
           sed -i -E "s/^version:.*/version: $NEXT/" apm.yml
-          # Keep docs/skills examples in sync with the released semver.
+
+          # Sync semver references in docs/config, but never touch:
+          #  - .github/**    : GITHUB_TOKEN cannot push workflow-file edits
+          #  - apm.lock.yaml : content hashes can contain version-like hex
+          # Escape the dots so we match the literal version, not arbitrary
+          # hash characters (the bug that corrupted apm.lock.yaml in v0.4.0).
+          escaped="${CURRENT//./\\.}"
           while IFS= read -r -d '' file; do
-            sed -i "s/$CURRENT/$NEXT/g" "$file"
-          done < <(git ls-files -z -- '*.md' '*.yml' '*.yaml' '*.json')
+            sed -i "s/${escaped}/${NEXT}/g" "$file"
+          done < <(git ls-files -z -- '*.md' '*.yml' '*.yaml' '*.json' \
+            ':(exclude).github/**' ':(exclude)apm.lock.yaml')
 
       - name: Commit, tag, and release
         if: ${{ !inputs.dry_run }}
