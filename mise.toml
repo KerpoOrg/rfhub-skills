@@ -3,3 +3,4 @@
 jq = "latest"
 shellcheck = "latest"
 bats = "latest"
+opencode = "1.18.29"

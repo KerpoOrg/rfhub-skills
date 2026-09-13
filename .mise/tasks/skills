@@ -2,8 +2,8 @@
 #MISE description="Manage rfhub-skills package: audit, triggers, evals"
 #USAGE cmd "audit" help="Fast apm audit of all skill markdown (unicode/structure, no evals)"
 #USAGE cmd "lint" help="Run shellcheck on all skill scripts"
-#USAGE cmd "evals" help="Run output quality evals for all skills (needs claude CLI)"
-#USAGE cmd "triggers" help="Run trigger accuracy tests for all skills (needs claude CLI)"
+#USAGE cmd "evals" help="Run output quality evals for all skills (needs opencode CLI)"
+#USAGE cmd "triggers" help="Run trigger accuracy tests for all skills (needs opencode CLI)"
 #USAGE cmd "conventions" help="Run Robocop convention-drift gate over .apm primitives"
 set -euo pipefail
 
@@ -18,8 +18,8 @@ Usage: mise run skills -- <subcommand>
 Subcommands:
   audit         Fast apm audit of skill markdown (unicode/structure, no evals)
   lint          Run shellcheck on all skill scripts
-  evals         Run output quality evals for all skills (needs claude CLI)
-  triggers      Run trigger accuracy tests for all skills (needs claude CLI)
+  evals         Run output quality evals for all skills (needs opencode CLI)
+  triggers      Run trigger accuracy tests for all skills (needs opencode CLI)
   conventions   Run Robocop convention-drift gate over .apm primitives
 
 Run `mise run skills --help` for full usage.

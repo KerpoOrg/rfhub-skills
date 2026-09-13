@@ -1,9 +1,12 @@
-name: CI
+name: Quality gates
 
 on:
   push:
     branches: [main]
   pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   quality-gates:
@@ -13,20 +16,80 @@ jobs:
 
       - uses: jdx/mise-action@v2
 
+      # Each gate records its own outcome so the run summary can report all of
+      # them at once; a final step turns any failure into a red check.
       - name: apm audit --ci (lockfile integrity)
+        id: apm_audit
+        continue-on-error: true
         run: apm audit --ci
 
       - name: Structure audit (skill markdown)
+        id: skill_audit
+        continue-on-error: true
         run: mise run skills -- audit
 
       - name: Convention-drift gate (Robocop regressions)
+        id: conventions
+        continue-on-error: true
         run: mise run skills -- conventions
 
       - name: Lint scripts and tasks (shellcheck)
+        id: lint
+        continue-on-error: true
         run: mise run ci -- lint
 
       - name: Test mise tasks (bats)
+        id: tests
+        continue-on-error: true
         run: mise run ci -- test
 
-      # Trigger-accuracy and output-quality evals stay manual: they need LLM keys.
-      # Run locally via `mise run skills -- triggers` / `mise run skills -- evals`.
+      # Trigger-accuracy and output-quality evals run in a separate workflow
+      # (.github/workflows/skills-evals.yml) on a free OpenCode model, nightly
+      # and on demand — not on PRs. Locally: `mise run skills -- triggers`. See docs/evals.md.
+
+      - name: Job summary
+        if: always()
+        env:
+          APM_AUDIT: ${{ steps.apm_audit.outcome }}
+          SKILL_AUDIT: ${{ steps.skill_audit.outcome }}
+          CONVENTIONS: ${{ steps.conventions.outcome }}
+          LINT: ${{ steps.lint.outcome }}
+          TESTS: ${{ steps.tests.outcome }}
+          EVENT: ${{ github.event_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          mark() {
+            case "$1" in
+              success) echo "✅ passed" ;;
+              failure) echo "❌ failed" ;;
+              skipped) echo "⏭️ skipped" ;;
+              cancelled) echo "🚫 cancelled" ;;
+              *) echo "$1" ;;
+            esac
+          }
+
+          {
+            echo "## Quality gates"
+            echo
+            echo "Event: \`$EVENT\` · Commit: \`$SHA\`"
+            echo
+            echo "| Gate | Result |"
+            echo "|---|---|"
+            echo "| apm audit --ci (lockfile integrity) | $(mark "$APM_AUDIT") |"
+            echo "| Structure audit (skill markdown) | $(mark "$SKILL_AUDIT") |"
+            echo "| Convention-drift gate (Robocop regressions) | $(mark "$CONVENTIONS") |"
+            echo "| Lint scripts and tasks (shellcheck) | $(mark "$LINT") |"
+            echo "| Test mise tasks (bats) | $(mark "$TESTS") |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if any gate failed
+        if: >-
+          always() && (
+          steps.apm_audit.outcome != 'success' ||
+          steps.skill_audit.outcome != 'success' ||
+          steps.conventions.outcome != 'success' ||
+          steps.lint.outcome != 'success' ||
+          steps.tests.outcome != 'success')
+        run: exit 1
