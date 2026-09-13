@@ -153,6 +153,10 @@ and on `workflow_dispatch`:
   `mise run skills -- evals`.
 - **Artifacts** — `**/evals/trigger-results.json` and `**/*-workspace/**`
   (14-day retention).
+- **Summary** — each run writes a Markdown summary (model, per-skill
+  passed/failed, and the failing queries) to the Actions run **Summary** tab via
+  `scripts/summarize-triggers.sh`. The PR `CI` workflow writes a per-gate table
+  the same way.
 
 It is deliberately separate from the PR `CI` workflow: a free model is slow and
 near-miss noise is high, so a required PR check would be flaky. To gate PRs on

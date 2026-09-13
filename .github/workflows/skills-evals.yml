@@ -56,6 +56,12 @@ jobs:
           fi
           mise run skills -- evals
 
+      - name: Run summary
+        if: always()
+        run: |
+          set -euo pipefail
+          ./scripts/summarize-triggers.sh >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload eval artifacts
         if: always()
         uses: actions/upload-artifact@v4
