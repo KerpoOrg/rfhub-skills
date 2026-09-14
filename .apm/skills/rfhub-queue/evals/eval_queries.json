@@ -4,6 +4,9 @@
   {"query": "Poll the batch handle from rfhub_queue", "should_trigger": true},
   {"query": "Mark the checkout suite as wip and queue that tag", "should_trigger": true},
   {"query": "Rerun failed leaves into the same batch handle", "should_trigger": true},
+  {"query": "Queue the smoke wave on the hub for branch main in dev", "should_trigger": true},
+  {"query": "Run the nightly regression wave testcase-parallel on accpt", "should_trigger": true},
   {"query": "Add a test_id tag to Login works", "should_trigger": false},
-  {"query": "Fix .cursor/mcp.json Bearer header", "should_trigger": false}
+  {"query": "Fix .cursor/mcp.json Bearer header", "should_trigger": false},
+  {"query": "Design a new Prisma schema for hub environments", "should_trigger": false}
 ]

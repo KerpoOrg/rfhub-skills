@@ -12,7 +12,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.1"
+  version: "1.2"
 ---
 # rfhub-investigate
 
@@ -31,7 +31,7 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 
 ## Instructions
 
-1. Scope with `project` (UUID or display name). Optional `from` / `to` (`-24h`, `-7d`).
+1. Scope with `project` (UUID or display name). Optional `from` / `to` (`-24h`, `-7d`). Runs/jobs carry an `environment` (`dev` / `accpt` / `prod`); when a project has several, read that field so you compare like with like — `GET /api/agent/environments?project=…` lists a project’s envs and their `excludeTags`.
 2. **What failed?** `rfhub_failures` (`compact` default true). Follow `runId` + `test_id`. For one live batch: `rfhub_failures({ runId, since })` or `rfhub_batch` `progress.newFails`.
 3. **Why this test?** `rfhub_run` digest, then `rfhub_run_log` with `test=`. Use `attachments[]` / `attachmentHint` — do not open executor host paths. Download via hub attachment URLs only if the excerpt is not enough. Mid-run: message may be present from the listener; screenshots/traces often appear only after part XML ingest.
 4. **Flaky / trend?** `rfhub_metrics_overview` → `rfhub_metrics_watchlist` → `rfhub_metrics_test` / `rfhub_metrics_suite` (`flips`, `repeatingErrors`, `durationStats`). `rfhub_test` / `rfhub_suite` if QuestDB `source` is unavailable. Prefer this before rewriting a mid-run fail.
@@ -47,3 +47,4 @@ Field notes: [references/metrics.md](references/metrics.md).
 - Compact mode shortens `firstError`; set `compact: false` only when you need the raw message.
 - Metrics need QuestDB on the hub. `source: "unavailable"` is not “the test is fine”.
 - Live fails are early signal; confirm after XML/rebot when deciding the batch is green.
+- Different `environment`s apply different `excludeTags`, so a pass-rate or test-count shift can be a selection change, not a regression. Read `environment` before blaming code.

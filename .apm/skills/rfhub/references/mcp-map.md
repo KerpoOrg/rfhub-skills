@@ -7,7 +7,7 @@ Keep results small: `limit`, then detail only failing ids.
 | Intent | Tools |
 |--------|--------|
 | Discover | `rfhub_catalog`, `rfhub_projects` |
-| Queue | `rfhub_queue` (`project`, `branch`, `suiteIds` and/or `tag` / `all`, **`gitSha` required** for commit-bound evidence) → poll `rfhub_batch` |
+| Queue | `rfhub_queue` (`project`, `branch`, `suiteIds` and/or `tag` / `wave` / `all`, optional `parallelism` / `environment`, **`gitSha` required** for commit-bound evidence) → poll `rfhub_batch` |
 | Mid-run fails (fix while running) | `rfhub_watch` (SSE URL + poll recipe) or `rfhub_batch` / `rfhub_live` / `rfhub_failures` with `since`; bump to `failSeq` / `cursor` |
 | Release preflight | `rfhub_acceptance_gate` (`project`, `gitSha`, optional `suiteIds` / `tag` / `all` / `maxAge`) |
 | Acceptance report (multi-run rebot) | `rfhub_acceptance_report_create` (`runIds` ≥2, same project+gitSha) → poll `rfhub_acceptance_report`; list with `rfhub_acceptance_reports` |
@@ -21,7 +21,9 @@ Keep results small: `limit`, then detail only failing ids.
 
 `rfhub_run` / `rfhub_run_log` include `attachments[]` when FAIL text matches uploads. Prefer that over `log.html`.
 
-Queue needs an **online** orchestrator for that `project` + `branch`. Optional `worktree` when more than one orch matches.
+Queue needs an **online** orchestrator for that `project` + `branch`. Optional `worktree`, or `environment`, when more than one orch matches.
+
+`wave` (slug) expands a project bundle of include tags + its `parallelism` (`serial` / `suite` (default) / `testcase`); `parallelism` can override it on any selection. `environment` co-selects the orchestrator that serves that env (`dev` / `accpt` / `prod`), stamps the run, and the runtime appends the env’s `excludeTags`. No MCP tools for these — manage via the agent API: `GET` / `PUT` / `DELETE /api/agent/waves` and `/api/agent/environments` (`?project=<id|name>`), or hub **Settings** (project → Waves / Environments). Runs carry `environment`.
 
 **Skills + MCP ship together:** recipes live in `rfhub-queue` / `rfhub-investigate`; tools are `rfhub_*`. Consumers pin `rfhub-skills/vX.Y.Z` and install MCP for the same hub — do not teach queue without `gitSha` or report-create without the matching skill steps.
 

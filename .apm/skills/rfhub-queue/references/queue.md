@@ -17,6 +17,44 @@ Without `gitSha`, the run cannot:
 - satisfy `rfhub_acceptance_gate` for that commit
 - be selected into an **acceptance report** (UI shows `no commit`)
 
+## Waves and environments
+
+Queue a project wave by slug (preferred for recurring bundles). `parallelism` overrides the wave; `environment` picks the orchestrator and stamps the run:
+
+```json
+POST /api/agent/queue
+{
+  "project": "3682ae73-3b51-4816-9a39-21fbda91d28f",
+  "branch": "main",
+  "wave": "smoke",
+  "parallelism": "suite",
+  "environment": "dev",
+  "gitSha": "abcdef0123456789abcdef0123456789abcdef01"
+}
+```
+
+- `wave` ∪ `tag`/`tags`, ∩ `suiteIds`. `includeTags` resolve like `tag` (catalog static ∪ Redis).
+- `parallelism`: `serial` | `suite` (default) | `testcase`; `testcase` = one executor per test, bounded by `EXECUTOR_PARALLEL`.
+- `environment` is required when several orchestrators serve the same `project` + `branch` (else `409`); the runtime appends that environment's `excludeTags` last.
+
+Wave CRUD:
+
+```http
+GET    /api/agent/waves?project=<id|name>          → { waves: [ … ] }
+PUT    /api/agent/waves  { project, slug, title, description?, includeTags?, parallelism? }
+DELETE /api/agent/waves?project=<id|name>&slug=<slug>
+```
+
+Environment CRUD (`excludeTags` is a list or newline-separated string, one expression per line):
+
+```http
+GET    /api/agent/environments?project=<id|name>   → { environments: [ … ] }
+PUT    /api/agent/environments  { project, slug, title, description?, excludeTags? }
+DELETE /api/agent/environments?project=<id|name>&slug=<slug>
+```
+
+Runs (and `rfhub_runs` / run digests) carry the `environment` that produced them.
+
 ## Acceptance reports
 
 After ≥2 passed runs share `projectId` + `gitSha`:

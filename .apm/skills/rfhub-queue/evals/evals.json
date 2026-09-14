@@ -5,19 +5,55 @@
       "id": 1,
       "prompt": "Queue the smoke suite on the hub for branch main.",
       "expected_output": "Uses rfhub_queue with project+branch+suiteIds; polls rfhub_batch; does not treat array order as run order.",
-      "assertions": []
+      "assertions": [
+        "Uses rfhub_queue with project, branch, and a suite selector (suiteIds or a parent longname)",
+        "Passes gitSha for commit-bound evidence",
+        "Polls rfhub_batch with the returned handle",
+        "Does not treat suiteIds array order as a run order"
+      ]
     },
     {
       "id": 2,
       "prompt": "Mark checkout as wip without committing Test Tags and queue that tag.",
       "expected_output": "rfhub_tag_set kind suite (not each test) then rfhub_queue with tag; does not use --include wip.",
-      "assertions": []
+      "assertions": [
+        "Uses rfhub_tag_set with kind: suite (not kind: test)",
+        "Queues with tag: wip rather than Robot --include wip",
+        "Does not require editing Test Tags in the .robot file for the wip mark"
+      ]
     },
     {
       "id": 3,
       "prompt": "The Wave2 batch handle finished with two failed leaves. Join a rerun into that same run.",
       "expected_output": "Uses rfhub_rerun with the same handle; reads units/overlay; polls rfhub_batch; does not open a new rfhub_queue to join.",
-      "assertions": []
+      "assertions": [
+        "Uses rfhub_rerun with the same runId/handle",
+        "Reads the echoed units / overlay parts before assuming what runs",
+        "Polls the same handle with rfhub_batch",
+        "Does not open a new rfhub_queue to join the results"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Queue the smoke wave on the hub for branch main in the dev environment.",
+      "expected_output": "Uses rfhub_queue with wave slug + environment (no long tag/suite list); notes the environment selects the orchestrator and applies its excludeTags; polls rfhub_batch.",
+      "assertions": [
+        "Uses rfhub_queue with wave: \"smoke\" (a slug), not a long list of included suites/tags",
+        "Passes environment: \"dev\"",
+        "Explains the environment selects the orchestrator and applies that environment's excludeTags",
+        "Passes gitSha",
+        "Polls rfhub_batch with the returned handle"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "These suites must not run in parallel because they share a fixture. Queue the Wave1 run serially.",
+      "expected_output": "Uses rfhub_queue with parallelism: serial (batch capped to one executor) rather than suite/testcase; does not fake serialization by hand-picking suiteIds order.",
+      "assertions": [
+        "Uses rfhub_queue with parallelism: \"serial\"",
+        "Explains serial caps the batch to one executor at a time",
+        "Does not fake serialization by ordering suiteIds (array order is not a run order)"
+      ]
     }
   ]
 }

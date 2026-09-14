@@ -38,7 +38,7 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | User intent | Skill |
 |-------------|--------|
 | Wire MCP / OAuth login / “not connected” | `rfhub-connect` |
-| Run / play / queue suites, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
+| Run / play / queue suites, project **waves** / **environments** / parallelism, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
 | Bug / feature / feedback on hub, orch, skills, runner | `rfhub-feedback` |
 | Robot `*.args` / `--argumentfile` | `rfhub-write-argumentfile` |
@@ -56,5 +56,7 @@ MCP tool names and compact use-cases: [references/mcp-map.md](references/mcp-map
 ## Gotchas
 
 - `suiteIds` is an unordered set; LPT schedules leaves. Array order is not a run order.
+- Prefer a project **wave** (`wave=<slug>`) over re-specifying long tag/suite lists; `wave` ∪ `tag`, ∩ `suiteIds`.
+- Pass `environment` when a project + branch has several orchestrators (`dev` / `accpt` / `prod`) — otherwise queue returns `409 Multiple orchestrators match`. The environment’s `excludeTags` are applied by the orchestrator at launch.
 - Identity tags (`project_id:`, `suite_id:`, `test_id:`) must stay stable across renames.
 - Do not declare hub MCP as a static APM `mcp:` dependency — the URL is per environment and MCP auth is OAuth (or a manually minted key).
