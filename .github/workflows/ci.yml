@@ -33,6 +33,11 @@ jobs:
         continue-on-error: true
         run: mise run skills -- conventions
 
+      - name: Validate APM primitives (instructions + MCP)
+        id: primitives
+        continue-on-error: true
+        run: mise run skills -- validate
+
       - name: Lint scripts and tasks (shellcheck)
         id: lint
         continue-on-error: true
@@ -53,6 +58,7 @@ jobs:
           APM_AUDIT: ${{ steps.apm_audit.outcome }}
           SKILL_AUDIT: ${{ steps.skill_audit.outcome }}
           CONVENTIONS: ${{ steps.conventions.outcome }}
+          PRIMITIVES: ${{ steps.primitives.outcome }}
           LINT: ${{ steps.lint.outcome }}
           TESTS: ${{ steps.tests.outcome }}
           EVENT: ${{ github.event_name }}
@@ -80,6 +86,7 @@ jobs:
             echo "| apm audit --ci (lockfile integrity) | $(mark "$APM_AUDIT") |"
             echo "| Structure audit (skill markdown) | $(mark "$SKILL_AUDIT") |"
             echo "| Convention-drift gate (Robocop regressions) | $(mark "$CONVENTIONS") |"
+            echo "| Validate APM primitives (instructions + MCP) | $(mark "$PRIMITIVES") |"
             echo "| Lint scripts and tasks (shellcheck) | $(mark "$LINT") |"
             echo "| Test mise tasks (bats) | $(mark "$TESTS") |"
           } >> "$GITHUB_STEP_SUMMARY"
@@ -90,6 +97,7 @@ jobs:
           steps.apm_audit.outcome != 'success' ||
           steps.skill_audit.outcome != 'success' ||
           steps.conventions.outcome != 'success' ||
+          steps.primitives.outcome != 'success' ||
           steps.lint.outcome != 'success' ||
           steps.tests.outcome != 'success')
         run: exit 1

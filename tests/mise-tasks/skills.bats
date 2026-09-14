@@ -14,6 +14,7 @@ setup() {
   [[ "$output" == *'cmd "evals"'* ]]
   [[ "$output" == *'cmd "triggers"'* ]]
   [[ "$output" == *'cmd "conventions"'* ]]
+  [[ "$output" == *'cmd "validate"'* ]]
 }
 
 @test "skills without subcommand prints brief usage" {
@@ -35,6 +36,13 @@ setup() {
   run env usage_cmd=conventions ./.mise/tasks/skills
   [ "$status" -eq 0 ]
   [[ "$output" == *"conventions ok"* ]]
+}
+
+@test "skills validate passes on current primitives" {
+  command -v apm >/dev/null 2>&1 || skip "apm not on PATH"
+  run env usage_cmd=validate ./.mise/tasks/skills
+  [ "$status" -eq 0 ]
+  [[ "$output" == *"validated successfully"* ]]
 }
 
 @test "convention gate fails on Force Tags prescription" {
