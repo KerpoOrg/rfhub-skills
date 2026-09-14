@@ -6,9 +6,9 @@
       "prompt": "Queue the smoke suite on the hub for branch main.",
       "expected_output": "Uses rfhub_queue with project+branch+suiteIds; polls rfhub_batch; does not treat array order as run order.",
       "assertions": [
-        "Uses rfhub_queue with project, branch, and a suite selector (suiteIds or a parent longname)",
-        "Passes gitSha for commit-bound evidence",
-        "Polls rfhub_batch with the returned handle",
+        "Uses or plans rfhub_queue with project, branch, and a suite/work selection",
+        "Requires gitSha (git rev-parse HEAD) for commit-bound evidence",
+        "Plans to poll rfhub_batch with the returned handle",
         "Does not treat suiteIds array order as a run order"
       ]
     },
@@ -38,11 +38,11 @@
       "prompt": "Queue the smoke wave on the hub for branch main in the dev environment.",
       "expected_output": "Uses rfhub_queue with wave slug + environment (no long tag/suite list); notes the environment selects the orchestrator and applies its excludeTags; polls rfhub_batch.",
       "assertions": [
-        "Uses rfhub_queue with wave: \"smoke\" (a slug), not a long list of included suites/tags",
-        "Passes environment: \"dev\"",
+        "Uses or plans rfhub_queue with wave: \"smoke\" (a slug), not a long list of included suites/tags",
+        "Selects environment: \"dev\"",
         "Explains the environment selects the orchestrator and applies that environment's excludeTags",
-        "Passes gitSha",
-        "Polls rfhub_batch with the returned handle"
+        "Requires gitSha (git rev-parse HEAD) for commit-bound evidence",
+        "Plans to poll rfhub_batch with the returned handle"
       ]
     },
     {
@@ -50,9 +50,10 @@
       "prompt": "These suites must not run in parallel because they share a fixture. Queue the Wave1 run serially.",
       "expected_output": "Uses rfhub_queue with parallelism: serial (batch capped to one executor) rather than suite/testcase; does not fake serialization by hand-picking suiteIds order.",
       "assertions": [
-        "Uses rfhub_queue with parallelism: \"serial\"",
-        "Explains serial caps the batch to one executor at a time",
-        "Does not fake serialization by ordering suiteIds (array order is not a run order)"
+        "Uses or plans rfhub_queue with parallelism: \"serial\"",
+        "Explains serial caps the batch to one executor / one unit at a time",
+        "Does not fake serialization by ordering suiteIds (array order is not a run order)",
+        "Does not split the run into multiple queue calls to serialize"
       ]
     }
   ]
