@@ -1,5 +1,5 @@
 name: rfhub-skills
-version: 0.5.0
+version: 0.5.1
 description: >-
   Agent skills and Cursor/Claude instructions for consuming Robot Framework Hub
   from a suite repo — MCP workflows plus hub-compatible Robot sources.
@@ -17,7 +17,7 @@ dependencies:
       transport: http
       url: "https://rfhub.kerpo.org/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.5.0"
+        X-Rfhub-Skills-Version: "0.5.1"
 devDependencies:
   apm: []
   # Hub developers: `apm install` in this repo wires the Compose hub without
@@ -29,7 +29,7 @@ devDependencies:
       transport: http
       url: "http://127.0.0.1:2998/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.5.0"
+        X-Rfhub-Skills-Version: "0.5.1"
 includes: auto
 targets:
   - claude

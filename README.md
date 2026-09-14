@@ -38,7 +38,7 @@ Install once per machine into `~/.apm/` — agents in any workspace get the skil
 with nothing to check out or commit:
 
 ```bash
-apm install -g KerpoOrg/rfhub-skills#v0.5.0
+apm install -g KerpoOrg/rfhub-skills#v0.5.1
 apm compile -g   # refresh harness root context (e.g. opencode)
 ```
 
@@ -64,11 +64,11 @@ Use this when a suite repo should commit the pin and get the Cursor rules.
 dependencies:
   apm:
     - git: https://github.com/KerpoOrg/rfhub-skills.git
-      ref: v0.5.0
+      ref: v0.5.1
 ```
 
 Pin `ref` to a `vX.Y.Z` tag (see [Versioning](#versioning)). Equivalent short form
-if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.5.0`.
+if your APM accepts `owner/repo#tag`: `KerpoOrg/rfhub-skills#v0.5.1`.
 
 **3. Install:**
 
@@ -93,7 +93,7 @@ token is stored.
 ### One-command connect (standard hub)
 
 ```bash
-apm install -g KerpoOrg/rfhub-skills#v0.5.0
+apm install -g KerpoOrg/rfhub-skills#v0.5.1
 apm compile -g   # refresh harness root context (e.g. opencode)
 ```
 
@@ -123,7 +123,7 @@ dependencies:
       transport: http
       url: "https://<your-hub-host>/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.5.0"
+        X-Rfhub-Skills-Version: "0.5.1"
 ```
 
 Or let APM write that entry for you:
@@ -134,7 +134,7 @@ apm install --target claude,cursor \
   --mcp rf-hub \
   --transport http \
   --url "$RFHUB_MCP_URL" \
-  --header "X-Rfhub-Skills-Version=0.5.0"
+  --header "X-Rfhub-Skills-Version=0.5.1"
 ```
 
 Hub developers running the Compose hub get `rfhub-dev`
@@ -161,7 +161,7 @@ apm install --target claude,cursor \
   --transport http \
   --url "$RFHUB_MCP_URL" \
   --header "Authorization=Bearer ${RFHUB_ACCESS_KEY}" \
-  --header "X-Rfhub-Skills-Version=0.5.0"
+  --header "X-Rfhub-Skills-Version=0.5.1"
 ```
 
 APM owns the MCP entry in client config after that. Re-run the install when the
