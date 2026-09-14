@@ -5,6 +5,7 @@
 #USAGE cmd "evals" help="Run output quality evals for all skills (needs opencode CLI)"
 #USAGE cmd "triggers" help="Run trigger accuracy tests for all skills (needs opencode CLI)"
 #USAGE cmd "conventions" help="Run Robocop convention-drift gate over .apm primitives"
+#USAGE cmd "validate" help="Validate .apm primitives (instructions/MCP) with apm compile --validate"
 set -euo pipefail
 
 ROOT="${MISE_PROJECT_ROOT:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
@@ -21,6 +22,7 @@ Subcommands:
   evals         Run output quality evals for all skills (needs opencode CLI)
   triggers      Run trigger accuracy tests for all skills (needs opencode CLI)
   conventions   Run Robocop convention-drift gate over .apm primitives
+  validate      Validate .apm primitives (instructions/MCP) with apm compile --validate
 
 Run `mise run skills --help` for full usage.
 EOF
@@ -101,6 +103,13 @@ cmd_conventions() {
   ./scripts/check-conventions.sh
 }
 
+cmd_validate() {
+  # Validates .apm/instructions/*.instructions.md frontmatter + applyTo globs and
+  # the declared MCP. Writes nothing (unlike `apm compile`). This is the only gate
+  # that covers the instruction primitives; the structure audit only scans skills.
+  apm compile --validate --local-only
+}
+
 list_skills() {
   find .apm/skills -name 'evals.json' | while IFS= read -r f; do
     dirname "$(dirname "$(dirname "$f")")" | xargs basename
@@ -113,6 +122,7 @@ case "$cmd" in
   evals) cmd_evals ;;
   triggers) cmd_triggers ;;
   conventions) cmd_conventions ;;
+  validate) cmd_validate ;;
   *)
     echo "Error: unknown subcommand: $cmd" >&2
     echo "Run: mise run skills --help" >&2
