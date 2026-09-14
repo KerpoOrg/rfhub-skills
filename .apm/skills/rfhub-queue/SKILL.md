@@ -47,9 +47,9 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 4. Choose selection (do **not** preserve array order):
 
    - Concrete leaves or parents: `suiteIds` as catalog `suite_id` UUIDs or longnames (`Synthetic.Smoke.Health`).
+   - Project **wave** (say “the smoke **wave**”): `wave: "smoke"` — a reusable bundle of include tags plus a scheduling `parallelism`. It is a **slug**, not a suite name. Preferred when the same selection is run repeatedly (CI, nightly). Unioned with `tag`/`tags`, intersected with `suiteIds`.
    - Whole catalog: `all: true`.
    - Label: `tag` (e.g. `wip`) — union of catalog static tags and Redis marks. Prefer `rfhub_tag_set` over committing `wip` file tags. Mark the **suite** (`kind: suite`, catalog `suite_id`): cases in a leaf are usually interdependent. Mark `kind: test` only when the suite is partially WIP. Do **not** use Robot `--include wip` for Redis marks (the tag is not in the `.robot` file).
-   - Project **wave**: `wave` (slug) — a reusable bundle of include tags plus a scheduling `parallelism`. Preferred when the same selection is run repeatedly (CI, nightly). Unioned with `tag`/`tags`, intersected with `suiteIds`.
    - Scheduling: `parallelism` (`serial` | `suite` | `testcase`, default `suite`) works on any selection and overrides the wave’s mode. Use `parallelism: "serial"` when units share a fixture — do **not** split the run into several queue calls.
    - Environment: `environment` (slug) — selects the orchestrator serving that environment and stamps the run; the orchestrator appends that environment’s `excludeTags` at launch. **Required** when several environments run the same `project`+`branch`.
 
