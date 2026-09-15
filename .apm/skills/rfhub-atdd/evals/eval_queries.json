@@ -3,6 +3,7 @@
   {"query": "implement issue 45 test-first — acceptance suite red on the hub, then TDD, and roll it out to acceptance environment", "should_trigger": true},
   {"query": "fix bug 45 and roll it out to production; run only tests in the code path to keep it fast", "should_trigger": true},
   {"query": "write the acceptance tests as red on the hub before implementing, acceptance test driven development", "should_trigger": true},
+  {"query": "implement issue 690 and deliver pr — the issue says hub coverage is deferred to a child issue, so just do unit tests", "should_trigger": true},
   {"query": "do unit TDD on the payment module, red green refactor", "should_trigger": false},
   {"query": "fix the failed suites until the batch is green", "should_trigger": false},
   {"query": "run this suite on the hub and show me the failures", "should_trigger": false},
