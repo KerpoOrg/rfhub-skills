@@ -8,11 +8,13 @@ description: >-
   (rfhub_watch / since cursors) to fix while a long batch still runs, marking WIP
   with rfhub_tag_set then queueing by tag, creating acceptance reports
   (rfhub_acceptance_report_create) from ≥2 passed runs that share
-  projectId+gitSha, or rerunning failed leaves into the same handle with
+  projectId+gitSha, running project acceptance in an environment
+  (rfhub_acceptance_run with project/branch/environment/gitSha, poll groupId
+  until merged, read report verdict), or rerunning failed leaves into the same handle with
   rfhub_rerun. Apply when the user says "run this suite", "queue smoke", "queue
   the smoke wave", "run in dev / accpt / prod", "all: true", "play from the
   hub", "testcase parallelism", "fix while tests are running", "create
-  acceptance report", or "rerun failed into this run". Does not activate for
+  acceptance report", "run acceptance for this commit", or "rerun failed into this run". Does not activate for
   writing .robot files alone, investigating past failures alone, or running
   Robot inside Next.js.
 license: MIT
@@ -37,6 +39,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 - Poll status of a returned `handle` (`runId`)
 - Fix failures **while** a multi-hour batch is still running
 - Create an **acceptance report** from ≥2 passed runs for one commit
+- Run project **acceptance** (ordered waves as criteria) in an environment
 - Queue WIP via Redis marks (usually the whole suite) instead of committing `Test Tags    wip`
 
 ## Instructions
@@ -93,6 +96,18 @@ Skills are the recipe; MCP tools are the verbs. After ≥2 **passed** runs share
 UI: Collected runs → select matching commits → **Create acceptance report**. The Run column is a **run id**, not the commit — rows show `git:…` / `no commit` in the suite stack. Do not select mixed commits or runs without `gitSha`.
 
 **Agent mistake to avoid:** queueing without `gitSha` (or omitting it on Play). Those runs never become acceptance-report sources even if they are green.
+
+### Running acceptance (ordered waves as criteria)
+
+A project **acceptance definition** (see **rfhub-write-acceptance**) is the ordered list of waves forming the acceptance criteria. Running acceptance queues those waves **one batch at a time, in definition order, on one environment, for one commit**:
+
+1. Confirm the definition exists (`GET /api/agent/acceptances?project=…`). An empty definition means there is nothing to run — author it first, do not hand-pick waves as a substitute.
+2. Call `rfhub_acceptance_run({ project, branch, environment, gitSha })`. All four are **required** — `environment` selects the orchestrator (there is no multi-environment acceptance), and `gitSha` (`git rev-parse HEAD`) binds every wave batch to the same commit. **Commits are never mixed** inside one acceptance run.
+3. Poll with `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged`. Each wave runs as one batch; the next wave starts when the previous finishes.
+4. Read the auto-created acceptance report: `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle, `verdict` is the criteria outcome — **full acceptance can fail**, and failed wave runs are allowed into the report. A failure is recorded evidence, not a reason to stop polling.
+5. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id in release notes.
+
+REST equivalents: `POST /api/agent/acceptance-runs`, `GET /api/agent/acceptance-runs?groupId=…`, `GET /api/agent/acceptance-reports/{id}`.
 
 ### Fix while running (mid-run fail feed)
 

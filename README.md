@@ -220,6 +220,7 @@ Notes:
 | Skill | `rfhub-use-locks` | Shared-fixture lock domains, tags, caps, Live view |
 | Skill | `rfhub-feedback` | Bugs / features / feedback on hub, orch, skills, runner |
 | Skill | `rfhub-write-argumentfile` | Robot `*.args` |
+| Skill | `rfhub-write-acceptance` | Acceptance definition (ordered waves as criteria) |
 | Skill | `rfhub-write-suite` | Leaf suite / `__init__.robot` |
 | Skill | `rfhub-write-testcase` | One Gherkin test case |
 | Skill | `rfhub-write-suitekeyword` | Keywords in the same `.robot` |

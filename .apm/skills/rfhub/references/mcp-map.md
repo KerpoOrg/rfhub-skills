@@ -11,6 +11,8 @@ Keep results small: `limit`, then detail only failing ids.
 | Mid-run fails (fix while running) | `rfhub_watch` (SSE URL + poll recipe) or `rfhub_batch` / `rfhub_live` / `rfhub_failures` with `since`; bump to `failSeq` / `cursor` |
 | Release preflight | `rfhub_acceptance_gate` (`project`, `gitSha`, optional `suiteIds` / `tag` / `all` / `maxAge`) |
 | Acceptance report (multi-run rebot) | `rfhub_acceptance_report_create` (`runIds` ≥2, same project+gitSha) → poll `rfhub_acceptance_report`; list with `rfhub_acceptance_reports` |
+| Acceptance definitions (ordered waves as criteria) | Agent API `GET` / `PUT` / `DELETE /api/agent/acceptances` via **rfhub-write-acceptance** (no MCP tools — ordered wave ids, slugs resolved on save) |
+| Run acceptance (definition order, one env, one commit) | `rfhub_acceptance_run` (`project`, `branch`, `environment`, `gitSha` — all required) → poll with `groupId` until `status=merged` → read `report.verdict` |
 | Rerun failed / missing parts (same handle) | `rfhub_rerun` (`runId`, optional `suiteIds`; default = failed leaves ∪ pending parts) → `mode=rerun` + `units` + `overlay`; poll **same** handle with `rfhub_batch` (`parts.pending`, `progress.recovered`). Do not open a new `rfhub_queue` to join. |
 | WIP without file tags | `rfhub_tag_set` / `rfhub_tags` / `rfhub_tag_clear` then queue with `tag` |
 | Shared-fixture locks | No MCP tools — agent API + UI via **rfhub-use-locks** (`PUT /api/agent/lock-domains`, `PUT /api/agent/locks`, `GET /api/locks`, Live locks view) |

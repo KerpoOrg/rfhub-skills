@@ -20,6 +20,17 @@
         "Keeps rfhub_run_log as a follow-up only when the metrics excerpt is not enough",
         "Does not open log.html or report.html as the primary evidence"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "The acceptance run for commit abcdef0 finished (acceptance group abc-123). What is the report verdict and which wave failed?",
+      "expected_output": "Plans to open the auto-created acceptance report via the acceptance groupId first, names verdict as the criteria outcome, then drills into the failing wave's batch. Asks only for genuinely missing identifiers (project, hub access).",
+      "assertions": [
+        "Plans to open the acceptance report (groupId / acceptanceGroupId) before any single wave run",
+        "Names report.verdict as the criteria outcome to read",
+        "Plans to name the failed wave(s) and drill into that wave's batch next",
+        "Does not treat the failed verdict as a harness error and does not rebuild the verdict by hand from wave runs"
+      ]
     }
   ]
 }
