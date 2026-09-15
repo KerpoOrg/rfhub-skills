@@ -83,8 +83,8 @@ eval_make_project() {
       permission: $perm,
       tools: {
         bash: false, read: false, write: false, edit: false, glob: false,
-        grep: false, list: false, webfetch: false, task: false,
-        todowrite: false, patch: false
+        grep: false, list: false, webfetch: false, websearch: false,
+        task: false, todowrite: false, patch: false
       },
       mcp: $mcp
     }' > "$dir/opencode.json"

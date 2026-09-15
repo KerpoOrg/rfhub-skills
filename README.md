@@ -176,6 +176,7 @@ not declared in `apm.yml`.
 | Skill | `rfhub-connect` | MCP URL + OAuth login |
 | Skill | `rfhub-queue` | Queue suites / poll a batch |
 | Skill | `rfhub-investigate` | Failures, logs, flake, metrics |
+| Skill | `rfhub-fixloop` | Iterative fix → rerun → verify until green |
 | Skill | `rfhub-feedback` | Bugs / features / feedback on hub, orch, skills, runner |
 | Skill | `rfhub-write-argumentfile` | Robot `*.args` |
 | Skill | `rfhub-write-suite` | Leaf suite / `__init__.robot` |

@@ -40,6 +40,7 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | Wire MCP / OAuth login / “not connected” | `rfhub-connect` |
 | Run / play / queue suites, project **waves** / **environments** / parallelism, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
+| Iteratively fix failures until green (diagnose → fix → rerun → re-check, with budget/stop rules) | `rfhub-fixloop` |
 | Bug / feature / feedback on hub, orch, skills, runner | `rfhub-feedback` |
 | Robot `*.args` / `--argumentfile` | `rfhub-write-argumentfile` |
 | New folder / `__init__.robot` / leaf suite | `rfhub-write-suite` |

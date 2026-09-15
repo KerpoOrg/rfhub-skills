@@ -1,0 +1,10 @@
+[
+  {"query": "Fix the failed suites until the run is green", "should_trigger": true},
+  {"query": "Keep fixing and rerunning the batch failures iteratively", "should_trigger": true},
+  {"query": "Autonomously fix the failing tests on the hub, max two attempts each", "should_trigger": true},
+  {"query": "The batch is red, fix loop it while I'm away", "should_trigger": true},
+  {"query": "Why did this test fail in the last run?", "should_trigger": false},
+  {"query": "Add a new Gherkin test case with a test_id to this leaf", "should_trigger": false},
+  {"query": "Queue the smoke wave on the hub", "should_trigger": false},
+  {"query": "Is this test flaky according to hub metrics?", "should_trigger": false}
+]

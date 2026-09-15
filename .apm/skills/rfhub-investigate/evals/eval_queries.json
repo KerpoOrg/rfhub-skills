@@ -3,5 +3,7 @@
   {"query": "Is this test flaky according to hub metrics?", "should_trigger": true},
   {"query": "Show the failure excerpt and screenshot for this run", "should_trigger": true},
   {"query": "Add a new leaf suite under smoke/", "should_trigger": false},
-  {"query": "Connect MCP to the hub", "should_trigger": false}
+  {"query": "Connect MCP to the hub", "should_trigger": false},
+  {"query": "Fix the failed suites until the run is green", "should_trigger": false},
+  {"query": "Iteratively fix the batch failures and rerun until green", "should_trigger": false}
 ]

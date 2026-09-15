@@ -3,16 +3,20 @@ name: rfhub-investigate
 description: >-
   Use when investigating Robot Framework Hub failures, flake, watchlist,
   duration regression, a specific run/test log, or mid-run live fails while a
-  batch is still executing. Apply when the user says "what failed", "why did
-  this test fail", "is it flaky", "metrics", "attachments for this run", or
-  "new fail from the live stream". Prefer rfhub_failures / rfhub_run_log /
-  rfhub_metrics_* over scraping log.html. Does not activate for writing or
-  rewriting .robot sources (use rfhub-write-*) or for first-time MCP setup.
+  batch is still executing, or when classifying what kind of fault it is:
+  faulty implementation, unclear plan, feature drift, faulty test logic,
+  faulty test environment, or faulty harness. Apply when the user says "what
+  failed", "why did this test fail", "is it flaky", "metrics", "attachments
+  for this run", "new fail from the live stream", "is it the test, the code,
+  or the environment", or "classify this failure". Prefer rfhub_failures /
+  rfhub_run_log / rfhub_metrics_* over scraping log.html. Does not activate
+  for writing or rewriting .robot sources (use rfhub-write-*) or for
+  first-time MCP setup.
 license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.2"
+  version: "1.3"
 ---
 # rfhub-investigate
 
@@ -28,6 +32,7 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 - Why this test (excerpt + attachments)
 - Flake, consecutive fails, duration, watchlist, project trend
 - A **new** fail from mid-run feed (`rfhub_watch` / `since` / SSE) while the batch is still running
+- **Classify the fault**: implementation, plan, drift, test logic, environment, or harness
 
 ## Instructions
 
@@ -38,6 +43,21 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 5. **Live?** `rfhub_live` (or run live). Idle / no-listener hint means the runner never POSTed live events. Long batches: `rfhub_watch` for stream URL / poll recipe (see **rfhub-queue** fix-while-running).
 6. Keep `limit` small. Only fetch `rfhub_run_test` / artifacts when excerpts are insufficient.
 7. To change sources after diagnosis, switch to the matching **rfhub-write-*** skill. To re-run failed leaves into the **same** batch handle, use **rfhub-queue**’s rerun path (`rfhub_rerun` then poll `rfhub_batch`) — do not open a new `rfhub_queue` for a join. Do not `rfhub_rerun` mid-leaf while that part is still executing.
+
+## Classify the fault
+
+Before any fix decision, name the fault class. Six classes: **faulty implementation**, **unclear plan**, **feature drift**, **faulty test logic**, **faulty test environment**, **faulty harness**. Gather evidence on this ladder — cheap rungs first, stop when one class dominates:
+
+1. **Test history** — `rfhub_metrics_test` (`series`, `flips`, `consecutiveFails`, `repeatingErrors`, `durationStats`) and `rfhub_suite` history. Never passed anywhere → suspect the test. Passed yesterday, fails today → suspect what changed. Flips without source change → suspect environment or timing.
+2. **Suite diff against main** — `git diff main...HEAD` on the failing leaf plus the keywords/resources it imports. Changed test/keyword + unchanged product → suspect test logic. Unchanged suite + product moved → suspect implementation.
+3. **Git history on main** — when the test last changed on `main`, when it last passed (a passing run's `gitSha` via `rfhub_runs`), and the commits in between. This pins *which* change broke it.
+4. **Current issue + past issues** — the issue that ordered this work (acceptance criteria vs test expectation vs implementation), and history: same `test_id` or same error fingerprint reported before (known flaky, known bug, known env incident).
+5. **SUT state** — the run's `environment` (and its `excludeTags` — a selection change can fake a regression), SUT reachability/health, and that the deployed version matches what the run claims to test. **Feature flags**: if the SUT gates code paths behind flags, resolve the flag state for the failing codepath first — a feature that is toggled off is not broken, and blaming implementation before checking flags is the most common false verdict.
+6. **rfhub / harness state** — infra-shaped shapes: executor crash or timeout before the test starts, live "no-listener" hint, attachments that never arrive, `source: "unavailable"`, the same infra error across unrelated leaves. Test-result-shaped failures are the SUT's problem; process-shaped failures are the hub's.
+
+Full decision table with signal → verdict mappings: [references/classification.md](references/classification.md).
+
+Ambiguity rule: two classes still fit after the full ladder → say both with the evidence for each and let the human decide. If the plan/acceptance criteria themselves are the contradiction, that **is** the verdict (`unclear plan`) — do not pick a side.
 
 Field notes: [references/metrics.md](references/metrics.md).
 
