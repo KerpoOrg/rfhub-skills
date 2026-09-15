@@ -18,6 +18,19 @@ dependencies:
       url: "https://rfhub.kerpo.org/api/mcp"
       headers:
         X-Rfhub-Skills-Version: "0.5.1"
+  # Optional Robot Framework language server (Claude Code / Copilot CLI only).
+  # APM writes the runtime config but does NOT install the `robotcode` binary
+  # (see README "Robot language server"). Enhancement only, not required for
+  # hub authoring. Language id `robotframework` matches RobotCode's VS Code
+  # `contributes.languages` (`".robot"` / `".resource"`).
+  lsp:
+    - name: robotcode
+      command: robotcode
+      args: ["language-server", "--stdio"]
+      extensionToLanguage:
+        ".robot": robotframework
+        ".resource": robotframework
+      transport: stdio
 devDependencies:
   apm: []
   # Hub developers: `apm install` in this repo wires the Compose hub without
