@@ -1,0 +1,44 @@
+{
+  "skill_name": "rfhub-atdd",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "implement issue 44, and deliver pr. Do it ATDD style: write the failing hub acceptance suite first, then implement test-first, and confirm it's green on the hub.",
+      "expected_output": "Agent treats the wording as the delivery horizon: formulates the leaf acceptance suite as red (no SUT code yet), queues only the affected leaf/case on the hub with gitSha, confirms red for the right reason, then implements with unit TDD and reruns the same handle until green, and finally commits and opens a PR referencing the issue. It must NOT queue a full acceptance wave or production environment, and must not merge the PR.",
+      "assertions": [
+        "Plans the acceptance suite formulation before any SUT implementation",
+        "Requires the acceptance test to be confirmed RED for the right reason before implementing",
+        "Uses the same hub handle (rfhub_rerun) for iteration instead of opening new queues each time",
+        "Limits execution to the affected leaf/case during the development loop, not the whole catalog",
+        "Stops after delivering a PR — does not roll out to an acceptance or production environment",
+        "Uses commit-bound gitSha evidence"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "atdd the checkout feature: implement issue 45, and roll it out to acceptance environment.",
+      "expected_output": "Agent runs the ATDD loop to green (red acceptance suite on the hub first, TDD inner loop, same-handle reruns), then continues past PR delivery to queueing the project's acceptance environment/wave with the final gitSha and requiring acceptance-gate green evidence. It must NOT deploy to production, and should confirm the actual acceptance environment slug.",
+      "assertions": [
+        "Writes the acceptance suite first and expects red before implementing",
+        "Composes unit TDD (kerpo-tdd) as the inner loop under a confirmed-red acceptance case",
+        "After green, queues the acceptance environment with the final gitSha",
+        "Requires acceptance-gate / acceptance-report green evidence for the rollout tier",
+        "Does not touch a production environment",
+        "States an explicit end state with evidence rather than stopping silently"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "fix bug 45, and roll it out to production. try to do the implementation so that we can make it really fast and run only tests which are in the code path during the way.",
+      "expected_output": "Agent recognizes the fast-iteration requirement: during the loop it reruns only the tests/leaves in the code path (testIds for a single case, suiteIds for touched leaves, testcase parallelism), keeping full-catalog/wave queues for tier boundaries only. For the production horizon it formulates or updates the acceptance case first (red), fixes the SUT test-first, confirms green, then proceeds through acceptance to production gates per the wording, with an explicit checkpoint confirmation if 'ship it' is ambiguous.",
+      "assertions": [
+        "Runs only code-path tests during iterations (testIds/suiteIds subset, testcase parallelism)",
+        "Defers full-catalog / wave runs to tier boundaries at the final gitSha",
+        "Does not implement before the acceptance case is red-for-the-right-reason",
+        "Does not silently rewrite the acceptance case to absorb the fix — feature drift is flagged",
+        "For production wording, requires production-tier gates and evidence; treats acceptance as a distinct prior tier",
+        "Ends in an explicit state: green evidence / rollout confirmed / wip / escalated"
+      ]
+    }
+  ]
+}
