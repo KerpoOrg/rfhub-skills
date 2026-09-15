@@ -1,0 +1,10 @@
+[
+  {"query": "Our suites share one elevator rig, how do we serialize them with hub locks?", "should_trigger": true},
+  {"query": "We have 5 compiler licenses, cap parallel use with hub-managed locks", "should_trigger": true},
+  {"query": "What does exclusive:adminuser mean and where do I set its cap?", "should_trigger": true},
+  {"query": "A lock looks stuck, how do I force-release it in the Live locks view?", "should_trigger": true},
+  {"query": "Queue the smoke wave on the hub for branch main", "should_trigger": false},
+  {"query": "Why did this test fail in the last run?", "should_trigger": false},
+  {"query": "Mark the checkout suite as wip and queue that tag", "should_trigger": false},
+  {"query": "Add a new Gherkin test case with a test_id to this leaf", "should_trigger": false}
+]

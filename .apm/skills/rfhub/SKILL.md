@@ -4,7 +4,8 @@ description: >-
   Use when working with Robot Framework Hub, RF Hub, rfhub, MCP rfhub_* tools,
   queueing suites, investigating failures or flake, or writing hub-compatible
   Robot sources. Apply when the user mentions the hub but has not named a
-  sub-skill. Routes to rfhub-connect, rfhub-queue, rfhub-investigate, rfhub-feedback,
+  sub-skill. Routes to rfhub-connect, rfhub-queue, rfhub-investigate, rfhub-fixloop,
+  rfhub-use-locks, rfhub-feedback,
   or a rfhub-write-* skill. Does not activate for hub product internals (apps/web,
   Helm, Prisma) — that is AGENTS.md in the hub repo.
 license: MIT
@@ -41,6 +42,7 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | Run / play / queue suites, project **waves** / **environments** / parallelism, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
 | Iteratively fix failures until green (diagnose → fix → rerun → re-check, with budget/stop rules) | `rfhub-fixloop` |
+| Shared fixtures / lock domains / `domain:name[:count]` tags / scoped caps / Live locks view | `rfhub-use-locks` |
 | Bug / feature / feedback on hub, orch, skills, runner | `rfhub-feedback` |
 | Robot `*.args` / `--argumentfile` | `rfhub-write-argumentfile` |
 | New folder / `__init__.robot` / leaf suite | `rfhub-write-suite` |

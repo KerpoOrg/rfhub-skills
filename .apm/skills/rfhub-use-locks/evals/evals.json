@@ -1,0 +1,38 @@
+{
+  "skill_name": "rfhub-use-locks",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Two suites share one elevator hardware rig. Teach me to serialize them with hub-managed locks.",
+      "expected_output": "Declares/uses a hwsetup domain, tags the suites hwsetup:elevator, sets cap 1 (scoped), notes units wait in queue rather than fail, and points at the Live locks view.",
+      "assertions": [
+        "Names a lock domain for the rig (e.g. hwsetup) and a domain:name tag (e.g. hwsetup:elevator)",
+        "Sets or asks for a scoped cap of 1 for the exclusive fixture",
+        "States contended units wait in queue rather than failing",
+        "Points at the Live locks view (or GET /api/locks) to observe holders/waiters"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have 5 compiler-x license seats, but only 1 reachable from prod. How do I cap license:compiler-x?",
+      "expected_output": "Uses license domain with counted tags, broad cap 5 plus a narrower prod override (most-specific-wins), and warns tags alone do nothing without domain+caps.",
+      "assertions": [
+        "Uses the license:compiler-x tag shape (domain:name, optionally :count)",
+        "Sets a broad cap of 5 and a narrower environment-scoped override for prod",
+        "Explains most-specific scope wins between overlapping caps",
+        "Warns tags without a declared domain/cap do not serialize anything"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "A batch is waiting on exclusive:adminuser and the holder looks dead. What do I do?",
+      "expected_output": "Reads the Live locks view / lease age, force-releases the stuck holder, does not trust its result (re-queue), and checks fixture state before the next waiter proceeds.",
+      "assertions": [
+        "Reads the Live locks view (or GET /api/locks) and checks lease age before acting",
+        "Uses force-release for the stuck holder",
+        "Does not trust the dead holder's result — re-queues rather than accepting it",
+        "Warns an expired lease can leave the fixture half-written / look like a flake"
+      ]
+    }
+  ]
+}
