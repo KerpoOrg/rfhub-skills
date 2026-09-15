@@ -33,6 +33,7 @@ Double-loop, test-first development where the **outer loop is a hub acceptance s
 - **Wishful thinking** — the case is written as if the feature already existed. Red must be *missing feature*, never broken harness.
 - **Process gate** — one failing acceptance case at a time; the next case is formulated only after the current one is green or explicitly parked.
 - **Delivery horizon** — how far the user's wording takes the loop (below).
+- **Acceptance test vs unit test** — an acceptance case is an executable business outcome on the hub; a unit test is an inner-loop seam test. They are different layers and one never stands in for the other.
 
 ## Delivery horizon — the wording decides
 
@@ -53,6 +54,7 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 
 1. With the user, capture acceptance criteria as **concrete examples**, one business outcome per case. Follow repo AGENTS.md Gherkin rules (human-readable, no branching in the case body).
 2. Decide the **leaf layout** up front: leaves must be independent (suite variables do not cross leaves), dry-run safe, with stable `project_id` / `suite_id` / `test_id`.
+3. **The issue's test strategy does not override the outer loop.** If the issue (or a linked plan) defers hub coverage to a child issue, or prescribes unit tests as "the test strategy" for this work, that is a scoping decision only the user can make. Formulate the hub acceptance cases anyway and confirm red first; if hub coverage is genuinely impossible for this work (no hub access, feature not exercisable on the hub), stop and ask the user or park explicitly with a one-line report before any SUT code. Never substitute unit tests for the outer loop.
 
 ### Phase 2 — Formulate (write the spec, expect red)
 
@@ -94,6 +96,7 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 
 - **One handle per acceptance case.** Reruns overlay; new queues are new evidence. Pass `gitSha` on any new queue.
 - **Spec before code.** Red confirmation gates all implementation.
+- **Unit tests are never the outer loop.** An issue's test strategy that defers or prescribes a different test layer does not change the gate: acceptance cases are always formulated and confirmed red on the hub first. If hub coverage is deferred or impossible, ask the user or park explicitly — never swap unit TDD in as the outer loop.
 - **One failing acceptance case at a time** — formulate the next only after green or an explicit park.
 - **Spec changes are decisions, not drift absorption.** Green must come from implementation. If reality contradicts the case, flag the drift to the user and update the case as an explicit step (keep `test_id` stable).
 - Every iteration gets a one-line report: case → what changed (file + why) → rerun outcome.
@@ -107,3 +110,4 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - Do not `rfhub_rerun` while that part is still executing; mid-run edits never reach running executors.
 - WIP marks live in hub Redis (TTL, per branch) — set via `rfhub_tag_set`, clear via `rfhub_tag_clear`; do not commit `wip` tags to files.
 - The acceptance suite is also the deliverable: keep Gherkin case steps performable manually, keywords technical.
+- A deferral note in the issue body ("hub TXN coverage added to suite X in child issue") is not permission to skip the hub — follow the Phase 1 rule and surface the conflict to the user instead of silently swapping the test layer.

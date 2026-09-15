@@ -39,6 +39,18 @@
         "For production wording, requires production-tier gates and evidence; treats acceptance as a distinct prior tier",
         "Ends in an explicit state: green evidence / rollout confirmed / wip / escalated"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "implement issue 690, and deliver pr for me. Note: the issue body says the hub TXN coverage for this feature is added to the reconciliation TXN suite in child issue E, so just cover it with unit tests for now.",
+      "expected_output": "Agent recognizes that the issue's test strategy defers hub coverage to a child issue, and that this does not override the acceptance-first gate: it still formulates the hub acceptance suite (wishful thinking), queues it with gitSha, and confirms red on the hub before any SUT code — or, if it believes hub coverage is genuinely impossible for this work, it asks the user or parks explicitly before implementing. It never substitutes unit tests (vitest or similar) for the outer loop, and it flags the conflict with the issue's deferral note to the user.",
+      "assertions": [
+        "Treats the issue's hub-coverage deferral as a conflict to surface to the user, not as permission to skip the hub",
+        "Formulates the hub acceptance suite anyway and confirms RED on the hub before any SUT code",
+        "Does not substitute unit tests (vitest or similar) for the outer acceptance loop",
+        "Asks the user or parks explicitly with a one-line report instead of silently deviating from the acceptance-first gate",
+        "Stops after delivering a PR — does not roll out to an acceptance or production environment"
+      ]
     }
   ]
 }
