@@ -216,6 +216,7 @@ Notes:
 | Skill | `rfhub-queue` | Queue suites / poll a batch |
 | Skill | `rfhub-investigate` | Failures, logs, flake, metrics |
 | Skill | `rfhub-fixloop` | Iterative fix → rerun → verify until green |
+| Skill | `rfhub-atdd` | Acceptance-test-first double loop: red on hub → TDD → green; delivery wording sets the horizon |
 | Skill | `rfhub-use-locks` | Shared-fixture lock domains, tags, caps, Live view |
 | Skill | `rfhub-feedback` | Bugs / features / feedback on hub, orch, skills, runner |
 | Skill | `rfhub-write-argumentfile` | Robot `*.args` |
