@@ -1,19 +1,19 @@
 ---
 name: rfhub-atdd
 description: >-
-  Use for acceptance-test-first (ATDD) feature or bugfix work on Robot
-  Framework Hub — prefer this over the generic rfhub map and rfhub-queue when
-  the acceptance suite does not exist yet: the suite is written first so it
-  runs RED on the hub, the SUT is implemented test-first with TDD (kerpo-tdd
-  inner loop), the same handle is rerun until GREEN, and evidence is
-  commit-bound. Triggers: "atdd", "acceptance test first", "write the failing
-  acceptance test first", "red then implement", "acceptance test driven
-  development", "implement issue N test first", "implement issue N, and
-  deliver pr", "roll it out to acceptance environment", "roll it out to
-  production". The delivery wording sets how far to go — never past it. Does
-  not activate for plain unit TDD (kerpo-tdd), fixing existing failures with
-  no spec-first gate (rfhub-fixloop), queue-only asks (rfhub-queue), or
-  failure investigation (rfhub-investigate).
+  Use ONLY for acceptance-test-first (ATDD) development on Robot Framework Hub,
+  when the acceptance suite is NOT written yet and must be formulated first to
+  run RED on the hub before any implementation — "atdd", "acceptance test
+  first", "write the failing acceptance test first", "red then implement",
+  "acceptance test driven development", "implement issue N test first",
+  "implement issue N, and deliver pr", "roll it out to acceptance
+  environment", "roll it out to production". Composes the outer double loop
+  around TDD: acceptance cases RED first, SUT implemented with TDD as the
+  inner loop, the same hub handle rerun until the acceptance cases pass with
+  commit-bound evidence; the delivery wording sets the horizon and is never
+  exceeded. Not for work on suites whose cases already exist and fail,
+  queueing or investigation-only asks, shared-fixture lock domains, or TDD
+  without an acceptance-first gate.
 license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
