@@ -5,13 +5,21 @@
       "id": 1,
       "prompt": "What failed on Studio Kanslia Website in the last 24 hours?",
       "expected_output": "rfhub_failures with project and from=-24h; compact; no log.html scrape.",
-      "assertions": []
+      "assertions": [
+        "Names rfhub_failures as the tool to list what failed",
+        "Scopes the query by project and a -24h time window",
+        "Does not fabricate specific failed test names or error messages"
+      ]
     },
     {
       "id": 2,
       "prompt": "Is test_id e50183be-efa8-4f91-b27f-9a70ab1d29db flaky? Show repeating errors.",
       "expected_output": "rfhub_metrics_test then run_log only if excerpt needed.",
-      "assertions": []
+      "assertions": [
+        "Names rfhub_metrics_test as the primary check for flakiness (flips, repeating errors)",
+        "Keeps rfhub_run_log as a follow-up only when the metrics excerpt is not enough",
+        "Does not open log.html or report.html as the primary evidence"
+      ]
     }
   ]
 }

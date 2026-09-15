@@ -1,0 +1,45 @@
+{
+  "skill_name": "rfhub-fixloop",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The smoke wave finished with 3 failing suites. Fix them until green.",
+      "expected_output": "Starts the loop: rfhub_failures/run_log to diagnose, rfhub_metrics_test flake check before editing, minimal source fix, rfhub_rerun into the SAME handle, polls rfhub_batch, states budget (max 3 per test_id) and reports per iteration.",
+      "assertions": [
+        "States the retry budget of at most 3 fix attempts per test_id (or asks the user for a cap)",
+        "Asks for the batch handle/runId instead of planning to open a new rfhub_queue call",
+        "Plans to diagnose with rfhub_failures / rfhub_run_log before editing any test sources"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Keep fixing and rerunning the failures on this batch autonomously, up to two attempts per test.",
+      "expected_output": "Honors the user's iteration cap (2) over the default 3; classifies each failure via rfhub-investigate's fault ladder (implementation / plan / drift / test logic / environment / harness) before editing; reruns into the same handle; stops and marks wip or escalates when the cap is hit.",
+      "assertions": [
+        "Adopts the user's cap of two attempts per test rather than the default three",
+        "Describes the loop as diagnose, fix, then rerun into the same handle",
+        "Does not claim to have fixed anything in this turn — it asks for the missing handle/access first"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Why did test X fail in the last run?",
+      "expected_output": "Single diagnosis only — no fix loop, no rerun. Should route to rfhub-investigate behavior (or answer directly), not start editing sources.",
+      "assertions": [
+        "Explicitly states the fix loop does not apply to this single-diagnosis question",
+        "Routes the investigation toward rfhub-investigate-style reading (run log, history) without planning a rerun",
+        "Asks for the test_id and run context instead of starting to edit sources"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The same test failed with the same error after my fix and rerun. What now?",
+      "expected_output": "Recognizes the repeat-fingerprint stop signal: does not blindly rerun again; either changes the fix, marks the suite wip, or escalates — and reports the state explicitly.",
+      "assertions": [
+        "Warns against re-applying the same fix or rerunning blindly again",
+        "Suggests verifying the previous fix actually reached the run (commit/mount) before changing approach",
+        "Mentions a stop option such as marking the suite wip or escalating instead of looping"
+      ]
+    }
+  ]
+}
