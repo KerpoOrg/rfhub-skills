@@ -66,6 +66,25 @@ POST /api/agent/acceptance-reports
 
 MCP: `rfhub_acceptance_report_create` → poll `rfhub_acceptance_report` until `ready`.
 
+## Running acceptance (definition order, one environment, one commit)
+
+```json
+POST /api/agent/acceptance-runs
+{
+  "project": "3682ae73-3b51-4816-9a39-21fbda91d28f",
+  "branch": "main",
+  "environment": "accpt",
+  "gitSha": "abcdef0123456789abcdef0123456789abcdef01"
+}
+```
+
+MCP: `rfhub_acceptance_run` with the same four fields (all required) → returns a `groupId` → poll `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged` → read `report.verdict` (`passed` / `failed`).
+
+- The project's acceptance definition (**rfhub-write-acceptance**) supplies the ordered waves; waves run one batch at a time in definition order on that one environment.
+- `status` is the merge lifecycle; `verdict` is the criteria outcome. Full acceptance can fail — failed wave runs are allowed into the auto-created report.
+- A green report is release proof (`rfhub_acceptance_gate` counts it for the default criteria).
+- Commits are never mixed: every wave batch carries the same `gitSha`.
+
 ## Rerun failed (same handle)
 
 ```json

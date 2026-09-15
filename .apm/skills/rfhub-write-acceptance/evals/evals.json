@@ -1,0 +1,27 @@
+{
+  "skill_name": "rfhub-write-acceptance",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Add the new security wave to the acceptance definition for project Studio Kanslia Website.",
+      "expected_output": "Plans to read the current acceptance definition first, verifies the security wave exists, and saves the ordered wave list without queueing anything or editing .robot files.",
+      "assertions": [
+        "States reading the current acceptance definition before saving",
+        "Requires the wave to already exist for the project",
+        "States saving ordered waves (ids preferred, slugs accepted) and confirming the stored order",
+        "Does not queue a run or edit .robot sources as part of authoring"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Set up acceptance for the project: smoke first, then regression. Which waves gate the release and why this order?",
+      "expected_output": "Produces an ordered wave list with fast high-signal waves first, explains order = queue order and per-wave parallelism is kept, and notes waves must exist before saving.",
+      "assertions": [
+        "Orders waves deliberately with fast high-signal waves first",
+        "Explains order is queue order (position N runs before N+1)",
+        "Notes per-wave parallelism is kept from the waves themselves",
+        "Notes every wave must already exist for the project"
+      ]
+    }
+  ]
+}

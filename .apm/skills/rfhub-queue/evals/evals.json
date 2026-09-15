@@ -55,6 +55,17 @@
         "Does not fake serialization by ordering suiteIds (array order is not a run order)",
         "Does not split the run into multiple queue calls to serialize"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "Run acceptance for this commit on branch main in accpt, then give me the report id for the release notes.",
+      "expected_output": "Plans rfhub_acceptance_run with project+branch+environment+gitSha; states groupId polling until merged and reading report.verdict; asks only for genuinely missing identifiers.",
+      "assertions": [
+        "Names rfhub_acceptance_run and states all four required inputs (project, branch, environment, gitSha)",
+        "States polling with groupId until status is merged",
+        "States reading report.verdict (passed/failed) as the criteria outcome and quoting the report id",
+        "Does not hand-pick waves — the acceptance definition supplies the ordered waves"
+      ]
     }
   ]
 }

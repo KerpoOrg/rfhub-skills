@@ -2,13 +2,13 @@
 name: rfhub-investigate
 description: >-
   Use when investigating Robot Framework Hub failures, flake, watchlist,
-  duration regression, a specific run/test log, or mid-run live fails while a
-  batch is still executing, or when classifying what kind of fault it is:
+  duration regression, a specific run/test log, an acceptance report verdict,
+  or mid-run live fails while a batch is still executing, or when classifying what kind of fault it is:
   faulty implementation, unclear plan, feature drift, faulty test logic,
   faulty test environment, or faulty harness. Apply when the user says "what
   failed", "why did this test fail", "is it flaky", "metrics", "attachments
   for this run", "new fail from the live stream", "is it the test, the code,
-  or the environment", or "classify this failure". Prefer rfhub_failures /
+  or the environment", "acceptance report verdict", or "classify this failure". Prefer rfhub_failures /
   rfhub_run_log / rfhub_metrics_* over scraping log.html. Does not activate
   for writing or rewriting .robot sources (use rfhub-write-*) or for
   first-time MCP setup.
@@ -33,6 +33,7 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 - Flake, consecutive fails, duration, watchlist, project trend
 - A **new** fail from mid-run feed (`rfhub_watch` / `since` / SSE) while the batch is still running
 - **Classify the fault**: implementation, plan, drift, test logic, environment, or harness
+- An acceptance run's verdict: which wave failed and whether the criteria still hold
 
 ## Instructions
 
@@ -43,6 +44,15 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 5. **Live?** `rfhub_live` (or run live). Idle / no-listener hint means the runner never POSTed live events. Long batches: `rfhub_watch` for stream URL / poll recipe (see **rfhub-queue** fix-while-running).
 6. Keep `limit` small. Only fetch `rfhub_run_test` / artifacts when excerpts are insufficient.
 7. To change sources after diagnosis, switch to the matching **rfhub-write-*** skill. To re-run failed leaves into the **same** batch handle, use **rfhub-queue**’s rerun path (`rfhub_rerun` then poll `rfhub_batch`) — do not open a new `rfhub_queue` for a join. Do not `rfhub_rerun` mid-leaf while that part is still executing.
+
+## Acceptance groups (report verdict before run detail)
+
+When a run belongs to an acceptance group (`acceptanceGroupId` on the run digest, or a `groupId` from **rfhub-queue**'s acceptance run), open the auto-created acceptance **report** first — not just the run:
+
+1. Poll `rfhub_acceptance_run({ groupId })` until `status` is `merged`, then read `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle; `verdict` is the criteria outcome.
+2. **Full acceptance can fail** — failed wave runs are allowed into the report. A `failed` verdict is recorded evidence, not a harness error. Name which wave(s) failed and what they ran (`gitSha` is the same commit on every wave batch).
+3. Only then drill into the failing wave's batch with the normal ladder above (`rfhub_failures` → `rfhub_run_log` → classify the fault). A wave failure classifies like any batch failure.
+4. A green report (`verdict: passed`) is release proof — quote the report id. Do not rebuild the verdict by hand from wave runs; the report is canonical.
 
 ## Classify the fault
 

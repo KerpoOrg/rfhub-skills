@@ -40,6 +40,8 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 |-------------|--------|
 | Wire MCP / OAuth login / “not connected” | `rfhub-connect` |
 | Run / play / queue suites, project **waves** / **environments** / parallelism, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
+| Run project **acceptance** (ordered waves as criteria) in an environment, poll the group until merged | `rfhub-queue` |
+| Acceptance **report verdict** / which wave failed for a commit (`acceptanceGroupId` → report first) | `rfhub-investigate` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
 | Acceptance-test-first feature work: spec red on the hub → TDD inner loop → green, delivery wording sets the horizon (PR / acceptance / production) | `rfhub-atdd` |
 | Iteratively fix failures until green (diagnose → fix → rerun → re-check, with budget/stop rules) | `rfhub-fixloop` |
@@ -47,6 +49,7 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | Bug / feature / feedback on hub, orch, skills, runner | `rfhub-feedback` |
 | Robot `*.args` / `--argumentfile` | `rfhub-write-argumentfile` |
 | New folder / `__init__.robot` / leaf suite | `rfhub-write-suite` |
+| Acceptance **definition** (ordered waves as criteria, Settings → Acceptance) | `rfhub-write-acceptance` |
 | Add or change a test case | `rfhub-write-testcase` |
 | Keyword in the same `.robot` as the tests | `rfhub-write-suitekeyword` |
 | Shared keyword in `*.resource` | `rfhub-write-resourcekeyword` |

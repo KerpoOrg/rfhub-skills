@@ -1,0 +1,11 @@
+[
+  {"query": "Add the new security wave to the acceptance definition for Studio Kanslia Website", "should_trigger": true},
+  {"query": "Update the acceptance criteria — order the smoke wave before the regression wave", "should_trigger": true},
+  {"query": "Which waves are in the acceptance definition for this project?", "should_trigger": true},
+  {"query": "Set up the acceptance definition with the smoke and wave2 waves in order", "should_trigger": true},
+  {"query": "Run acceptance for this commit in accpt and give me the report verdict", "should_trigger": false},
+  {"query": "Queue the smoke wave on the hub for branch main in dev", "should_trigger": false},
+  {"query": "Why did the acceptance run fail — what is the report verdict?", "should_trigger": false},
+  {"query": "Add a new leaf suite under smoke/", "should_trigger": false},
+  {"query": "Fix the failed suites until the run is green", "should_trigger": false}
+]

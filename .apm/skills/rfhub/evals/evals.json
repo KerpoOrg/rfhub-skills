@@ -12,6 +12,12 @@
       "prompt": "We're using rfhub — should I queue this suite or look at yesterday's failures first?",
       "expected_output": "Picks rfhub-queue vs rfhub-investigate from intent; does not start editing .robot files.",
       "assertions": []
+    },
+    {
+      "id": 3,
+      "prompt": "Run acceptance for this commit in accpt, then tell me the report verdict for the release notes.",
+      "expected_output": "Routes run-acceptance to rfhub-queue (rfhub_acceptance_run, poll groupId) and the verdict read to rfhub-investigate (report first); does not route to rfhub-write-acceptance or start editing .robot files.",
+      "assertions": []
     }
   ]
 }
