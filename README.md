@@ -168,6 +168,45 @@ APM owns the MCP entry in client config after that. Re-run the install when the
 URL or method changes; a later plain `apm install` removes MCP entries that are
 not declared in `apm.yml`.
 
+## Robot language server (optional, Claude Code / Copilot CLI only)
+
+This package declares a Robot Framework language server so editors with LSP
+support surface undefined keywords, syntax errors, and bad imports **before** a
+hub run burns queue time:
+
+```yaml
+dependencies:
+  lsp:
+    - name: robotcode
+      command: robotcode
+      args: ["language-server", "--stdio"]
+      extensionToLanguage:
+        ".robot": robotframework
+        ".resource": robotframework
+      transport: stdio
+```
+
+APM writes the runtime config but does **not** install the server binary.
+Install it separately and make sure `robotcode` is on `PATH`:
+
+```bash
+pip install "robotcode[languageserver]"
+robotcode language-server --help   # `--stdio` is the default mode
+```
+
+Notes:
+
+- Language id `robotframework` with `.robot` / `.resource` matches RobotCode's
+  VS Code `contributes.languages` mapping.
+- `transport: stdio` matches the server default (`--mode STDIO`); `--stdio` is
+  passed explicitly so the intent survives future default changes.
+- APM LSP wiring today targets **Claude Code and GitHub Copilot CLI only** —
+  not Cursor or OpenCode. This is additive for Claude users, not a universal
+  feature and not a hard requirement for hub authoring.
+- When the executables gate is enabled, transitive consumers approve with
+  `apm approve KerpoOrg/rfhub-skills`; root-project declarations are trusted as
+  local content. Removing the declaration cleans the server up automatically.
+
 ## What you get
 
 | Kind | Name | When |
