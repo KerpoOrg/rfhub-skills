@@ -6,7 +6,11 @@ Title: `[rfhub / {{component}}] {{ short summary }}`
 
 `{{component}}` is one of: `skills` | `hub` | `orchestrator` | `catalog` | `runner` | `rebot` | `deploy`
 
-Labels: type (`bug` | `feature-request` | `feedback`); add `rfhub-skills` when component is `skills`.
+Labels: type (`bug` | `feature-request` | `feedback`); add `rfhub-skills` only
+when the target is `KerpoOrg/rf-hub` and component is `skills`.
+
+Target: `skills` → `KerpoOrg/rfhub-skills`; `hub` | `orchestrator` | `catalog` |
+`runner` | `rebot` | `deploy` → `KerpoOrg/rf-hub`.
 
 ---
 
