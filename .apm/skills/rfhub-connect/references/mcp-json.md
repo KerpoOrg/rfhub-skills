@@ -50,13 +50,13 @@ behind — bump the skills pin and `apm install`.
     "rfhub-dev": {
       "url": "http://127.0.0.1:2998/api/mcp",
       "headers": {
-        "X-Rfhub-Skills-Version": "0.5.1"
+        "X-Rfhub-Skills-Version": "0.6.0"
       }
     },
     "rf-hub": {
       "url": "https://rfhub.kerpo.org/api/mcp",
       "headers": {
-        "X-Rfhub-Skills-Version": "0.5.1"
+        "X-Rfhub-Skills-Version": "0.6.0"
       }
     }
   }
