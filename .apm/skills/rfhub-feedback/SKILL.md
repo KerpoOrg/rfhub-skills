@@ -6,9 +6,10 @@ description: >-
   UI/API/MCP, orchestrator, catalog, runner, rebot, or deploy. Apply when they
   say "report this to rfhub", "feature request for the orchestrator", "hub
   should…", "bug in rfhub-queue", or "feedback on the hub". Creates a
-  structured GitHub issue on KerpoOrg/rf-hub. Does not activate for kerpo-skills
-  feedback, implementing a fix in the current checkout, or issues about the
-  suite repo's own product code.
+  structured GitHub issue on KerpoOrg/rfhub-skills for skills-component
+  requests and on KerpoOrg/rf-hub for hub-product components. Does not activate
+  for kerpo-skills feedback, implementing a fix in the current checkout, or
+  issues about the suite repo's own product code.
 license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
@@ -17,14 +18,15 @@ metadata:
 ---
 # rfhub-feedback
 
-> **Access requirement:** the hub product repo is private, so filing hub issues
-> requires KerpoOrg access. If you cannot reach it, open an issue on
-> `KerpoOrg/rfhub-skills` for skill/instruction problems instead. See the
-> package README, "Access requirements".
+> **Access requirement:** the hub product repo is private, so filing hub-product
+> issues requires KerpoOrg access. Route by component: `skills` requests go to
+> `KerpoOrg/rfhub-skills` (public, where the skills live); `hub`,
+> `orchestrator`, `catalog`, `runner`, `rebot`, and `deploy` go to
+> `KerpoOrg/rf-hub`. See the package README, "Access requirements".
 
 Sends structured bugs, feature requests, and feedback about **Robot Framework Hub**
-to `KerpoOrg/rf-hub` — skills package, hub product, orchestrator, and the rest of
-the stack.
+to the owning repo — `KerpoOrg/rfhub-skills` for the skills package,
+`KerpoOrg/rf-hub` for the hub product, orchestrator, and the rest of the stack.
 
 ## When to use
 
@@ -70,11 +72,18 @@ Fill `## Component`. Show the draft; let them edit.
 
 Title: `[rfhub / {{component}}] {{ short summary }}`
 
-### Step 4 — Create on KerpoOrg/rf-hub
+### Step 4 — Create on the owning repo
 
-Never use the current suite repo `origin` unless it *is* `KerpoOrg/rf-hub`.
+Route by component from Step 1. Never use the current suite repo `origin`
+unless it *is* the target repo.
 
-Ensure type labels (and `rfhub-skills` when component is `skills`):
+| Component | Target repo |
+|-----------|-------------|
+| `skills` | `KerpoOrg/rfhub-skills` |
+| `hub`, `orchestrator`, `catalog`, `runner`, `rebot`, `deploy` | `KerpoOrg/rf-hub` |
+
+Ensure type labels (and `rfhub-skills` only when the target is `KerpoOrg/rf-hub`
+and component is `skills`):
 
 ```bash
 gh label create feature-request --repo KerpoOrg/rf-hub \
@@ -86,22 +95,28 @@ gh label create rfhub-skills --repo KerpoOrg/rf-hub \
   --color 0E8A16 --force
 ```
 
-Then:
+Then, using the target repo from the routing table above:
 
-1. **GitHub MCP** — `owner: KerpoOrg`, `repo: rf-hub`, labels below
-2. **gh CLI** — `gh issue create --repo KerpoOrg/rf-hub --title "..." --body "..." --label <type> [--label rfhub-skills]`
+1. **GitHub MCP** — `owner: KerpoOrg`, `repo: rfhub-skills` for `skills`, else `repo: rf-hub`, labels below
+2. **gh CLI** — `gh issue create --repo KerpoOrg/<rfhub-skills|rf-hub> --title "..." --body "..." --label <type> [--label rfhub-skills]`
 
-| Type | Labels |
-|------|--------|
-| bug | `bug` + `rfhub-skills` if component is `skills` |
-| feature-request | `feature-request` + same |
-| feedback | `feedback` + same |
+| Type | Labels on `KerpoOrg/rf-hub` | Labels on `KerpoOrg/rfhub-skills` |
+|------|-----------------------------|-----------------------------------|
+| bug | `bug` + `rfhub-skills` if component is `skills` | `bug` |
+| feature-request | `feature-request` + same | `feature-request` |
+| feedback | `feedback` + same | `feedback` |
 
-Show the issue URL. If MCP and `gh` are unavailable: paste-ready body for `https://github.com/KerpoOrg/rf-hub/issues/new`.
+Do not add the `rfhub-skills` label when the target is `KerpoOrg/rfhub-skills`
+— it only marks skills-package issues filed on the hub product repo.
+
+Show the issue URL. If MCP and `gh` are unavailable: paste-ready body for
+`https://github.com/KerpoOrg/rfhub-skills/issues/new` (`skills`) or
+`https://github.com/KerpoOrg/rf-hub/issues/new` (hub-product components).
 
 ## Gotchas
 
-- Target is always `KerpoOrg/rf-hub`, not the suite product repo
+- Target is the owning repo (`skills` → `KerpoOrg/rfhub-skills`, hub-product
+  components → `KerpoOrg/rf-hub`), never the suite product repo
 - `kerpo-skills-feedback` is for `KerpoOrg/kerpo-skills` only
 - "Fix the ingest route" / implement in `apps/web` is coding, not this skill — unless they asked to **file** the request
 - Type labels: exactly `bug`, `feature-request`, or `feedback`

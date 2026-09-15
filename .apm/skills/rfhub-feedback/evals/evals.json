@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "rfhub-queue treated my argument file as suite selection. File a bug on the skills package.",
-      "expected_output": "Bug template, component skills, issue on KerpoOrg/rf-hub with labels rfhub-skills and bug.",
+      "expected_output": "Bug template, component skills, issue on KerpoOrg/rfhub-skills with label bug, no rfhub-skills label.",
       "assertions": []
     },
     {
