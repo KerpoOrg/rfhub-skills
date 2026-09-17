@@ -51,6 +51,17 @@
         "Asks the user or parks explicitly with a one-line report instead of silently deviating from the acceptance-first gate",
         "Stops after delivering a PR — does not roll out to an acceptance or production environment"
       ]
+    },
+    {
+      "id": 5,
+      "prompt": "implement issue 711 test-first and deliver me an acceptance-tested PR.",
+      "expected_output": "Before writing or editing any acceptance spec or SUT file, the agent verifies the acceptance environment is runnable: hub access, an online orchestrator registered for the project+branch, and any required local stack. If the orchestrator is not registered (or the stack is down), it stops and reports/asks before touching repository files rather than discovering the gap only when trying to queue the RED confirmation.",
+      "assertions": [
+        "Verifies hub access and an online orchestrator for the project+branch before any repository edit",
+        "Treats a missing orchestrator (or down local stack) as a preflight failure, not something to discover later",
+        "Does not write the acceptance suite or SUT code before the environment is confirmed runnable",
+        "Reports the missing piece and asks the user (or fixes the environment) instead of proceeding silently"
+      ]
     }
   ]
 }

@@ -8,6 +8,8 @@
   {"query": "Run the nightly regression wave testcase-parallel on accpt", "should_trigger": true},
   {"query": "Run acceptance for this commit on branch main in accpt", "should_trigger": true},
   {"query": "Queue the acceptance waves for main on accpt and watch the report verdict", "should_trigger": true},
+  {"query": "Run the PR acceptance gate for this branch and commit in accpt", "should_trigger": true},
+  {"query": "The queue response shows a locks array, does that mean these suites are serialized?", "should_trigger": true},
   {"query": "Add a test_id tag to Login works", "should_trigger": false},
   {"query": "Fix .cursor/mcp.json Bearer header", "should_trigger": false},
   {"query": "Design a new Prisma schema for hub environments", "should_trigger": false}

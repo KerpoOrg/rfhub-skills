@@ -66,6 +66,28 @@
         "States reading report.verdict (passed/failed) as the criteria outcome and quoting the report id",
         "Does not hand-pick waves — the acceptance definition supplies the ordered waves"
       ]
+    },
+    {
+      "id": 7,
+      "prompt": "I queued two suites and the response shows \"locks\":[{\"domain\":\"txn\",\"name\":\"yes\",\"count\":1}]. This project has no lock domains configured. Does that mean these suites will serialize on a txn:yes lock?",
+      "expected_output": "Agent explains the response's locks array is only the domain:name tags parsed off the selection, not proof of acquisition — since the project has no declared lock domains, nothing is actually acquired and the suites will not serialize on it. Points to checking GET /api/agent/locks (or rfhub-use-locks) for real holders/waiters.",
+      "assertions": [
+        "States the locks field in the queue response is parsed tags, not acquired locks",
+        "Explains that without a declared lock domain, nothing is actually acquired regardless of the echoed locks array",
+        "Recommends checking GET /api/agent/locks (or rfhub-use-locks) for real holder/waiter state",
+        "Does not conclude the suites are serialized just because the response lists a locks entry"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Run the PR acceptance gate for this branch on commit abc123 in the accpt environment.",
+      "expected_output": "Agent discovers the project's acceptance definitions via GET /api/agent/acceptances instead of assuming the default 'acceptance' slug, identifies the PR-specific definition (e.g. slug 'pr'), and — since it is likely WIP-scoped — determines and marks the relevant suites wip via rfhub_tag_set before calling rfhub_acceptance_run with the discovered acceptance slug. It does not fall back to manually queueing a wave or hand-picked suite list if the run initially reports no matching criteria or an empty wip scope.",
+      "assertions": [
+        "Discovers available acceptance definitions rather than defaulting to the 'acceptance' slug",
+        "Identifies and uses a PR-specific definition slug (e.g. 'pr') for rfhub_acceptance_run",
+        "Sets relevant suites/tests wip via rfhub_tag_set before running a WIP-scoped PR definition",
+        "Does not fall back to a hand-picked wave or manually composed suiteIds list when the run reports no criteria or empty WIP scope"
+      ]
     }
   ]
 }

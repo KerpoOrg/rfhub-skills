@@ -40,6 +40,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 - Fix failures **while** a multi-hour batch is still running
 - Create an **acceptance report** from ≥2 passed runs for one commit
 - Run project **acceptance** (ordered waves as criteria) in an environment
+- Run a **PR acceptance gate** — a named acceptance definition (often `pr`, WIP-scoped) distinct from ad-hoc wave/suite queueing
 - Queue WIP via Redis marks (usually the whole suite) instead of committing `Test Tags    wip`
 
 ## Instructions
@@ -56,7 +57,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
    - Scheduling: `parallelism` (`serial` | `suite` | `testcase`, default `suite`) works on any selection and overrides the wave’s mode. Use `parallelism: "serial"` when units share a fixture — do **not** split the run into several queue calls.
    - Environment: `environment` (slug) — selects the orchestrator serving that environment and stamps the run; the orchestrator appends that environment’s `excludeTags` at launch. **Required** when several environments run the same `project`+`branch`.
 
-5. Call `rfhub_queue`. **Always pass `gitSha`** (`git rev-parse HEAD` of the suite worktree you are validating). Without it the run cannot prove a commit for `rfhub_acceptance_gate` or **acceptance reports** (UI shows `no commit`; create refuses). Response `handle` is the batch `runId`.
+5. Call `rfhub_queue`. **Always pass `gitSha`** (`git rev-parse HEAD` of the suite worktree you are validating). Without it the run cannot prove a commit for `rfhub_acceptance_gate` or **acceptance reports** (UI shows `no commit`; create refuses). Response `handle` is the batch `runId`. The response also echoes a per-unit `locks` array — that is only the `domain:name[:count]` tags **parsed** off the selection, not proof anything was acquired. Acquisition happens only for declared lock domains (see **rfhub-use-locks**); check `GET /api/agent/locks` for actual holders/waiters before narrating serialization.
 6. Track progress:
 
    - Short batches: poll `rfhub_batch` for `jobStatus`, parts, live counts. `rfhub_live` for in-progress tests.
@@ -99,15 +100,16 @@ UI: Collected runs → select matching commits → **Create acceptance report**.
 
 ### Running acceptance (ordered waves as criteria)
 
-A project **acceptance definition** (see **rfhub-write-acceptance**) is the ordered list of waves forming the acceptance criteria. Running acceptance queues those waves **one batch at a time, in definition order, on one environment, for one commit**:
+A project **acceptance definition** (see **rfhub-write-acceptance**) is the ordered list of waves forming the acceptance criteria. A project can own **more than one named definition** (addressed by an `acceptance` slug) for different gates — e.g. the default `acceptance` used for release preflight, plus a project-specific one like `pr` for a PR-triggered gate. Running acceptance queues one definition's waves **one batch at a time, in definition order, on one environment, for one commit**:
 
-1. Confirm the definition exists (`GET /api/agent/acceptances?project=…`). An empty definition means there is nothing to run — author it first, do not hand-pick waves as a substitute.
-2. Call `rfhub_acceptance_run({ project, branch, environment, gitSha })`. All four are **required** — `environment` selects the orchestrator (there is no multi-environment acceptance), and `gitSha` (`git rev-parse HEAD`) binds every wave batch to the same commit. **Commits are never mixed** inside one acceptance run.
-3. Poll with `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged`. Each wave runs as one batch; the next wave starts when the previous finishes.
-4. Read the auto-created acceptance report: `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle, `verdict` is the criteria outcome — **full acceptance can fail**, and failed wave runs are allowed into the report. A failure is recorded evidence, not a reason to stop polling.
-5. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id in release notes.
+1. **Discover the definition(s) first** — `GET /api/agent/acceptances?project=…`. **Do not default to the `acceptance` slug** when the ask is a "PR acceptance gate" or similar: check the suite repo's own guidance (AGENTS.md, project docs) for the slug it expects (often `pr`). A missing/empty definition means there is nothing to run — author it first (**rfhub-write-acceptance**); do not hand-pick waves as a substitute.
+2. Call `rfhub_acceptance_run({ project, branch, environment, gitSha, acceptance })`, where `acceptance` is the definition slug (defaults to `"acceptance"` — pass the discovered slug explicitly for a named gate like `pr`). `project`, `branch`, `environment`, `gitSha` are **required** — `environment` selects the orchestrator (there is no multi-environment acceptance), and `gitSha` (`git rev-parse HEAD`) binds every wave batch to the same commit. **Commits are never mixed** inside one acceptance run.
+3. A `pr`-style definition is commonly **WIP-scoped**: its waves only include suites/tests currently tagged `wip`. Before calling, determine the suites relevant to the change and `rfhub_tag_set` them `wip` (`kind: suite`, per the WIP guidance above). A `No suites or tests match tag(s) wip` (or "no acceptance") response means the WIP scope is empty or the slug is wrong — **not** license to fall back to a hand-composed wave/suite list; fix the WIP marks or the slug, or ask the user.
+4. Poll with `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged`. Each wave runs as one batch; the next wave starts when the previous finishes.
+5. Read the auto-created acceptance report: `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle, `verdict` is the criteria outcome — **full acceptance can fail**, and failed wave runs are allowed into the report. A failure is recorded evidence, not a reason to stop polling.
+6. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id in release notes.
 
-REST equivalents: `POST /api/agent/acceptance-runs`, `GET /api/agent/acceptance-runs?groupId=…`, `GET /api/agent/acceptance-reports/{id}`.
+REST equivalents: `GET /api/agent/acceptances?project=…`, `POST /api/agent/acceptance-runs`, `GET /api/agent/acceptance-runs?groupId=…`, `GET /api/agent/acceptance-reports/{id}`.
 
 ### Fix while running (mid-run fail feed)
 
@@ -144,3 +146,6 @@ WIP mark/list/clear shapes: [references/queue.md](references/queue.md).
 - Rerun keeps the handle; a second `rfhub_queue` does not overlay the first run.
 - Mid-run fixes do not change executors already running; use `rfhub_rerun` to overlay after.
 - Acceptance reports need the **same** `projectId` + `gitSha` on every source run; mixed commits or `no commit` runs are rejected.
+- The `rfhub_queue` response's per-unit `locks` array is **parsed `domain:name[:count]` tags**, not proof anything was acquired — a project with zero declared lock domains still echoes entries for matching tags. Check `GET /api/agent/locks` (or **rfhub-use-locks**) before concluding suites are serialized.
+- `rfhub_acceptance_run` defaults to the `acceptance` slug; a PR gate is commonly a *different* named, WIP-scoped definition (e.g. `pr`) — discover it via `GET /api/agent/acceptances?project=…` rather than assuming the default.
+- Never substitute a hand-picked wave or manually composed `suiteIds` list for a configured **acceptance definition** — that bypasses the gate the project set up. A "no acceptance" or empty-WIP response means fix the slug or WIP marks (or ask), not fall back to ad-hoc queueing.

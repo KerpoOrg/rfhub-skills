@@ -50,6 +50,13 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 
 ## The loop
 
+### Phase 0 — Preflight (environment must be runnable before any edit)
+
+1. Confirm hub access (**rfhub-connect** first if MCP is down).
+2. Confirm `project` + `branch` resolve and an **online orchestrator** is registered for that pair (`rfhub_projects` / orch UI) — Phase 3's RED confirmation and every Phase 4 rerun depend on it.
+3. If the SUT needs a local stack or other dev services to execute, start and verify them now.
+4. If any of the above cannot be satisfied, **stop before touching repository files**: report what's missing (no orchestrator registered, hub unreachable, stack down) and ask the user, or fix the environment first. Formulating specs or editing sources against an environment that cannot run them only defers the failure to Phase 3.
+
 ### Phase 1 — Distill (three amigos)
 
 1. With the user, capture acceptance criteria as **concrete examples**, one business outcome per case. Follow repo AGENTS.md Gherkin rules (human-readable, no branching in the case body).
@@ -78,7 +85,7 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 
 1. All formulated cases green on the same `gitSha`; `rfhub_batch` `pending` empty.
 2. Remove the `wip` mark. Pass `gitSha` on everything — evidence is commit-bound.
-3. **If the horizon is acceptance/production**: queue the project wave/environment with the final `gitSha`, then require acceptance-gate green (or an acceptance report from ≥2 passed runs sharing projectId+gitSha). Do not build a report until runs actually passed.
+3. **If the horizon is acceptance/production**: queue the project wave/environment with the final `gitSha` via **rfhub-queue**'s "Running acceptance" flow — discover the correct acceptance definition slug first (do not assume the default `acceptance`; a PR-triggered gate is often a differently-named, WIP-scoped definition), then require acceptance-gate green (or an acceptance report from ≥2 passed runs sharing projectId+gitSha). Do not build a report until runs actually passed.
 4. **If the horizon is PR**: after green confirmation, deliver the PR (issue-linked, checklist/implementation-notes conventions apply).
 5. End in an explicit state: green (evidence), PR opened, environment rolled out, `wip`-marked, or escalated. Never silent.
 
@@ -111,3 +118,5 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - WIP marks live in hub Redis (TTL, per branch) — set via `rfhub_tag_set`, clear via `rfhub_tag_clear`; do not commit `wip` tags to files.
 - The acceptance suite is also the deliverable: keep Gherkin case steps performable manually, keywords technical.
 - A deferral note in the issue body ("hub TXN coverage added to suite X in child issue") is not permission to skip the hub — follow the Phase 1 rule and surface the conflict to the user instead of silently swapping the test layer.
+- Confirming the hub/orchestrator before Phase 2 is not optional — a "red" confirmed against a missing orchestrator is a broken harness, not RED (Phase 0).
+- When rolling out to acceptance, do not assume the `acceptance` slug or fall back to hand-picked waves if the run reports no criteria or an empty WIP scope — discover the right definition and WIP marks per **rfhub-queue** instead.
