@@ -1,5 +1,5 @@
 name: rfhub-skills
-version: 0.9.1
+version: 0.9.2
 description: >-
   Agent skills and Cursor/Claude instructions for consuming Robot Framework Hub
   from a suite repo — MCP workflows plus hub-compatible Robot sources.
@@ -17,7 +17,7 @@ dependencies:
       transport: http
       url: "https://rfhub.kerpo.org/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.9.1"
+        X-Rfhub-Skills-Version: "0.9.2"
   # Optional Robot Framework language server (Claude Code / Copilot CLI only).
   # APM writes the runtime config but does NOT install the `robotcode` binary
   # (see README "Robot language server"). Enhancement only, not required for
@@ -42,7 +42,7 @@ devDependencies:
       transport: http
       url: "http://127.0.0.1:2998/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.9.1"
+        X-Rfhub-Skills-Version: "0.9.2"
 includes: auto
 targets:
   - claude
