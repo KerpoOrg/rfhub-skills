@@ -7,8 +7,8 @@ Keep results small: `limit`, then detail only failing ids.
 | Intent | Tools |
 |--------|--------|
 | Discover | `rfhub_catalog`, `rfhub_projects` |
-| Queue | `rfhub_queue` (`project`, `branch`, `suiteIds` and/or `tag` / `wave` / `all`, optional `parallelism` / `environment`, **`gitSha` required** for commit-bound evidence) → poll `rfhub_batch` |
-| Mid-run fails (fix while running) | `rfhub_watch` (SSE URL + poll recipe) or `rfhub_batch` / `rfhub_live` / `rfhub_failures` with `since`; bump to `failSeq` / `cursor` |
+| Queue | `rfhub_queue` (`project`, `branch`, `suiteIds` and/or `tag` / `wave` / `all`, optional `parallelism` / `environment`, **`gitSha` required** for commit-bound evidence) → track with `rfhub_stream` (cursor loop until `closed: true`); poll `rfhub_batch` only as fallback or when explicitly asked |
+| Mid-run fails (fix while running) | **`rfhub_stream` (primary)**: `rfhub_stream({ runId: handle, since })` cursor loop, act on each event immediately. Poll `rfhub_batch` / `rfhub_live` / `rfhub_failures` with `since` only as fallback (stream error / explicit ask); `rfhub_watch` SSE URL is for external HTTP clients |
 | Release preflight | `rfhub_acceptance_gate` (`project`, `gitSha`, optional `suiteIds` / `tag` / `all` / `maxAge`) |
 | Acceptance report (multi-run rebot) | `rfhub_acceptance_report_create` (`runIds` ≥2, same project+gitSha) → poll `rfhub_acceptance_report`; list with `rfhub_acceptance_reports` |
 | Acceptance definitions (ordered waves as criteria) | Agent API `GET` / `PUT` / `DELETE /api/agent/acceptances` via **rfhub-write-acceptance** (no MCP tools — ordered wave ids, slugs resolved on save) |

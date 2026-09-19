@@ -4,7 +4,7 @@
     {
       "id": 1,
       "prompt": "The smoke wave finished with 3 failing suites. Fix them until green.",
-      "expected_output": "Starts the loop: rfhub_failures/run_log to diagnose, rfhub_metrics_test flake check before editing, minimal source fix, rfhub_rerun into the SAME handle, polls rfhub_batch, states budget (max 3 per test_id) and reports per iteration.",
+      "expected_output": "Starts the loop: rfhub_failures/run_log to diagnose, rfhub_metrics_test flake check before editing, minimal source fix, rfhub_rerun into the SAME handle, streams rfhub_stream (polls rfhub_batch only as fallback), states budget (max 3 per test_id) and reports per iteration.",
       "assertions": [
         "States the retry budget of at most 3 fix attempts per test_id (or asks the user for a cap)",
         "Asks for the batch handle/runId instead of planning to open a new rfhub_queue call",

@@ -16,7 +16,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.4"
+  version: "1.5"
 ---
 # rfhub-investigate
 
@@ -31,7 +31,7 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 - What failed / same error elsewhere (`q`)
 - Why this test (excerpt + attachments)
 - Flake, consecutive fails, duration, watchlist, project trend
-- A **new** fail from mid-run feed (`rfhub_watch` / `since` / SSE) while the batch is still running
+- A **new** fail from mid-run feed (`rfhub_stream` cursor loop; poll fallback) while the batch is still running
 - **Classify the fault**: implementation, plan, drift, test logic, environment, or harness
 - An acceptance run's verdict: which wave failed and whether the criteria still hold
 
@@ -41,9 +41,9 @@ Read results through hub MCP. Compact first; HTML artifacts last.
 2. **What failed?** `rfhub_failures` (`compact` default true). Follow `runId` + `test_id`. For one live batch: `rfhub_failures({ runId, since })` or `rfhub_batch` `progress.newFails`.
 3. **Why this test?** `rfhub_run` digest, then `rfhub_run_log` with `test=`. Use `attachments[]` / `attachmentHint` — do not open executor host paths. Download via hub attachment URLs only if the excerpt is not enough. Mid-run: message may be present from the listener; screenshots/traces often appear only after part XML ingest.
 4. **Flaky / trend?** `rfhub_metrics_overview` → `rfhub_metrics_watchlist` → `rfhub_metrics_test` / `rfhub_metrics_suite` (`flips`, `repeatingErrors`, `durationStats`). `rfhub_test` / `rfhub_suite` if QuestDB `source` is unavailable. Prefer this before rewriting a mid-run fail.
-5. **Live?** `rfhub_live` (or run live). Idle / no-listener hint means the runner never POSTed live events. Long batches: `rfhub_watch` for stream URL / poll recipe (see **rfhub-queue** fix-while-running).
+5. **Live?** `rfhub_stream({ runId, since })` for a running batch — bounded long-poll, cursor loop until `closed: true` (poll `rfhub_live` / `rfhub_failures` with `runId` + `since` as fallback). `rfhub_live` for a one-shot snapshot; idle / no-listener hint means the runner never POSTed live events. Stream recipe: **rfhub-queue** fix-while-running.
 6. Keep `limit` small. Only fetch `rfhub_run_test` / artifacts when excerpts are insufficient.
-7. To change sources after diagnosis, switch to the matching **rfhub-write-*** skill. To re-run failed leaves into the **same** batch handle, use **rfhub-queue**’s rerun path (`rfhub_rerun` then poll `rfhub_batch`) — do not open a new `rfhub_queue` for a join. Do not `rfhub_rerun` mid-leaf while that part is still executing.
+7. To change sources after diagnosis, switch to the matching **rfhub-write-*** skill. To re-run failed leaves into the **same** batch handle, use **rfhub-queue**’s rerun path (`rfhub_rerun`, then track the same handle with `rfhub_stream` — poll `rfhub_batch` only as fallback) — do not open a new `rfhub_queue` for a join. Do not `rfhub_rerun` mid-leaf while that part is still executing.
 
 ## Acceptance groups (report verdict before run detail)
 
@@ -79,5 +79,6 @@ Field notes: [references/metrics.md](references/metrics.md).
 - Compact mode shortens `firstError`; set `compact: false` only when you need the raw message.
 - Metrics need QuestDB on the hub. `source: "unavailable"` is not “the test is fine”.
 - Live fails are early signal; confirm after XML/rebot when deciding the batch is green.
+- Do not sleep-poll `rfhub_batch` while a batch runs and `rfhub_stream` works — poll only when streaming fails or the user / another agent explicitly asked to poll.
 - Different `environment`s apply different `excludeTags`, so a pass-rate or test-count shift can be a selection change, not a regression. Read `environment` before blaming code.
 - Never reframe a failed or unreachable acceptance gate as green because some other focused suite passed on the same branch — escalate the gate/infra failure instead.

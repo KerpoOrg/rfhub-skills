@@ -17,7 +17,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.0"
+  version: "1.1"
 ---
 # rfhub-fixloop
 
@@ -45,9 +45,9 @@ Not for a single "why did this fail" — that is **rfhub-investigate** alone, no
    - Rewriting a flaky case into a deterministic one is a fix; deleting the test is not.
 
 3. **Edit** only leaves inside this batch's scope. Minimal change, **one fix class per iteration** — so `progress.recovered` tells you which fix worked.
-4. **Wait for idle**: do not `rfhub_rerun` while that part is still executing. Mid-run edits never reach running executors.
+4. **Wait for idle** by streaming: `rfhub_stream({ runId: handle, since })` cursor loop until `closed: true` — do not sleep-poll (stream errors / explicit poll request → `rfhub_batch`). Do not `rfhub_rerun` while that part is still executing. Mid-run edits never reach running executors.
 5. **Rerun into the same handle**: `rfhub_rerun({ runId: handle })`. Pass `suiteIds` for just the leaves you touched; default reruns failed leaves ∪ pending parts. **Never** open a second `rfhub_queue` to join results.
-6. **Verify**: poll `rfhub_batch` with the same `handle` until `parts.pending` is empty. `progress.recovered` counts fail→pass on this join.
+6. **Verify**: stream the join on the same `handle` with `rfhub_stream` until `closed: true` (fallback: poll `rfhub_batch` until `parts.pending` is empty). `progress.recovered` counts fail→pass on this join.
 7. **Re-check** what is still red; loop back to 1.
 
 ## Budget and stop conditions
@@ -68,6 +68,7 @@ Not for a single "why did this fail" — that is **rfhub-investigate** alone, no
 ## Gotchas
 
 - `progress.recovered` is per latest join — compare against the previous failure set, not the original batch.
+- Streaming (`rfhub_stream`) is the wait; never insert sleeps between polls while the stream works. Poll only on stream failure or explicit request.
 - A pass on rerun can be a flake, not a fix; confirm with `rfhub_metrics_test` before declaring recovered.
 - Never "fix" by deleting the test or editing `OUT_DIR/rfhub.args` (runner-generated).
 - Do not rewrite mid-run fails that `rfhub_metrics_test` shows as long-term flaky — stabilize, don't churn.
