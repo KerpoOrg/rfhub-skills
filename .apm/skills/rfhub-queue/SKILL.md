@@ -87,7 +87,11 @@ A project owns named **environments** (e.g. `dev`, `accpt`, `prod`), each with i
 
 ### Acceptance reports (multi-run evidence)
 
-Skills are the recipe; MCP tools are the verbs. After ≥2 **passed** runs share `projectId` + `gitSha` (each with `output.xml`):
+Skills are the recipe; MCP tools are the verbs.
+
+**Refuse-first when the ask is a shortcut.** If the user wants an acceptance report (or “call it the gate”) built from a focused leaf/`testIds` green while the project's named gate (`rfhub_acceptance_run`, e.g. `wave:ui`) is failed, unreachable, or network-blocked — **do not** collect runIds, do not call `rfhub_acceptance_report_create`, and do not ask for project/runId to build that substitute. Open with the refusal: focused run ≠ gate; escalate the gate/infra failure; merge stays blocked unless a real gate is green or the user explicitly overrides.
+
+Only when there is no conflicting failed/blocked gate, and ≥2 **passed** runs share `projectId` + `gitSha` (each with `output.xml`):
 
 1. Collect their `runId`s (`rfhub_runs` filtered by `project` + `gitSha` + `status=passed`, or the handles you just polled).
 2. `rfhub_acceptance_report_create({ runIds: […] })` — order is display/merge order; minimum 2.
@@ -96,7 +100,7 @@ Skills are the recipe; MCP tools are the verbs. After ≥2 **passed** runs share
 
 UI: Collected runs → select matching commits → **Create acceptance report**. The Run column is a **run id**, not the commit — rows show `git:…` / `no commit` in the suite stack. Do not select mixed commits or runs without `gitSha`.
 
-**Agent mistake to avoid:** queueing without `gitSha` (or omitting it on Play). Those runs never become acceptance-report sources even if they are green.
+**Agent mistake to avoid:** queueing without `gitSha` (or omitting it on Play). Those runs never become acceptance-report sources even if they are green. Equally: helping create a report from a focused subset to paper over a failed gate.
 
 ### Running acceptance (ordered waves as criteria)
 
