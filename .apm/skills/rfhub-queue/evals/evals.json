@@ -4,11 +4,11 @@
     {
       "id": 1,
       "prompt": "Queue the smoke suite on the hub for branch main.",
-      "expected_output": "Uses rfhub_queue with project+branch+suiteIds; polls rfhub_batch; does not treat array order as run order.",
+      "expected_output": "Uses rfhub_queue with project+branch+suiteIds; streams rfhub_stream (polls rfhub_batch only as fallback); does not treat array order as run order.",
       "assertions": [
         "Uses or plans rfhub_queue with project, branch, and a suite/work selection",
         "Requires gitSha (git rev-parse HEAD) for commit-bound evidence",
-        "Plans to poll rfhub_batch with the returned handle",
+        "Plans to track with rfhub_stream (rfhub_batch as fallback)",
         "Does not treat suiteIds array order as a run order"
       ]
     },
@@ -25,24 +25,24 @@
     {
       "id": 3,
       "prompt": "The Wave2 batch handle finished with two failed leaves. Join a rerun into that same run.",
-      "expected_output": "Uses rfhub_rerun with the same handle; reads units/overlay; polls rfhub_batch; does not open a new rfhub_queue to join.",
+      "expected_output": "Uses rfhub_rerun with the same handle; reads units/overlay; streams rfhub_stream (polls rfhub_batch only as fallback); does not open a new rfhub_queue to join.",
       "assertions": [
         "Uses rfhub_rerun with the same runId/handle",
         "Reads the echoed units / overlay parts before assuming what runs",
-        "Polls the same handle with rfhub_batch",
+        "Tracks the same handle with rfhub_stream (rfhub_batch as fallback)",
         "Does not open a new rfhub_queue to join the results"
       ]
     },
     {
       "id": 4,
       "prompt": "Queue the smoke wave on the hub for branch main in the dev environment.",
-      "expected_output": "Uses rfhub_queue with wave slug + environment (no long tag/suite list); notes the environment selects the orchestrator and applies its excludeTags; polls rfhub_batch.",
+      "expected_output": "Uses rfhub_queue with wave slug + environment (no long tag/suite list); notes the environment selects the orchestrator and applies its excludeTags; streams rfhub_stream (polls rfhub_batch only as fallback).",
       "assertions": [
         "Uses or plans rfhub_queue with wave: \"smoke\" (a slug), not a long list of included suites/tags",
         "Selects environment: \"dev\"",
         "Explains the environment selects the orchestrator and applies that environment's excludeTags",
         "Requires gitSha (git rev-parse HEAD) for commit-bound evidence",
-        "Plans to poll rfhub_batch with the returned handle"
+        "Plans to track with rfhub_stream (rfhub_batch as fallback)"
       ]
     },
     {

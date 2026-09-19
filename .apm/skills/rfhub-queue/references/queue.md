@@ -10,7 +10,7 @@ POST /api/agent/queue
 }
 ```
 
-MCP: `rfhub_queue` with the same fields. **Pass `gitSha` every time** (`git rev-parse HEAD` in the suite worktree). Poll `rfhub_batch` with `handle`.
+MCP: `rfhub_queue` with the same fields. **Pass `gitSha` every time** (`git rev-parse HEAD` in the suite worktree). Track with `rfhub_stream({ runId: handle, since })` — cursor loop until `closed: true`; poll `rfhub_batch` only as fallback or when explicitly asked.
 
 Without `gitSha`, the run cannot:
 
@@ -104,7 +104,7 @@ POST /api/agent/runs/{runId}/rerun
 { "suiteIds": ["optional-leaf-suite-uuid"] }
 ```
 
-MCP: `rfhub_rerun`. Response includes `mode: "rerun"`, `overlay.parts`, and `units` (exact leaves). Poll the **same** `handle` with `rfhub_batch`. Do not open a new queue to join.
+MCP: `rfhub_rerun`. Response includes `mode: "rerun"`, `overlay.parts`, and `units` (exact leaves). Track the same `handle` with `rfhub_stream` (cursor loop until `closed: true`); poll `rfhub_batch` (`parts.pending`, `progress.recovered`) as fallback. Do not open a new queue to join.
 
 ## Redis WIP marks
 

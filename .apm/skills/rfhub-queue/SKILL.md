@@ -4,8 +4,9 @@ description: >-
   Use when queueing Robot suites on Robot Framework Hub, Play-from-hub,
   rfhub_queue (always pass gitSha for commit-bound evidence), queueing a project
   wave (wave=) or a project environment (dev/accpt/prod), choosing parallelism
-  (serial/suite/testcase), polling a batch handle, watching mid-run failures
-  (rfhub_watch / since cursors) to fix while a long batch still runs, marking WIP
+  (serial/suite/testcase), tracking a batch handle (rfhub_stream cursor loop;
+  poll rfhub_batch only as fallback or when explicitly asked), watching mid-run
+  failures to fix while a long batch still runs, marking WIP
   with rfhub_tag_set then queueing by tag, creating acceptance reports
   (rfhub_acceptance_report_create) from ≥2 passed runs that share
   projectId+gitSha, running project acceptance in an environment
@@ -21,7 +22,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.4"
+  version: "1.5"
 ---
 # rfhub-queue
 
@@ -36,7 +37,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 - “Run / play / queue these suites on the hub”
 - “Queue the smoke / nightly **wave**” — a project-scoped reusable bundle
 - “Run in dev / accpt / prod” — pick a project **environment** (and its exclusions)
-- Poll status of a returned `handle` (`runId`)
+- Poll status of a returned `handle` (`runId`) — or better, stream it with `rfhub_stream`
 - Fix failures **while** a multi-hour batch is still running
 - Create an **acceptance report** from ≥2 passed runs for one commit
 - Run project **acceptance** (ordered waves as criteria) in an environment
@@ -58,10 +59,12 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
    - Environment: `environment` (slug) — selects the orchestrator serving that environment and stamps the run; the orchestrator appends that environment’s `excludeTags` at launch. **Required** when several environments run the same `project`+`branch`.
 
 5. Call `rfhub_queue`. **Always pass `gitSha`** (`git rev-parse HEAD` of the suite worktree you are validating). Without it the run cannot prove a commit for `rfhub_acceptance_gate` or **acceptance reports** (UI shows `no commit`; create refuses). Response `handle` is the batch `runId`. The response also echoes a per-unit `locks` array — that is only the `domain:name[:count]` tags **parsed** off the selection, not proof anything was acquired. Acquisition happens only for declared lock domains (see **rfhub-use-locks**); check `GET /api/agent/locks` for actual holders/waiters before narrating serialization.
-6. Track progress:
+6. Track progress — **stream first; poll only as fallback**:
 
-   - Short batches: poll `rfhub_batch` for `jobStatus`, parts, live counts. `rfhub_live` for in-progress tests.
-   - Long batches (fix-while-running): call `rfhub_watch({ runId: handle })` for the Bearer SSE URL, **or** poll with a `since` cursor (below).
+   - Default: `rfhub_stream({ runId: handle, since: 0 })`. Each call is a **bounded long-poll** (≤55s) that returns mid-run events plus a `cursor`; call again with the returned `since` cursor until `closed: true`. New fails arrive without sleeping between calls — **act on each event immediately**.
+   - Fallback (stream errors, cursor stalls, tool unavailable, or the user / another agent **explicitly asked** to poll): `rfhub_batch({ handle, since })` → read `progress.newFails` / `progress.failSeq`, or `rfhub_live` with `runId` + `since`. Bump `since` after each poll. Do **not** hold one MCP tool call open for hours.
+   - Quick snapshot any time (no waiting): `rfhub_batch` for `jobStatus`, parts, live counts; `rfhub_live` for in-progress tests.
+   - External agents that can hold raw HTTP: `rfhub_watch({ runId: handle })` for the Bearer SSE URL — not for in-conversation agents.
 
 7. When the batch finishes with failures → **rfhub-investigate**, then **rerun into the same handle** (below). Do not rewrite sources in the investigate skill itself.
 8. When several wave/leaf batches for the **same** `project` + `gitSha` are green → **Acceptance reports** (below).
@@ -123,8 +126,8 @@ REST equivalents: `GET /api/agent/acceptances?project=…`, `POST /api/agent/acc
 
 ### Fix while running (mid-run fail feed)
 
-1. Keep `handle` from `rfhub_queue`. Start `since = 0` (or `rfhub_watch`’s returned `since`).
-2. Prefer poll in Cursor: `rfhub_batch({ handle, since })` → read `progress.newFails` / `progress.failSeq`, or `rfhub_live` / `rfhub_failures` with `runId` + `since`. Bump `since` to `failSeq` / `cursor` after each poll. Do **not** hold one MCP tool call open for hours.
+1. Keep `handle` from `rfhub_queue`. Stream the fail feed: `rfhub_stream({ runId: handle, since: 0 })`, then call again with the returned cursor until `closed: true`. Never sleep between calls — the bounded long-poll is the wait.
+2. Poll **only as fallback** — if `rfhub_stream` errors, the cursor stalls, or the user / another agent explicitly asked to poll: `rfhub_batch({ handle, since })` → read `progress.newFails` / `progress.failSeq`, or `rfhub_live` / `rfhub_failures` with `runId` + `since`. Bump `since` to `failSeq` / `cursor` after each poll.
 3. On each **new** fail: dedupe by `testId` / `robotId`. Quick flake check with `rfhub_metrics_test` before rewriting flaky cases.
 4. Investigate (`rfhub_run_log` / **rfhub-investigate**) — live `message` may exist; attachments often wait for part XML.
 5. Edit suite sources in the suite worktree (`rfhub-write-*`). Optionally `rfhub_tag_set` `wip` on the leaf under edit.
@@ -137,13 +140,14 @@ External agents that can hold HTTP may `GET /api/agent/runs/{handle}/failures/st
 
 1. Prefer leaf `suite_id` UUIDs from failures (or omit `suiteIds` to rerun failed leaves **and** pending/never-uploaded parts).
 2. Call `rfhub_rerun({ runId: handle })`. Read echoed `units` / `overlay.parts` — that is exactly what will execute.
-3. Poll `rfhub_batch` with the **same** handle until `parts.pending` is empty. `progress.recovered` counts fail→pass on this join.
+3. Track the join with `rfhub_stream` on the **same** handle until `closed: true`; fallback: poll `rfhub_batch` until `parts.pending` is empty. `progress.recovered` counts fail→pass on this join.
 4. Do **not** call `rfhub_queue` again to join results; that is a new batch.
 
 WIP mark/list/clear shapes: [references/queue.md](references/queue.md).
 
 ## Gotchas
 
+- **Do not sleep-poll `rfhub_batch` when `rfhub_stream` works.** Streaming pushes each fail the moment it happens; a poll loop delays every fix by a full sleep cycle. Poll only when the stream fails or the user / another agent explicitly asked to poll.
 - **Always pass `gitSha` on `rfhub_queue`** when the run may feed release preflight or acceptance reports. Omitting it is a consumer bug — the hub cannot invent the commit later from the Run column (that column is the run id).
 - Parents expand to leaves on the hub. Queueing a parent is enough; do not also list every child unless you want a subset.
 - Marking every test in a leaf `wip` is almost always wrong — mark the suite instead.
