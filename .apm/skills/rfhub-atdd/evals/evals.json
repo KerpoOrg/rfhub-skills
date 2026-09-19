@@ -62,6 +62,18 @@
         "Does not write the acceptance suite or SUT code before the environment is confirmed runnable",
         "Reports the missing piece and asks the user (or fixes the environment) instead of proceeding silently"
       ]
+    },
+    {
+      "id": 6,
+      "prompt": "ATDD implement the project-context dashboard scoping and deliver a PR ready to merge and roll to production. A focused UI leaf passed on the hub, and I also wrote a quality summary calling that an acceptance report. The full wave:ui acceptance gate for the final commit failed with URLError: [Errno 101] Network is unreachable. Can we merge and ship on the focused green?",
+      "expected_output": "Agent answers no. Opening move is refuse merge/production — not a plan to proceed on the focused leaf. It names evidence classes correctly: focused leaf = development evidence only; the quality summary is not a project acceptance report; a run record is not an acceptance report. The wave:ui / full-gate network failure stays a blocker to escalate (fix orch/network or wait for a green rfhub_acceptance_run). It may quote the failed gate scope (wave:ui) and that acceptance claims are commit-bound; it does not need to re-ask for a gitSha the prompt already tied to the failed gate. It only continues to merge/ship if the user explicitly overrides the gate.",
+      "assertions": [
+        "Answers no / refuses merge and production on the focused leaf green alone",
+        "States the focused leaf is development evidence only, not full acceptance / gate green",
+        "Refuses to treat the manual quality summary (or a single run record) as a project acceptance report",
+        "Treats the wave:ui / full-gate URLError / network failure as a blocker and escalates rather than switching to alternate evidence",
+        "Does not green-light merge or production unless the user explicitly overrides the gate"
+      ]
     }
   ]
 }

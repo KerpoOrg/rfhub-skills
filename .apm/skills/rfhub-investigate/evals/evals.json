@@ -31,6 +31,18 @@
         "Plans to name the failed wave(s) and drill into that wave's batch next",
         "Does not treat the failed verdict as a harness error and does not rebuild the verdict by hand from wave runs"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "The full acceptance gate for commit abcdef0 failed with URLError: [Errno 101] Network is unreachable. A focused UI suite on the same branch is green. Is acceptance passed so we can merge, or what failed?",
+      "expected_output": "Answers that acceptance is not passed and merge is not cleared. Classifies the gate failure as faulty harness / infrastructure (network unreachable), keeps it a blocker, and escalates. Explicitly refuses to treat the focused green suite as acceptance passed or as a substitute for the gate. Distinguishes run records from acceptance reports / gate verdicts. Does not recommend a pragmatic package (focused suite + code review) or other alternate acceptance evidence to unblock merge.",
+      "assertions": [
+        "Answers that acceptance is not passed / merge is not cleared on this evidence",
+        "Classifies the URLError / network unreachable as harness or infrastructure, not as a passed gate",
+        "Keeps the failure a blocker and escalates rather than advising focused-run substitution",
+        "Does not call the focused suite green an acceptance report or acceptance passed",
+        "Does not recommend creating alternate acceptance evidence (including focused suite + code review) to unblock merge"
+      ]
     }
   ]
 }
