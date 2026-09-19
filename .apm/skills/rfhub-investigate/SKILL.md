@@ -16,7 +16,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.3"
+  version: "1.4"
 ---
 # rfhub-investigate
 
@@ -52,7 +52,9 @@ When a run belongs to an acceptance group (`acceptanceGroupId` on the run digest
 1. Poll `rfhub_acceptance_run({ groupId })` until `status` is `merged`, then read `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle; `verdict` is the criteria outcome.
 2. **Full acceptance can fail** — failed wave runs are allowed into the report. A `failed` verdict is recorded evidence, not a harness error. Name which wave(s) failed and what they ran (`gitSha` is the same commit on every wave batch).
 3. Only then drill into the failing wave's batch with the normal ladder above (`rfhub_failures` → `rfhub_run_log` → classify the fault). A wave failure classifies like any batch failure.
-4. A green report (`verdict: passed`) is release proof — quote the report id. Do not rebuild the verdict by hand from wave runs; the report is canonical.
+4. A green report (`verdict: passed`) is release proof — quote the report id and `gitSha`. Do not rebuild the verdict by hand from wave runs; the report is canonical.
+5. **Name evidence correctly.** A focused leaf/case run is not an acceptance report. A single `runId` digest is a run record. Do not narrate either as “acceptance passed” or as a substitute for a failed/blocked gate.
+6. **Infra / harness blockers stay blockers.** If the acceptance gate cannot run or fails with process-shaped errors (network unreachable / `URLError`, no orchestrator, parts never uploaded, same infra error across unrelated waves), classify **faulty harness** or **faulty test environment** and **escalate**. Do not advise switching to focused-run greens or a handmade report as alternate acceptance proof — that is a false confidence path. Report via **rfhub-feedback** when the hub/orch is at fault.
 
 ## Classify the fault
 
@@ -78,3 +80,4 @@ Field notes: [references/metrics.md](references/metrics.md).
 - Metrics need QuestDB on the hub. `source: "unavailable"` is not “the test is fine”.
 - Live fails are early signal; confirm after XML/rebot when deciding the batch is green.
 - Different `environment`s apply different `excludeTags`, so a pass-rate or test-count shift can be a selection change, not a regression. Read `environment` before blaming code.
+- Never reframe a failed or unreachable acceptance gate as green because some other focused suite passed on the same branch — escalate the gate/infra failure instead.

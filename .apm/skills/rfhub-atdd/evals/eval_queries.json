@@ -5,6 +5,7 @@
   {"query": "write the acceptance tests as red on the hub before implementing, acceptance test driven development", "should_trigger": true},
   {"query": "implement issue 690 and deliver pr — the issue says hub coverage is deferred to a child issue, so just do unit tests", "should_trigger": true},
   {"query": "implement issue 711 test first and deliver me an acceptance tested pr", "should_trigger": true},
+  {"query": "ATDD deliver PR and production but the full acceptance gate failed with network unreachable — can we ship on the focused green run?", "should_trigger": true},
   {"query": "do unit TDD on the payment module, red green refactor", "should_trigger": false},
   {"query": "fix the failed suites until the batch is green", "should_trigger": false},
   {"query": "run this suite on the hub and show me the failures", "should_trigger": false},

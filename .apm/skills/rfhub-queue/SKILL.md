@@ -21,7 +21,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.3"
+  version: "1.4"
 ---
 # rfhub-queue
 
@@ -107,7 +107,13 @@ A project **acceptance definition** (see **rfhub-write-acceptance**) is the orde
 3. A `pr`-style definition is commonly **WIP-scoped**: its waves only include suites/tests currently tagged `wip`. Before calling, determine the suites relevant to the change and `rfhub_tag_set` them `wip` (`kind: suite`, per the WIP guidance above). A `No suites or tests match tag(s) wip` (or "no acceptance") response means the WIP scope is empty or the slug is wrong — **not** license to fall back to a hand-composed wave/suite list; fix the WIP marks or the slug, or ask the user.
 4. Poll with `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged`. Each wave runs as one batch; the next wave starts when the previous finishes.
 5. Read the auto-created acceptance report: `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle, `verdict` is the criteria outcome — **full acceptance can fail**, and failed wave runs are allowed into the report. A failure is recorded evidence, not a reason to stop polling.
-6. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id in release notes.
+6. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id **and the `gitSha`** in release notes.
+7. **Evidence classes — do not blur** when narrating results:
+   - A focused `rfhub_queue` / `rfhub_rerun` of one leaf or `testIds` is **development evidence**, not the acceptance gate.
+   - A single batch `runId` is a **run record**, not an “acceptance report.”
+   - `rfhub_acceptance_report_create` from ≥2 passed runs is a real hub report, but it is **not a substitute** for `rfhub_acceptance_run` when the user asked for the project's acceptance / PR gate / named criteria — those must use the definition's ordered waves.
+   - An agent-written quality summary is never a project acceptance report.
+8. **Gate / infra failure → escalate.** If `rfhub_acceptance_run` fails to start, cannot reach the orch, returns network errors (`URLError`, unreachable), or finishes with `verdict: failed`, stop and report. Do **not** “prove” acceptance by pointing at other green focused runs or by creating a manual multi-run report from a subset. Fix the gate prerequisites or ask the user for an explicit override.
 
 REST equivalents: `GET /api/agent/acceptances?project=…`, `POST /api/agent/acceptance-runs`, `GET /api/agent/acceptance-runs?groupId=…`, `GET /api/agent/acceptance-reports/{id}`.
 
@@ -149,3 +155,5 @@ WIP mark/list/clear shapes: [references/queue.md](references/queue.md).
 - The `rfhub_queue` response's per-unit `locks` array is **parsed `domain:name[:count]` tags**, not proof anything was acquired — a project with zero declared lock domains still echoes entries for matching tags. Check `GET /api/agent/locks` (or **rfhub-use-locks**) before concluding suites are serialized.
 - `rfhub_acceptance_run` defaults to the `acceptance` slug; a PR gate is commonly a *different* named, WIP-scoped definition (e.g. `pr`) — discover it via `GET /api/agent/acceptances?project=…` rather than assuming the default.
 - Never substitute a hand-picked wave or manually composed `suiteIds` list for a configured **acceptance definition** — that bypasses the gate the project set up. A "no acceptance" or empty-WIP response means fix the slug or WIP marks (or ask), not fall back to ad-hoc queueing.
+- Do not call a focused leaf/case green “acceptance passed,” and do not call a run record an “acceptance report.” When the required gate is red or blocked (including network/orch failures), escalate — do not manufacture alternate evidence from other runs.
+- Always state the `gitSha` bound to an acceptance run or report when claiming gate green; without it the claim is not commit-bound.

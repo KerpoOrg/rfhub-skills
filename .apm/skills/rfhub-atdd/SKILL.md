@@ -18,7 +18,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.0"
+  version: "1.1"
 ---
 # rfhub-atdd
 
@@ -34,6 +34,12 @@ Double-loop, test-first development where the **outer loop is a hub acceptance s
 - **Process gate** — one failing acceptance case at a time; the next case is formulated only after the current one is green or explicitly parked.
 - **Delivery horizon** — how far the user's wording takes the loop (below).
 - **Acceptance test vs unit test** — an acceptance case is an executable business outcome on the hub; a unit test is an inner-loop seam test. They are different layers and one never stands in for the other.
+- **Evidence classes** (do not blur):
+  - **Focused run** — a leaf/`suiteIds`/`testIds` queue or rerun used while developing. Development evidence only.
+  - **Run record** — one batch `runId` / handle digest. Never call it an “acceptance report.”
+  - **Manual / quality writeup** — agent-authored summary of green runs. Not a project acceptance report.
+  - **Acceptance report** — hub artifact from `rfhub_acceptance_report_create` or auto-created by `rfhub_acceptance_run`.
+  - **Acceptance gate / full acceptance** — `rfhub_acceptance_run` for the project's required definition slug (e.g. `acceptance`, `pr`, or a wave-backed gate like `wave:ui` when that *is* the definition), polled to `merged` with `report.verdict`. This is the only proof for acceptance/production horizons and for claiming “acceptance green.”
 
 ## Delivery horizon — the wording decides
 
@@ -83,11 +89,14 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 
 ### Phase 5 — Confirm (Demo / Done)
 
-1. All formulated cases green on the same `gitSha`; `rfhub_batch` `pending` empty.
+1. All formulated cases green on the same `gitSha`; `rfhub_batch` `pending` empty. Record that **exact final `gitSha`** (`git rev-parse HEAD`) and keep it in every later claim.
 2. Remove the `wip` mark. Pass `gitSha` on everything — evidence is commit-bound.
-3. **If the horizon is acceptance/production**: queue the project wave/environment with the final `gitSha` via **rfhub-queue**'s "Running acceptance" flow — discover the correct acceptance definition slug first (do not assume the default `acceptance`; a PR-triggered gate is often a differently-named, WIP-scoped definition), then require acceptance-gate green (or an acceptance report from ≥2 passed runs sharing projectId+gitSha). Do not build a report until runs actually passed.
-4. **If the horizon is PR**: after green confirmation, deliver the PR (issue-linked, checklist/implementation-notes conventions apply).
-5. End in an explicit state: green (evidence), PR opened, environment rolled out, `wip`-marked, or escalated. Never silent.
+3. **Track the required gate scope** for this horizon (definition slug and environment from AGENTS.md / project docs / user wording — e.g. `pr` vs default `acceptance`, or the wave the project names as the gate). Quote slug + environment + `gitSha` whenever you claim the gate.
+4. **If the horizon is acceptance/production** (or the user asked for an “acceptance-tested” delivery past formulated-case green): run **rfhub-queue**'s “Running acceptance” flow for that **required definition** on the final `gitSha`. Require `report.verdict: passed` from that gate. Do **not** treat focused leaf/case greens, a single run record, a hand-picked wave/`suiteIds` batch, or a manually written quality summary as the gate. A multi-run `rfhub_acceptance_report_create` from focused development runs is also not a substitute when the project has a named acceptance definition — use `rfhub_acceptance_run`.
+5. **If the gate is red, unreachable, or blocked** (failed verdict, missing orchestrator, `URLError` / network unreachable, empty WIP scope, no definition): **stop and escalate**. Classify per **rfhub-investigate**. Do not invent alternate evidence, do not reopen focused runs as “close enough,” and do not proceed to merge or production.
+6. **Merge and production are blocked** unless the final `gitSha` has green evidence for the required gate, **or** the user explicitly overrides the gate in this conversation. Do not merge or roll out on focused-run confidence alone.
+7. **If the horizon is PR** (without acceptance/production wording): after formulated-case green confirmation, deliver the PR (issue-linked, checklist/implementation-notes conventions apply). Do not merge unless told. If the user asked for an “acceptance-tested PR,” treat the project's PR acceptance definition as the required gate (step 4) before claiming the PR is acceptance-tested.
+8. End in an explicit state: green (gate or formulated-case evidence named correctly), PR opened, environment rolled out, `wip`-marked, or escalated. Never silent.
 
 ## Running fast — only the code path
 
@@ -104,6 +113,10 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - **One handle per acceptance case.** Reruns overlay; new queues are new evidence. Pass `gitSha` on any new queue.
 - **Spec before code.** Red confirmation gates all implementation.
 - **Unit tests are never the outer loop.** An issue's test strategy that defers or prescribes a different test layer does not change the gate: acceptance cases are always formulated and confirmed red on the hub first. If hub coverage is deferred or impossible, ask the user or park explicitly — never swap unit TDD in as the outer loop.
+- **Focused runs are never full acceptance.** A green leaf/`testIds` regression does not satisfy an acceptance/production horizon or an “acceptance-tested” claim. Only the required `rfhub_acceptance_run` (or an explicit user override) does.
+- **Name evidence correctly.** A run record is not an acceptance report. A manual/quality writeup is not a project acceptance report. Do not narrate either as gate green.
+- **Infra and gate failures block delivery.** Orchestrator / network / harness / missing-definition failures stay blockers — escalate; never switch to an alternate evidence strategy.
+- **Final `gitSha` + gate scope are mandatory** on every acceptance/merge/production claim. If either is missing, you do not have proof.
 - **One failing acceptance case at a time** — formulate the next only after green or an explicit park.
 - **Spec changes are decisions, not drift absorption.** Green must come from implementation. If reality contradicts the case, flag the drift to the user and update the case as an explicit step (keep `test_id` stable).
 - Every iteration gets a one-line report: case → what changed (file + why) → rerun outcome.
@@ -120,3 +133,5 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - A deferral note in the issue body ("hub TXN coverage added to suite X in child issue") is not permission to skip the hub — follow the Phase 1 rule and surface the conflict to the user instead of silently swapping the test layer.
 - Confirming the hub/orchestrator before Phase 2 is not optional — a "red" confirmed against a missing orchestrator is a broken harness, not RED (Phase 0).
 - When rolling out to acceptance, do not assume the `acceptance` slug or fall back to hand-picked waves if the run reports no criteria or an empty WIP scope — discover the right definition and WIP marks per **rfhub-queue** instead.
+- A focused passed run plus a failed full gate (e.g. `wave:ui` / named definition with `URLError: Network is unreachable`) means the gate failed — stop. Do not rebrand the focused run or a handmade report as acceptance evidence and continue toward merge/production.
+- Saying “acceptance report” for a single `runId` or an agent-written summary is a false claim; only hub acceptance-report / gate artifacts count.
