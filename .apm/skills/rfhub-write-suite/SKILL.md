@@ -12,7 +12,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.0"
+  version: "1.1"
 ---
 # rfhub-write-suite
 
@@ -52,3 +52,4 @@ Follow always-on instructions for ids, tag placement, leaves, Gherkin, and FAIL 
 - `SUITE_NAME` / longnames (`Synthetic.Smoke.Health`) are labels; UUIDs are identity.
 - Repeating the same extra tag on every test in a leaf means it belongs on the suite.
 - Do not add a custom `--listener` in Settings.
+- Robot resolves `%{…}` as an environment variable: a naive `curl -w %{http_code}` fails with `Environment variable '%{http_code}' not found` and looks like harness red, not a missing feature. Build the flag with `Catenate    SEPARATOR=` (or pass the literal escaped as `%%{http_code}` where shell-safe), or prefer RequestsLibrary keywords over parsing `curl -w` output in acceptance cases.
