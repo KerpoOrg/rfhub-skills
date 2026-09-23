@@ -14,7 +14,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.1"
+  version: "1.2"
 ---
 # rfhub-feedback
 
@@ -72,7 +72,29 @@ Fill `## Component`. Show the draft; let them edit.
 
 Title: `[rfhub / {{component}}] {{ short summary }}`
 
-### Step 4 — Create on the owning repo
+### Step 4 — Sanitize the draft
+
+`KerpoOrg/rfhub-skills` is public, and hub-product issues should be treated the
+same way unless the author explicitly opts in. Never disclose **creator project
+context** — what the feedback author is building — no matter how "helpful" the
+detail seems.
+
+Rewrite to placeholders before filing:
+
+- **Allowed:** sanitized, generic examples (`〈suite-repo〉`, `〈feature-branch〉`,
+  `environment=prod`, "no orchestrator for project+branch+environment",
+  `logs.txt`).
+- **Forbidden without explicit author opt-in:** consumer org/repo names or
+  URLs, marketing/product names, private issue links, hub project display
+  names or `project_id` UUIDs that identify a customer suite, branch/worktree
+  paths, commit SHAs tied to a consumer product, personal deploy URLs.
+- Scan the final draft for those identifiers before `gh issue create` / MCP
+  create; replace each with a placeholder. Do not deep-link the author's
+  product issues.
+- If the only useful repro needs private detail, write
+  "repro held in consumer suite; available on request" instead of pasting it.
+
+### Step 5 — Create on the owning repo
 
 Route by component from Step 1. Never use the current suite repo `origin`
 unless it *is* the target repo.
@@ -117,6 +139,8 @@ Show the issue URL. If MCP and `gh` are unavailable: paste-ready body for
 
 - Target is the owning repo (`skills` → `KerpoOrg/rfhub-skills`, hub-product
   components → `KerpoOrg/rf-hub`), never the suite product repo
+- "Redaction" sections in pasted context are not enough — sanitize proactively
+  in Step 4 so the draft is clean before it is ever shown or filed
 - `kerpo-skills-feedback` is for `KerpoOrg/kerpo-skills` only
 - "Fix the ingest route" / implement in `apps/web` is coding, not this skill — unless they asked to **file** the request
 - Type labels: exactly `bug`, `feature-request`, or `feedback`
