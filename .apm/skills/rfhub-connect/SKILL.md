@@ -41,7 +41,7 @@ static Bearer key needed.
    and starts the login flow.
 
 ```bash
-apm install -g KerpoOrg/rfhub-skills#v0.9.2
+apm install -g KerpoOrg/rfhub-skills#v0.9.3
 apm compile -g   # refresh harness root context (e.g. opencode)
 ```
 
@@ -55,7 +55,7 @@ apm install --target claude,cursor \
   --mcp rf-hub \
   --transport http \
   --url "$RFHUB_MCP_URL" \
-  --header "X-Rfhub-Skills-Version=0.9.2"
+  --header "X-Rfhub-Skills-Version=0.9.3"
 ```
 
 ```yaml
@@ -66,7 +66,7 @@ dependencies:
       transport: http
       url: "https://<your-hub-host>/api/mcp"
       headers:
-        X-Rfhub-Skills-Version: "0.9.2"
+        X-Rfhub-Skills-Version: "0.9.3"
 ```
 
    `rf-hub` is self-defined, so APM trusts it only when `rfhub-skills` is a
@@ -93,7 +93,7 @@ apm install --target claude,cursor \
   --transport http \
   --url "$RFHUB_MCP_URL" \
   --header "Authorization=Bearer ${RFHUB_ACCESS_KEY}" \
-  --header "X-Rfhub-Skills-Version=0.9.2"
+  --header "X-Rfhub-Skills-Version=0.9.3"
 ```
 
 6. Fallback only when APM is not in use: merge into workspace `.cursor/mcp.json`
@@ -106,7 +106,7 @@ apm install --target claude,cursor \
     "rf-hub": {
       "url": "https://rfhub.kerpo.org/api/mcp",
       "headers": {
-        "X-Rfhub-Skills-Version": "0.9.2"
+        "X-Rfhub-Skills-Version": "0.9.3"
       }
     }
   }
@@ -125,7 +125,7 @@ apm install --target claude,cursor \
 8. **Skills version header (required for mismatch warnings):** send
    `X-Rfhub-Skills-Version: <semver>` matching the installed `rfhub-skills`
    pin (from suite `apm.yml` / package `version:`). Example for this package
-   train: `0.9.2`. MCP `initialize` / `tools/list` return
+   train: `0.9.3`. MCP `initialize` / `tools/list` return
    `_meta.rfhub/skillsVersionWarning` when the pin is behind the hub — bump
    `ref: vX.Y.Z` (KerpoOrg/rfhub-skills), run `apm install`, reload MCP.
    Skills and MCP ship together; do not ignore the warning.
