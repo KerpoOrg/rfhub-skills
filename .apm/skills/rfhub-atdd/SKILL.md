@@ -18,7 +18,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.1"
+  version: "1.2"
 ---
 # rfhub-atdd
 
@@ -61,7 +61,15 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 1. Confirm hub access (**rfhub-connect** first if MCP is down).
 2. Confirm `project` + `branch` resolve and an **online orchestrator** is registered for that pair (`rfhub_projects` / orch UI) — Phase 3's RED confirmation and every Phase 4 rerun depend on it.
 3. If the SUT needs a local stack or other dev services to execute, start and verify them now.
-4. If any of the above cannot be satisfied, **stop before touching repository files**: report what's missing (no orchestrator registered, hub unreachable, stack down) and ask the user, or fix the environment first. Formulating specs or editing sources against an environment that cannot run them only defers the failure to Phase 3.
+4. If any of the above cannot be satisfied, **stop before touching repository files**: report what's missing (no hub access, no credentials, stack down) and ask the user, or fix the environment first. Formulating specs or editing sources against an environment that cannot run them only defers the failure to Phase 3.
+
+**Phase 0 sets the environment up — it does not stop for it.** An ATDD agent runs the environment bring-up itself from this checkout; asking the human is only for true blockers (no hub access, no credentials, Docker unavailable), never for "orch still pointed at the previous branch". In particular:
+
+- **Orchestrator missing or on the wrong branch is a setup task, not a stop.** When the queue probe returns no orchestrator for this `project`+`branch`+`environment` while an online orch advertises a previous branch, discover the project's documented orchestrator/SUT bring-up (repo docs, compose stack, scripts — consumer sites may use a lean `docker/rf-hub-runtime` stack rather than hub-repo tooling), run it from **this** checkout, and verify `rfhub_queue` works for `project`+`branch`+`environment`. Then continue to Phase 1.
+- **Greenfield suite repos need a full bootstrap before formulate.** If the project, environment, wave, or catalog do not exist yet on the hub, do the bootstrap yourself, in this order: create/register the **project** → **environment** → **wave** → bring an **orchestrator online** for this checkout → confirm the **catalog** has inventoried the suite tree → optionally a default `acceptance` definition. Project settings CRUD may not exist as MCP verbs yet — follow **rfhub-write-acceptance**'s documented REST path for those settings (never scrape orch `.env` blindly), then stay on MCP for queue/rerun/stream.
+
+  > If settings CRUD genuinely cannot be performed (no REST key, no docs), *that* is a true blocker: stop and ask the user.
+- After setup, assert the environment identity matches this checkout (orch registered for `project`+`branch` of *this* worktree) before formulating — a "red" confirmed against a mismatched environment is a broken harness, not RED (Phase 3).
 
 ### Phase 1 — Distill (three amigos)
 
@@ -126,6 +134,7 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - "Rollout" tiers depend on project environments (`dev` / `accpt` / `prod` slugs differ); confirm the environment slug before queueing, and confirm the *acceptance* wave is what accpt actually runs.
 - A green on rerun can be a flake, not a fix — check `rfhub_metrics_test` before celebrating.
 - Suite variables do not cross hub leaves (separate Robot processes). Value hand-off steps must live in the same leaf as their readers.
+- Robot resolves `%{…}` as an **environment variable**, so a raw HTTP-status probe like `curl -w %{http_code}` fails with `Environment variable '%{http_code}' not found` — that looks like a missing feature but is a broken harness. In acceptance cases escape or avoid it: percent-escape (`%%{http_code}` in shell-processed strings), build the flag with `Catenate`, or prefer RequestsLibrary keywords (see **rfhub-write-suite**). Confirm the failure is a real missing-feature 404/missing-element, not this clash, before counting red.
 - Never edit `OUT_DIR/rfhub.args` (runner-generated) to make red go away.
 - Do not `rfhub_rerun` while that part is still executing; mid-run edits never reach running executors.
 - WIP marks live in hub Redis (TTL, per branch) — set via `rfhub_tag_set`, clear via `rfhub_tag_clear`; do not commit `wip` tags to files.
