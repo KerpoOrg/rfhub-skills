@@ -12,6 +12,18 @@ when the target is `KerpoOrg/rf-hub` and component is `skills`.
 Target: `skills` → `KerpoOrg/rfhub-skills`; `hub` | `orchestrator` | `catalog` |
 `runner` | `rebot` | `deploy` → `KerpoOrg/rf-hub`.
 
+**Sanitized only.** `KerpoOrg/rfhub-skills` is public; keep hub-product issues
+sanitized too unless the author opts in. Every `{{ }}` field below takes
+sanitized, generic content — never consumer org/repo names or URLs, product
+names, private issue links, hub project display names or `project_id` UUIDs,
+worktree/branch paths, or consumer-bound commit SHAs. Use placeholders instead:
+
+- `{{suite-repo}}`, `{{feature-branch}}`, `{{worktree}}` — generic names, not real ones
+- `{{environment}}` — a slug like `prod` / `accpt`
+- `{{error-or-excerpt}}` — the error text only, stripped of identifying paths
+- If a real repro needs private detail, write "repro held in consumer suite;
+  available on request" in `## Additional context`.
+
 ---
 
 ## Bug Report (`label: bug`)
@@ -39,11 +51,11 @@ Target: `skills` → `KerpoOrg/rfhub-skills`; `hub` | `orchestrator` | `catalog`
 
 ## Context
 
-- Where: {{ suite repo / hub repo / unknown }}
+- Where: {{ suite repo / hub repo / unknown }} — sanitized, e.g. `{{suite-repo}}`
 - Hub URL: {{ e.g. http://127.0.0.1:2998 or n/a }}
 - MCP rf-hub: {{ yes / no / n/a }}
 - Skills ref: {{ rfhub-skills/vX.Y.Z or n/a }}
-- Trigger / repro: {{ prompt, click path, or command }}
+- Trigger / repro: {{ prompt, click path, or command }} — sanitized
 
 ## Additional context
 
@@ -78,7 +90,7 @@ Target: `skills` → `KerpoOrg/rfhub-skills`; `hub` | `orchestrator` | `catalog`
 
 ## Additional context
 
-{{ optional: links, prior art }}
+{{ optional: sanitized links, prior art }}
 ```
 
 ---

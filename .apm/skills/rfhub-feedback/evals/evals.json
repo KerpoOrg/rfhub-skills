@@ -18,6 +18,12 @@
       "prompt": "The hub UI should let me filter runs by git worktree. Can you file that?",
       "expected_output": "Feature-request, component hub, KerpoOrg/rf-hub, not the current suite origin.",
       "assertions": []
+    },
+    {
+      "id": 4,
+      "prompt": "File a bug about rfhub-atdd stopping during Phase 0. I was working in worktree wt/feature-checkout on branch feature/payments of my suite repo, hub project id 11111111-0000-4000-8000-000000000100, run the issue draft past me.",
+      "expected_output": "Bug draft on KerpoOrg/rfhub-skills that sanitizes creator project context: worktree/branch paths, suite repo name and project_id UUID rewritten to placeholders (〈worktree〉, 〈feature-branch〉, 〈suite-repo〉, 〈project-id〉); no consumer identifiers in the draft.",
+      "assertions": []
     }
   ]
 }
