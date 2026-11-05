@@ -31,7 +31,7 @@ PUT /api/agent/lock-domains
 Queueing a tag whose domain does not exist acquires nothing — the suite just
 runs unserialized.
 
-## Scoped caps
+## Lock scope and caps
 
 ```http
 PUT /api/agent/locks
@@ -40,21 +40,29 @@ PUT /api/agent/locks
   "domain": "license",
   "name": "compiler-x",
   "cap": 5,
-  "environment": "prod",
-  "branch": "main"
+  "scope": "project"
 }
 ```
 
-- `environment` and `branch` are optional. Most-specific scope wins:
-  project+environment+branch > project+environment > project.
-- Typical split: broad cap for the pool, narrow override where fewer seats
-  are reachable (e.g. cap 5 globally, cap 1 on `environment: prod`).
-- UI: project → Settings → Locks shows effective caps per scope.
+- `scope` is a single choice — how widely the seat pool is shared:
+  - `project` (default): every orchestrator of the project shares one pool;
+  - `environment`: each environment (dev / accpt / prod) gets its own pool;
+  - `branch`: orchestrators working on the same branch share a pool;
+  - `run`: only units of the same run contend — two different runs never
+    block each other.
+- One cap per lock: every bucket of a scoped lock gets the full cap.
+- The old independent `environment` / `branch` fields are gone (RFHUB-12) —
+  `PUT` rejects them with a 400. No more per-environment cap overrides.
+- UI: project → Settings → Locks shows the scope per lock; the Live locks
+  view shows one row per held bucket (`env:dev`, `branch:main`, …).
 
 ## Runtime behavior
 
 - The orchestrator acquires all tagged locks before a leaf unit starts.
   Units that cannot acquire **wait in queue**; they do not fail.
+- Capacity is counted per scope bucket. A run-scoped lock never blocks
+  another run; an environment-scoped lock never blocks a different
+  environment.
 - Each hold is a Redis lease; the executor heartbeats it while the unit
   runs. Finish (or lease expiry) releases the slot.
 - A dead holder (expired lease, executor gone) frees the slot but may leave
