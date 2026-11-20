@@ -1,5 +1,5 @@
 lockfile_version: '1'
-generated_at: '2026-09-23T18:54:07.939553+00:00'
+generated_at: '2026-11-20T10:24:28.305136+00:00'
 dependencies: []
 deployments:
 - kind: project-relative
@@ -28,7 +28,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:5faa85bef409020e4c231ee4937a93f759f94e9ea2810064379dbb24a5229d78
+  content_hash: sha256:9510dc7e7bcbec74d9dd04a445efbfad53972f2297a9788183f49e0714b9d0ae
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-connect/evals/eval_queries.json
@@ -55,7 +55,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:6b49973f3d7b01c8ddd0e47d3424c50029cfb40067eeecb332ecc5c48332c450
+  content_hash: sha256:ab4654ca549da335788b6d3359b1a51c0ef9ec93872a981230919bebd263eb78
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-investigate
@@ -118,7 +118,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:cc1cdbc4a385bedc3ed8042ddd232191a08aea07ea6c76126fcbec3765955d5f
+  content_hash: sha256:dde056679ac66ffdab623cc98030bf095c1865b4b6b2ee7fe1561a7c182bfe51
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-queue/evals/eval_queries.json
@@ -145,7 +145,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d102bbf33b1f4b08994d66273a6c2463c5a860f41876d94ede13a924f11d15fd
+  content_hash: sha256:8127fc47dcf4d4955ff762906d2e412fa64169863b98a6b123104f17bc7a6bef
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-write-argumentfile
@@ -163,7 +163,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  content_hash: sha256:70ef0939a7cfd00a6366f6fc74df84775e1779b27f48af6bd19138a647e26048
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-write-argumentfile/evals/eval_queries.json
@@ -289,7 +289,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:de1c999cf3a654d74c92d8dd0f69ca77ca0fbe4e4e6e86f6a1684cc2e76358d8
+  content_hash: sha256:6bfd8f90ea92a049dd3ce1e3e59a7475523c126d31b8e648eba9a220ba3cc668
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-write-suite/evals/eval_queries.json
@@ -361,7 +361,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:1ea9c2dbac83fa25003d2be061ec4d996fb4f0492662209c2dbb6ae68668f03f
+  content_hash: sha256:d4da450c6cf9c562e9a10cde7cce309096226cba9aa4d297f1a0750e193b9912
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub-write-testcase/evals/eval_queries.json
@@ -388,7 +388,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:1a353f977cb13b3b46efb1b1ded94a64eb809c1a6468a755ac2572e4d925f9b6
+  content_hash: sha256:c1451aa05f019defd0b7d082dffb768011e7ea5944d278b6a07ebbbb91e0fc3f
 - kind: project-relative
   target: agents
   value: .agents/skills/rfhub/evals/eval_queries.json
@@ -415,7 +415,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:184e5c0e2c75bd961b20dd99ec52bd6950d611a5cc8ef65b4d7796fd064e8f13
+  content_hash: sha256:56fc9d5a632267dc6c8543fab566cb2c1b38ed6749754967a31db3a7bc7eaafe
 - kind: project-relative
   target: claude
   value: .claude/rules/rfhub-failure-evidence.md
@@ -451,7 +451,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:cbfd51329811c9f22126f0c8eb731d308e923c50df06ddce9917a0fadd48e079
+  content_hash: sha256:36f8a0a859d69eb85461fce55966c38ab992c78d3e37b2457c94d4d7344bd6a1
 - kind: project-relative
   target: claude
   value: .claude/rules/rfhub-tag-placement.md
@@ -460,7 +460,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:62fa01f13200c8263f5a335828834f3d8376b130967007b584734fe29e14ebe9
+  content_hash: sha256:18fa6a74c087edd8778b30001ff0c082c654c142d540eb6b1af0b258a03678c7
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub
@@ -487,7 +487,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d0423ec81f5aadc0f18869c07dac01358753c29c8055cec37e97f2dcff8fd05e
+  content_hash: sha256:f88d3d3310378614c4c0b8025c9a8e05190e26b85744fb845377daffb1e62b73
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-atdd/evals/eval_queries.json
@@ -523,7 +523,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:5faa85bef409020e4c231ee4937a93f759f94e9ea2810064379dbb24a5229d78
+  content_hash: sha256:9510dc7e7bcbec74d9dd04a445efbfad53972f2297a9788183f49e0714b9d0ae
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-connect/evals/eval_queries.json
@@ -550,7 +550,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:6b49973f3d7b01c8ddd0e47d3424c50029cfb40067eeecb332ecc5c48332c450
+  content_hash: sha256:ab4654ca549da335788b6d3359b1a51c0ef9ec93872a981230919bebd263eb78
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-feedback
@@ -613,7 +613,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:95cb319d8a61b28833b001c1f398d613a5f82ac128973887714d6bd54003b4bb
+  content_hash: sha256:5f11adfff773b29373e9447b4de33fdb9e5e384f06f54e7bd5539524c8e054f3
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-fixloop/evals/eval_queries.json
@@ -703,7 +703,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:cc1cdbc4a385bedc3ed8042ddd232191a08aea07ea6c76126fcbec3765955d5f
+  content_hash: sha256:dde056679ac66ffdab623cc98030bf095c1865b4b6b2ee7fe1561a7c182bfe51
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-queue/evals/eval_queries.json
@@ -730,7 +730,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d102bbf33b1f4b08994d66273a6c2463c5a860f41876d94ede13a924f11d15fd
+  content_hash: sha256:8127fc47dcf4d4955ff762906d2e412fa64169863b98a6b123104f17bc7a6bef
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-use-locks
@@ -748,7 +748,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d228c57d0c307c3ec44232da20c81e35cdc1c3a16cf751efc9508c0cc403afe6
+  content_hash: sha256:eaf0c069a7079fa010a3c00fdfeab53875a759dd81712aff931defd4fee32d75
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-use-locks/evals/eval_queries.json
@@ -775,7 +775,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:0ab1a28fd23fdec1f03e0f64a1b5708ee5a0c993bbbc7ae852779576bdea49b3
+  content_hash: sha256:66663d215835c3c921bb30266cf1344bfc7e7cbd1f72dc4854130de486c0504b
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-write-acceptance
@@ -793,7 +793,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:0ee7addfce86533d44ea241f90e71e551e7ece44ea653dec8d21c69da3165343
+  content_hash: sha256:6daf2cbbacfcae7c6084e35046257cebf5882c31bf84c9a39435d722f0f6b4e1
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-write-acceptance/evals/eval_queries.json
@@ -829,7 +829,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  content_hash: sha256:70ef0939a7cfd00a6366f6fc74df84775e1779b27f48af6bd19138a647e26048
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-write-argumentfile/evals/eval_queries.json
@@ -955,7 +955,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:de1c999cf3a654d74c92d8dd0f69ca77ca0fbe4e4e6e86f6a1684cc2e76358d8
+  content_hash: sha256:6bfd8f90ea92a049dd3ce1e3e59a7475523c126d31b8e648eba9a220ba3cc668
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-write-suite/evals/eval_queries.json
@@ -1027,7 +1027,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:1ea9c2dbac83fa25003d2be061ec4d996fb4f0492662209c2dbb6ae68668f03f
+  content_hash: sha256:d4da450c6cf9c562e9a10cde7cce309096226cba9aa4d297f1a0750e193b9912
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub-write-testcase/evals/eval_queries.json
@@ -1054,7 +1054,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:1a353f977cb13b3b46efb1b1ded94a64eb809c1a6468a755ac2572e4d925f9b6
+  content_hash: sha256:c1451aa05f019defd0b7d082dffb768011e7ea5944d278b6a07ebbbb91e0fc3f
 - kind: project-relative
   target: claude
   value: .claude/skills/rfhub/evals/eval_queries.json
@@ -1081,7 +1081,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:184e5c0e2c75bd961b20dd99ec52bd6950d611a5cc8ef65b4d7796fd064e8f13
+  content_hash: sha256:56fc9d5a632267dc6c8543fab566cb2c1b38ed6749754967a31db3a7bc7eaafe
 - kind: project-relative
   target: cursor
   value: .cursor/rules/rfhub-failure-evidence.mdc
@@ -1117,7 +1117,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:17bdeccb0c65931b2843a596e5d407f75d561de6578d45027d57f8651aef3622
+  content_hash: sha256:f02130c94d7a70e51986b0bb312b8f9fb9c893958284e53d1eb9694e9288ab49
 - kind: project-relative
   target: cursor
   value: .cursor/rules/rfhub-tag-placement.mdc
@@ -1126,7 +1126,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:ca0e8a3acdd85fae08c2a46768e3df24786c1593cf8dc6fcd6445c8bcfc86775
+  content_hash: sha256:c790a597bad3aef538e24addf260a4ce2b67af42a4fa1891e5fda189fb171bd4
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-atdd
@@ -1144,7 +1144,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d0423ec81f5aadc0f18869c07dac01358753c29c8055cec37e97f2dcff8fd05e
+  content_hash: sha256:f88d3d3310378614c4c0b8025c9a8e05190e26b85744fb845377daffb1e62b73
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-atdd/evals/eval_queries.json
@@ -1225,7 +1225,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:95cb319d8a61b28833b001c1f398d613a5f82ac128973887714d6bd54003b4bb
+  content_hash: sha256:5f11adfff773b29373e9447b4de33fdb9e5e384f06f54e7bd5539524c8e054f3
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-fixloop/evals/eval_queries.json
@@ -1270,7 +1270,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:d228c57d0c307c3ec44232da20c81e35cdc1c3a16cf751efc9508c0cc403afe6
+  content_hash: sha256:eaf0c069a7079fa010a3c00fdfeab53875a759dd81712aff931defd4fee32d75
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-use-locks/evals/eval_queries.json
@@ -1297,7 +1297,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:0ab1a28fd23fdec1f03e0f64a1b5708ee5a0c993bbbc7ae852779576bdea49b3
+  content_hash: sha256:66663d215835c3c921bb30266cf1344bfc7e7cbd1f72dc4854130de486c0504b
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-write-acceptance
@@ -1315,7 +1315,7 @@ deployments:
   owners:
   - .
   active_owner: .
-  content_hash: sha256:0ee7addfce86533d44ea241f90e71e551e7ece44ea653dec8d21c69da3165343
+  content_hash: sha256:6daf2cbbacfcae7c6084e35046257cebf5882c31bf84c9a39435d722f0f6b4e1
 - kind: project-relative
   target: legacy
   value: .agents/skills/rfhub-write-acceptance/evals/eval_queries.json
@@ -1572,18 +1572,18 @@ local_deployed_files:
 - .cursor/rules/rfhub-stable-ids.mdc
 - .cursor/rules/rfhub-tag-placement.mdc
 local_deployed_file_hashes:
-  .agents/skills/rfhub-atdd/SKILL.md: sha256:d0423ec81f5aadc0f18869c07dac01358753c29c8055cec37e97f2dcff8fd05e
+  .agents/skills/rfhub-atdd/SKILL.md: sha256:f88d3d3310378614c4c0b8025c9a8e05190e26b85744fb845377daffb1e62b73
   .agents/skills/rfhub-atdd/evals/eval_queries.json: sha256:aafed9821ca4743ff4c334c693c386b5a9f3ef50f43f7baaa4fa5641b030881a
   .agents/skills/rfhub-atdd/evals/evals.json: sha256:8c2c732758c636c0a8f755b812ff87d5ea1265d247c20c031cf91ed937dc3b60
-  .agents/skills/rfhub-connect/SKILL.md: sha256:5faa85bef409020e4c231ee4937a93f759f94e9ea2810064379dbb24a5229d78
+  .agents/skills/rfhub-connect/SKILL.md: sha256:9510dc7e7bcbec74d9dd04a445efbfad53972f2297a9788183f49e0714b9d0ae
   .agents/skills/rfhub-connect/evals/eval_queries.json: sha256:222d64e67b01697f405b018da0efd32fe6fb96362475827bd384687af8de6cb6
   .agents/skills/rfhub-connect/evals/evals.json: sha256:750c17b96b3e776c2d4ab707d6cacac6bbb5f256e423638bcbe26b46a65ed3da
-  .agents/skills/rfhub-connect/references/mcp-json.md: sha256:6b49973f3d7b01c8ddd0e47d3424c50029cfb40067eeecb332ecc5c48332c450
+  .agents/skills/rfhub-connect/references/mcp-json.md: sha256:ab4654ca549da335788b6d3359b1a51c0ef9ec93872a981230919bebd263eb78
   .agents/skills/rfhub-feedback/SKILL.md: sha256:6297ef2131d1c5be495b3b3bf53d6f6dd231216089835adf39c4c9225c04dc5d
   .agents/skills/rfhub-feedback/evals/eval_queries.json: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
   .agents/skills/rfhub-feedback/evals/evals.json: sha256:a8592d24cb8748ddfaf35b2ffdcbbe12a2d9811448e5c630e1956f63f19b222e
   .agents/skills/rfhub-feedback/references/issue-templates.md: sha256:bdc6c763a8edbf41eee3d491ec42c0f1f32de3fb8698683b50b107033bec216b
-  .agents/skills/rfhub-fixloop/SKILL.md: sha256:95cb319d8a61b28833b001c1f398d613a5f82ac128973887714d6bd54003b4bb
+  .agents/skills/rfhub-fixloop/SKILL.md: sha256:5f11adfff773b29373e9447b4de33fdb9e5e384f06f54e7bd5539524c8e054f3
   .agents/skills/rfhub-fixloop/evals/eval_queries.json: sha256:b7f2b82b68c8d65a81a28e5497b0eacb4537762ea0161ded6144dc5dc349f66a
   .agents/skills/rfhub-fixloop/evals/evals.json: sha256:7f4c232b1155a34503d7d982909d08072fa4a6fd746639f4c0130b6a422bba24
   .agents/skills/rfhub-investigate/SKILL.md: sha256:f534b21d844bb6692cdd20443532685c980c50156917ded5b089a2d109f69fcd
@@ -1591,18 +1591,18 @@ local_deployed_file_hashes:
   .agents/skills/rfhub-investigate/evals/evals.json: sha256:25d50152b92c723f4bb2c939e374cf0f09aabe9b8770cca6654d60cff2153826
   .agents/skills/rfhub-investigate/references/classification.md: sha256:4b549dea7b964e48505f0803093341fddcc1442b00d00796718a599d4475721f
   .agents/skills/rfhub-investigate/references/metrics.md: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
-  .agents/skills/rfhub-queue/SKILL.md: sha256:cc1cdbc4a385bedc3ed8042ddd232191a08aea07ea6c76126fcbec3765955d5f
+  .agents/skills/rfhub-queue/SKILL.md: sha256:dde056679ac66ffdab623cc98030bf095c1865b4b6b2ee7fe1561a7c182bfe51
   .agents/skills/rfhub-queue/evals/eval_queries.json: sha256:0864c9d2878e8a534ddf2a0275d6a023ea2f6d2a3f052ca5792a9a77971c9aa3
   .agents/skills/rfhub-queue/evals/evals.json: sha256:c5db8f0ac992b36d89d40b89fbf2f52d8ad177bd2d4571eedbce304d8b3d18d2
-  .agents/skills/rfhub-queue/references/queue.md: sha256:d102bbf33b1f4b08994d66273a6c2463c5a860f41876d94ede13a924f11d15fd
-  .agents/skills/rfhub-use-locks/SKILL.md: sha256:d228c57d0c307c3ec44232da20c81e35cdc1c3a16cf751efc9508c0cc403afe6
+  .agents/skills/rfhub-queue/references/queue.md: sha256:8127fc47dcf4d4955ff762906d2e412fa64169863b98a6b123104f17bc7a6bef
+  .agents/skills/rfhub-use-locks/SKILL.md: sha256:eaf0c069a7079fa010a3c00fdfeab53875a759dd81712aff931defd4fee32d75
   .agents/skills/rfhub-use-locks/evals/eval_queries.json: sha256:ccec7cfe4b130aa67a3b88fc37de837b9a8cba89a9ee75d1788fe2099a7be7af
   .agents/skills/rfhub-use-locks/evals/evals.json: sha256:b0a44cae9bc22013ab5e3afc4196e9fdc967aa7f8753b2ed10d487a65335ab18
-  .agents/skills/rfhub-use-locks/references/locks.md: sha256:0ab1a28fd23fdec1f03e0f64a1b5708ee5a0c993bbbc7ae852779576bdea49b3
-  .agents/skills/rfhub-write-acceptance/SKILL.md: sha256:0ee7addfce86533d44ea241f90e71e551e7ece44ea653dec8d21c69da3165343
+  .agents/skills/rfhub-use-locks/references/locks.md: sha256:66663d215835c3c921bb30266cf1344bfc7e7cbd1f72dc4854130de486c0504b
+  .agents/skills/rfhub-write-acceptance/SKILL.md: sha256:6daf2cbbacfcae7c6084e35046257cebf5882c31bf84c9a39435d722f0f6b4e1
   .agents/skills/rfhub-write-acceptance/evals/eval_queries.json: sha256:c70afc73ddad902482cade955c22dad71312b25039b73668e55358a2dc8144c8
   .agents/skills/rfhub-write-acceptance/evals/evals.json: sha256:a8e6647707f1053042d3a99bae51c6c91674f0573be77e7ee1b5acbcea9ab4a6
-  .agents/skills/rfhub-write-argumentfile/SKILL.md: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  .agents/skills/rfhub-write-argumentfile/SKILL.md: sha256:70ef0939a7cfd00a6366f6fc74df84775e1779b27f48af6bd19138a647e26048
   .agents/skills/rfhub-write-argumentfile/evals/eval_queries.json: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
   .agents/skills/rfhub-write-argumentfile/evals/evals.json: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
   .agents/skills/rfhub-write-argumentfile/references/args-example.md: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
@@ -1613,36 +1613,36 @@ local_deployed_file_hashes:
   .agents/skills/rfhub-write-resourcekeyword/SKILL.md: sha256:bf035fe591ffff4da1784c411f033a377798aeb4646bfd05bea5ce7e392ddf83
   .agents/skills/rfhub-write-resourcekeyword/evals/eval_queries.json: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
   .agents/skills/rfhub-write-resourcekeyword/evals/evals.json: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
-  .agents/skills/rfhub-write-suite/SKILL.md: sha256:de1c999cf3a654d74c92d8dd0f69ca77ca0fbe4e4e6e86f6a1684cc2e76358d8
+  .agents/skills/rfhub-write-suite/SKILL.md: sha256:6bfd8f90ea92a049dd3ce1e3e59a7475523c126d31b8e648eba9a220ba3cc668
   .agents/skills/rfhub-write-suite/evals/eval_queries.json: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
   .agents/skills/rfhub-write-suite/evals/evals.json: sha256:332949ad41b44f1d9aae4a342059751ca053698af2dd1f124fb2bbce4714ee3e
   .agents/skills/rfhub-write-suitekeyword/SKILL.md: sha256:16a413ee4456c4e6e144bddf247e65c557aeb39d11cc565903d5c69f2a205194
   .agents/skills/rfhub-write-suitekeyword/evals/eval_queries.json: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
   .agents/skills/rfhub-write-suitekeyword/evals/evals.json: sha256:b1508fb0bde0ad6be9e0de2b32eaa643266736d76f5825aedbeee11b93b5ebac
-  .agents/skills/rfhub-write-testcase/SKILL.md: sha256:1ea9c2dbac83fa25003d2be061ec4d996fb4f0492662209c2dbb6ae68668f03f
+  .agents/skills/rfhub-write-testcase/SKILL.md: sha256:d4da450c6cf9c562e9a10cde7cce309096226cba9aa4d297f1a0750e193b9912
   .agents/skills/rfhub-write-testcase/evals/eval_queries.json: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
   .agents/skills/rfhub-write-testcase/evals/evals.json: sha256:61aea29e2334450353266981e7010068f0f407be7af928a3e6031290cbdbd205
-  .agents/skills/rfhub/SKILL.md: sha256:1a353f977cb13b3b46efb1b1ded94a64eb809c1a6468a755ac2572e4d925f9b6
+  .agents/skills/rfhub/SKILL.md: sha256:c1451aa05f019defd0b7d082dffb768011e7ea5944d278b6a07ebbbb91e0fc3f
   .agents/skills/rfhub/evals/eval_queries.json: sha256:c34419c17474bb33f468a8f4a7efde90e86c944b84302ba43d13e17f9a8864fa
   .agents/skills/rfhub/evals/evals.json: sha256:81d2e0d6c6a431ac4461bad4e08d36b4fb55413051f4430882ae2d332268e77b
-  .agents/skills/rfhub/references/mcp-map.md: sha256:184e5c0e2c75bd961b20dd99ec52bd6950d611a5cc8ef65b4d7796fd064e8f13
+  .agents/skills/rfhub/references/mcp-map.md: sha256:56fc9d5a632267dc6c8543fab566cb2c1b38ed6749754967a31db3a7bc7eaafe
   .claude/rules/rfhub-failure-evidence.md: sha256:6ad8f76873d699ed9e6961a6b6cf1838e8f2e1e4e99519b47cd1375ced4a5ef8
   .claude/rules/rfhub-gherkin.md: sha256:038de08d02a4b57d5e0c7295c1f88cc3a005ffd5a352473fef6cd4c09a523921
   .claude/rules/rfhub-leaf-suites.md: sha256:b06e1d81d6ae9ce3f3e5963d55b1361f1b2c371165386c47fb26666f35d23741
-  .claude/rules/rfhub-stable-ids.md: sha256:cbfd51329811c9f22126f0c8eb731d308e923c50df06ddce9917a0fadd48e079
-  .claude/rules/rfhub-tag-placement.md: sha256:62fa01f13200c8263f5a335828834f3d8376b130967007b584734fe29e14ebe9
-  .claude/skills/rfhub-atdd/SKILL.md: sha256:d0423ec81f5aadc0f18869c07dac01358753c29c8055cec37e97f2dcff8fd05e
+  .claude/rules/rfhub-stable-ids.md: sha256:36f8a0a859d69eb85461fce55966c38ab992c78d3e37b2457c94d4d7344bd6a1
+  .claude/rules/rfhub-tag-placement.md: sha256:18fa6a74c087edd8778b30001ff0c082c654c142d540eb6b1af0b258a03678c7
+  .claude/skills/rfhub-atdd/SKILL.md: sha256:f88d3d3310378614c4c0b8025c9a8e05190e26b85744fb845377daffb1e62b73
   .claude/skills/rfhub-atdd/evals/eval_queries.json: sha256:aafed9821ca4743ff4c334c693c386b5a9f3ef50f43f7baaa4fa5641b030881a
   .claude/skills/rfhub-atdd/evals/evals.json: sha256:8c2c732758c636c0a8f755b812ff87d5ea1265d247c20c031cf91ed937dc3b60
-  .claude/skills/rfhub-connect/SKILL.md: sha256:5faa85bef409020e4c231ee4937a93f759f94e9ea2810064379dbb24a5229d78
+  .claude/skills/rfhub-connect/SKILL.md: sha256:9510dc7e7bcbec74d9dd04a445efbfad53972f2297a9788183f49e0714b9d0ae
   .claude/skills/rfhub-connect/evals/eval_queries.json: sha256:222d64e67b01697f405b018da0efd32fe6fb96362475827bd384687af8de6cb6
   .claude/skills/rfhub-connect/evals/evals.json: sha256:750c17b96b3e776c2d4ab707d6cacac6bbb5f256e423638bcbe26b46a65ed3da
-  .claude/skills/rfhub-connect/references/mcp-json.md: sha256:6b49973f3d7b01c8ddd0e47d3424c50029cfb40067eeecb332ecc5c48332c450
+  .claude/skills/rfhub-connect/references/mcp-json.md: sha256:ab4654ca549da335788b6d3359b1a51c0ef9ec93872a981230919bebd263eb78
   .claude/skills/rfhub-feedback/SKILL.md: sha256:6297ef2131d1c5be495b3b3bf53d6f6dd231216089835adf39c4c9225c04dc5d
   .claude/skills/rfhub-feedback/evals/eval_queries.json: sha256:3a6e45bb604da458943a1a62d8c3ecc6aa3e1e4a282ab2cc7b6ed62dc0b9d7eb
   .claude/skills/rfhub-feedback/evals/evals.json: sha256:a8592d24cb8748ddfaf35b2ffdcbbe12a2d9811448e5c630e1956f63f19b222e
   .claude/skills/rfhub-feedback/references/issue-templates.md: sha256:bdc6c763a8edbf41eee3d491ec42c0f1f32de3fb8698683b50b107033bec216b
-  .claude/skills/rfhub-fixloop/SKILL.md: sha256:95cb319d8a61b28833b001c1f398d613a5f82ac128973887714d6bd54003b4bb
+  .claude/skills/rfhub-fixloop/SKILL.md: sha256:5f11adfff773b29373e9447b4de33fdb9e5e384f06f54e7bd5539524c8e054f3
   .claude/skills/rfhub-fixloop/evals/eval_queries.json: sha256:b7f2b82b68c8d65a81a28e5497b0eacb4537762ea0161ded6144dc5dc349f66a
   .claude/skills/rfhub-fixloop/evals/evals.json: sha256:7f4c232b1155a34503d7d982909d08072fa4a6fd746639f4c0130b6a422bba24
   .claude/skills/rfhub-investigate/SKILL.md: sha256:f534b21d844bb6692cdd20443532685c980c50156917ded5b089a2d109f69fcd
@@ -1650,18 +1650,18 @@ local_deployed_file_hashes:
   .claude/skills/rfhub-investigate/evals/evals.json: sha256:25d50152b92c723f4bb2c939e374cf0f09aabe9b8770cca6654d60cff2153826
   .claude/skills/rfhub-investigate/references/classification.md: sha256:4b549dea7b964e48505f0803093341fddcc1442b00d00796718a599d4475721f
   .claude/skills/rfhub-investigate/references/metrics.md: sha256:0d8f7d84717a0a6d3f156daa4f343d927a5df57dced6ac060133fde13691ad4b
-  .claude/skills/rfhub-queue/SKILL.md: sha256:cc1cdbc4a385bedc3ed8042ddd232191a08aea07ea6c76126fcbec3765955d5f
+  .claude/skills/rfhub-queue/SKILL.md: sha256:dde056679ac66ffdab623cc98030bf095c1865b4b6b2ee7fe1561a7c182bfe51
   .claude/skills/rfhub-queue/evals/eval_queries.json: sha256:0864c9d2878e8a534ddf2a0275d6a023ea2f6d2a3f052ca5792a9a77971c9aa3
   .claude/skills/rfhub-queue/evals/evals.json: sha256:c5db8f0ac992b36d89d40b89fbf2f52d8ad177bd2d4571eedbce304d8b3d18d2
-  .claude/skills/rfhub-queue/references/queue.md: sha256:d102bbf33b1f4b08994d66273a6c2463c5a860f41876d94ede13a924f11d15fd
-  .claude/skills/rfhub-use-locks/SKILL.md: sha256:d228c57d0c307c3ec44232da20c81e35cdc1c3a16cf751efc9508c0cc403afe6
+  .claude/skills/rfhub-queue/references/queue.md: sha256:8127fc47dcf4d4955ff762906d2e412fa64169863b98a6b123104f17bc7a6bef
+  .claude/skills/rfhub-use-locks/SKILL.md: sha256:eaf0c069a7079fa010a3c00fdfeab53875a759dd81712aff931defd4fee32d75
   .claude/skills/rfhub-use-locks/evals/eval_queries.json: sha256:ccec7cfe4b130aa67a3b88fc37de837b9a8cba89a9ee75d1788fe2099a7be7af
   .claude/skills/rfhub-use-locks/evals/evals.json: sha256:b0a44cae9bc22013ab5e3afc4196e9fdc967aa7f8753b2ed10d487a65335ab18
-  .claude/skills/rfhub-use-locks/references/locks.md: sha256:0ab1a28fd23fdec1f03e0f64a1b5708ee5a0c993bbbc7ae852779576bdea49b3
-  .claude/skills/rfhub-write-acceptance/SKILL.md: sha256:0ee7addfce86533d44ea241f90e71e551e7ece44ea653dec8d21c69da3165343
+  .claude/skills/rfhub-use-locks/references/locks.md: sha256:66663d215835c3c921bb30266cf1344bfc7e7cbd1f72dc4854130de486c0504b
+  .claude/skills/rfhub-write-acceptance/SKILL.md: sha256:6daf2cbbacfcae7c6084e35046257cebf5882c31bf84c9a39435d722f0f6b4e1
   .claude/skills/rfhub-write-acceptance/evals/eval_queries.json: sha256:c70afc73ddad902482cade955c22dad71312b25039b73668e55358a2dc8144c8
   .claude/skills/rfhub-write-acceptance/evals/evals.json: sha256:a8e6647707f1053042d3a99bae51c6c91674f0573be77e7ee1b5acbcea9ab4a6
-  .claude/skills/rfhub-write-argumentfile/SKILL.md: sha256:46b0dd905eae2dd9ae9ab1711c0d236cef6e49d008d61651db164fe04795e156
+  .claude/skills/rfhub-write-argumentfile/SKILL.md: sha256:70ef0939a7cfd00a6366f6fc74df84775e1779b27f48af6bd19138a647e26048
   .claude/skills/rfhub-write-argumentfile/evals/eval_queries.json: sha256:3d9911a9e79f8b8fce991b6e661a52ab59b9fdd1c05be2b43419d8a1b5b1e166
   .claude/skills/rfhub-write-argumentfile/evals/evals.json: sha256:df38bfa5e47c294a5142d869d24a807111757cf281384a6f00fc9b3e0f1e22db
   .claude/skills/rfhub-write-argumentfile/references/args-example.md: sha256:9035650b0be5efbc1a2654cef75f8b8b620dff242448f9ddccb18f3d187edff1
@@ -1672,21 +1672,21 @@ local_deployed_file_hashes:
   .claude/skills/rfhub-write-resourcekeyword/SKILL.md: sha256:bf035fe591ffff4da1784c411f033a377798aeb4646bfd05bea5ce7e392ddf83
   .claude/skills/rfhub-write-resourcekeyword/evals/eval_queries.json: sha256:224ae49c1fe2aa391038adff6a20eb9c551d34c98b23c8235c6160036e806aae
   .claude/skills/rfhub-write-resourcekeyword/evals/evals.json: sha256:da7a5475721322c0e32832991771e0ad84f7b2baaf026ccdb9ba69441a87cc10
-  .claude/skills/rfhub-write-suite/SKILL.md: sha256:de1c999cf3a654d74c92d8dd0f69ca77ca0fbe4e4e6e86f6a1684cc2e76358d8
+  .claude/skills/rfhub-write-suite/SKILL.md: sha256:6bfd8f90ea92a049dd3ce1e3e59a7475523c126d31b8e648eba9a220ba3cc668
   .claude/skills/rfhub-write-suite/evals/eval_queries.json: sha256:23f0e4905e2c1cb9f7bf0ddd215243b109a98642ea267c9a24ee79e60f4880dc
   .claude/skills/rfhub-write-suite/evals/evals.json: sha256:332949ad41b44f1d9aae4a342059751ca053698af2dd1f124fb2bbce4714ee3e
   .claude/skills/rfhub-write-suitekeyword/SKILL.md: sha256:16a413ee4456c4e6e144bddf247e65c557aeb39d11cc565903d5c69f2a205194
   .claude/skills/rfhub-write-suitekeyword/evals/eval_queries.json: sha256:f7fe7d5542f484f941566c9ee16d0f5556d2e38c50f0bfb5510bcf4cc9aea778
   .claude/skills/rfhub-write-suitekeyword/evals/evals.json: sha256:b1508fb0bde0ad6be9e0de2b32eaa643266736d76f5825aedbeee11b93b5ebac
-  .claude/skills/rfhub-write-testcase/SKILL.md: sha256:1ea9c2dbac83fa25003d2be061ec4d996fb4f0492662209c2dbb6ae68668f03f
+  .claude/skills/rfhub-write-testcase/SKILL.md: sha256:d4da450c6cf9c562e9a10cde7cce309096226cba9aa4d297f1a0750e193b9912
   .claude/skills/rfhub-write-testcase/evals/eval_queries.json: sha256:e973819ddc539dfbc09abcc3e0c4e1e1f985d26a749a12a7014562d1657a4a28
   .claude/skills/rfhub-write-testcase/evals/evals.json: sha256:61aea29e2334450353266981e7010068f0f407be7af928a3e6031290cbdbd205
-  .claude/skills/rfhub/SKILL.md: sha256:1a353f977cb13b3b46efb1b1ded94a64eb809c1a6468a755ac2572e4d925f9b6
+  .claude/skills/rfhub/SKILL.md: sha256:c1451aa05f019defd0b7d082dffb768011e7ea5944d278b6a07ebbbb91e0fc3f
   .claude/skills/rfhub/evals/eval_queries.json: sha256:c34419c17474bb33f468a8f4a7efde90e86c944b84302ba43d13e17f9a8864fa
   .claude/skills/rfhub/evals/evals.json: sha256:81d2e0d6c6a431ac4461bad4e08d36b4fb55413051f4430882ae2d332268e77b
-  .claude/skills/rfhub/references/mcp-map.md: sha256:184e5c0e2c75bd961b20dd99ec52bd6950d611a5cc8ef65b4d7796fd064e8f13
+  .claude/skills/rfhub/references/mcp-map.md: sha256:56fc9d5a632267dc6c8543fab566cb2c1b38ed6749754967a31db3a7bc7eaafe
   .cursor/rules/rfhub-failure-evidence.mdc: sha256:e8b60a2baca2966c2f466b03f2be1e6ff44db2ae0e1786aae481b896665ccd10
   .cursor/rules/rfhub-gherkin.mdc: sha256:ffcc6affb871600313127787629270da753314ef38ef5caeef0f4b887a6070f9
   .cursor/rules/rfhub-leaf-suites.mdc: sha256:1d27ae6faa8d3b175af15f7a41f2849f8faa435725b72694561cf7545c492832
-  .cursor/rules/rfhub-stable-ids.mdc: sha256:17bdeccb0c65931b2843a596e5d407f75d561de6578d45027d57f8651aef3622
-  .cursor/rules/rfhub-tag-placement.mdc: sha256:ca0e8a3acdd85fae08c2a46768e3df24786c1593cf8dc6fcd6445c8bcfc86775
+  .cursor/rules/rfhub-stable-ids.mdc: sha256:f02130c94d7a70e51986b0bb312b8f9fb9c893958284e53d1eb9694e9288ab49
+  .cursor/rules/rfhub-tag-placement.mdc: sha256:c790a597bad3aef538e24addf260a4ce2b67af42a4fa1891e5fda189fb171bd4
