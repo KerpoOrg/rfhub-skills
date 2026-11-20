@@ -91,7 +91,7 @@ POST /api/agent/acceptance-runs
 
 MCP: `rfhub_acceptance_run` with the same fields (`project`, `branch`, `environment`, `gitSha` required; `acceptance` optional, defaults to `"acceptance"`) → returns a `groupId` → poll `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged` → read `report.verdict` (`passed` / `failed`).
 
-- The project's acceptance definition (**rfhub-write-acceptance**) supplies the ordered waves; waves run one batch at a time in definition order on that one environment.
+- The project's acceptance definition (**rfhub-write-acceptance**) supplies the ordered waves; waves run one batch at a time in definition order on that one environment. No definition yet? Author it with that skill first — definition CRUD has no MCP verbs, only `GET` / `PUT` / `DELETE /api/agent/acceptances`; an empty `acceptances: []` is a common greenfield state.
 - Local **WIP** dogfood is offline: `rfhub batch "<Project>" wip ./suites` (≡ `acceptance:wip`) against the SUT — **not** this orch acceptance-run path.
 - **`pr` / `release`:** use this orch acceptance-run path by default. Offline `rfhub batch … pr|release` only for chicken/egg or when the human asks.
 - A definition whose waves use Redis marks needs matching `rfhub_tag_set` labels (often `wave:wip`) before orch will select those leaves. Empty match means fix the marks/slug, not fall back to a hand-picked wave or suite list.
