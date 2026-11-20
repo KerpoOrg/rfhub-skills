@@ -24,6 +24,8 @@ A project **acceptance definition** is the ordered list of **waves** that form t
 
 > **Access requirement:** needs hub access like **rfhub-queue** (MCP OAuth or API key), on a hub that ships the acceptance API. Non-functional without it.
 
+> **No MCP verb — REST is the single create path.** There are no `rfhub_*` MCP tools for acceptance definitions (MCP covers queue / rerun / stream / acceptance runs and reports only). Read and save definitions with the `GET` / `PUT` / `DELETE /api/agent/acceptances` recipe below, using the documented access from **rfhub-connect** — never scrape orch `.env` blindly, and do not invent alternate fetch helpers mid-session. When `rfhub_acceptance_run` answers "no acceptance" (empty `acceptances: []` — a common greenfield state), author the definition here first, then run the gate.
+
 ## When to use
 
 - "Add the new security wave to the acceptance definition"
