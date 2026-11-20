@@ -138,7 +138,7 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - Robot resolves `%{…}` as an **environment variable**, so a raw HTTP-status probe like `curl -w %{http_code}` fails with `Environment variable '%{http_code}' not found` — that looks like a missing feature but is a broken harness. In acceptance cases escape or avoid it: percent-escape (`%%{http_code}` in shell-processed strings), build the flag with `Catenate`, or prefer RequestsLibrary keywords (see **rfhub-write-suite**). Confirm the failure is a real missing-feature 404/missing-element, not this clash, before counting red.
 - Never edit `OUT_DIR/rfhub.args` (runner-generated) to make red go away.
 - Do not `rfhub_rerun` while that part is still executing; mid-run edits never reach running executors.
-- **WIP dogfood is offline batch** (`rfhub batch … wip`). Redis `rfhub_tag_set` marks (label = wave includeTags, often `wave:wip`) select which leaves batch-config expands — do not commit Force Tags.
+- **WIP dogfood is offline batch** (`rfhub batch … wip`). Redis `rfhub_tag_set` marks (label = wave includeTags, often `wave:wip`) select which leaves batch-config expands — do not commit suite tags for WIP.
 - The acceptance suite is also the deliverable: keep Gherkin case steps performable manually, keywords technical.
 - A deferral note in the issue body ("hub TXN coverage added to suite X in child issue") is not permission to skip the hub — follow the Phase 1 rule and surface the conflict to the user instead of silently swapping the test layer.
 - Confirming the **SUT** (and control-plane login) before Phase 3 is not optional — a "red" against a down SUT is a broken harness, not RED. Orch is **not** required for WIP.

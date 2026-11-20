@@ -8,5 +8,5 @@ applyTo: "**/*.{robot,resource}"
 - Give every test case a `[Tags]    test_id:<uuid>`. Keywords never get identity tags.
 - Keep those UUIDs **stable** when you rename files or titles. Names are labels; ids are identity.
 - Generate new UUIDs with `uuidgen | tr '[:upper:]' '[:lower:]'`. Do not invent look-alike strings.
-- Do not put `project_id` / `suite_id` / `test_id` / `exec_host_id` prefixes on ephemeral labels (`wip` / `wave:wip`). Hub Redis marks exist for WIP without committing Force Tags; offline batch and orch both expand those marks.
+- Do not put `project_id` / `suite_id` / `test_id` / `exec_host_id` prefixes on ephemeral labels (`wip` / `wave:wip`). Hub Redis marks exist for WIP without committing suite tags; offline batch and orch both expand those marks.
 - `exec_host_id:<uuid>` is a runner/orchestrator concern (`EXEC_HOST_ID`), not something to stamp on every test.

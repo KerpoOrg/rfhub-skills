@@ -110,7 +110,7 @@ MCP: `rfhub_rerun`. Response includes `mode: "rerun"`, `overlay.parts`, and `uni
 
 ## Redis WIP marks
 
-Marks live in hub Redis (default TTL 7 days). Identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) are rejected as tag names. Do **not** commit Force Tags for ephemeral WIP.
+Marks live in hub Redis (default TTL 7 days). Identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) are rejected as tag names. Do **not** commit suite tags for ephemeral WIP.
 
 Prefer `kind: suite` and the leaf (or parent) `suite_id`. Cases in a suite are usually interdependent — do not mark each test unless the suite is only partially WIP.
 

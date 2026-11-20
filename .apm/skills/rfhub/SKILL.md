@@ -68,6 +68,6 @@ MCP tool names and compact use-cases: [references/mcp-map.md](references/mcp-map
 - Prefer a project **wave** (`wave=<slug>`) over re-specifying long tag/suite lists; `wave` ∪ `tag`, ∩ `suiteIds`.
 - Pass `environment` when a project + branch has several orchestrators (`dev` / `accpt` / `prod`) — otherwise queue returns `409 Multiple orchestrators match`. The environment’s `excludeTags` are applied by the orchestrator at launch.
 - Identity tags (`project_id:`, `suite_id:`, `test_id:`) must stay stable across renames.
-- Ephemeral WIP labels belong in Redis (`rfhub_tag_set`), not Force Tags. The mark’s `tag` must match the wave `includeTags` (often `wave:wip`). Offline `rfhub batch` and orch `tag`/`wave` both expand those marks.
+- Ephemeral WIP labels belong in Redis (`rfhub_tag_set`), not committed suite tags. The mark’s `tag` must match the wave `includeTags` (often `wave:wip`). Offline `rfhub batch` and orch `tag`/`wave` both expand those marks.
 - Control-plane hub (`rfhub auth login` / `--hub-url`) is not the product SUT (`HUB_BASE`). Batch does not start a SUT.
 - Do not declare hub MCP as a static APM `mcp:` dependency — the URL is per environment and MCP auth is OAuth (or a manually minted key).
