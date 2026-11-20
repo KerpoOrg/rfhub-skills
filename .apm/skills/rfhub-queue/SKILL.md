@@ -6,23 +6,25 @@ description: >-
   wave (wave=) or a project environment (dev/accpt/prod), choosing parallelism
   (serial/suite/testcase), tracking a batch handle (rfhub_stream cursor loop;
   poll rfhub_batch only as fallback or when explicitly asked), watching mid-run
-  failures to fix while a long batch still runs, marking WIP
-  with rfhub_tag_set then queueing by tag, creating acceptance reports
-  (rfhub_acceptance_report_create) from ≥2 passed runs that share
-  projectId+gitSha, running project acceptance in an environment
-  (rfhub_acceptance_run with project/branch/environment/gitSha, poll groupId
-  until merged, read report verdict), or rerunning failed leaves into the same handle with
-  rfhub_rerun. Apply when the user says "run this suite", "queue smoke", "queue
-  the smoke wave", "run in dev / accpt / prod", "all: true", "play from the
-  hub", "testcase parallelism", "fix while tests are running", "create
-  acceptance report", "run acceptance for this commit", or "rerun failed into this run". Does not activate for
-  writing .robot files alone, investigating past failures alone, or running
-  Robot inside Next.js.
+  failures to fix while a long batch still runs, marking WIP with
+  rfhub_tag_set then queueing by tag (orch path — not local WIP dogfood),
+  creating acceptance reports (rfhub_acceptance_report_create) from ≥2 passed
+  runs that share projectId+gitSha, running project acceptance in an
+  environment (rfhub_acceptance_run …), or rerunning failed leaves into the
+  same handle with rfhub_rerun. Apply when the user says "run this suite",
+  "queue smoke", "queue the smoke wave", "run in dev / accpt / prod",
+  "all: true", "play from the hub", "testcase parallelism", "fix while
+  tests are running", "create acceptance report", "run acceptance for this
+  commit", or "rerun failed into this run". Does **not** activate for **WIP
+  acceptance dogfood** — offline `rfhub batch … wip` (no orch). For **`pr` /
+  `release`**, prefer this orch path; offline batch is fallback only
+  (chicken/egg or human asks). Does not activate for writing .robot files
+  alone, investigating past failures alone, or running Robot inside Next.js.
 license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.5"
+  version: "1.6"
 ---
 # rfhub-queue
 
@@ -41,8 +43,26 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
 - Fix failures **while** a multi-hour batch is still running
 - Create an **acceptance report** from ≥2 passed runs for one commit
 - Run project **acceptance** (ordered waves as criteria) in an environment
-- Run a **PR acceptance gate** — a named acceptance definition (often `pr`, WIP-scoped) distinct from ad-hoc wave/suite queueing
-- Queue WIP via Redis marks (usually the whole suite) instead of committing `Test Tags    wip`
+- Run **`pr` / `release`** (and other non-WIP) acceptance via `rfhub_acceptance_run` when orch is healthy — **not** offline batch by default
+- Mark suites with Redis tags for orch selections — but **running** local WIP acceptance is **`rfhub batch`**, not this skill
+
+### Gate policy (WIP offline / pr orch)
+
+| Gate | Default | Offline `rfhub batch` |
+|------|---------|------------------------|
+| **WIP** | Offline `rfhub batch … wip` — **do not use this skill** | Always |
+| **`pr` / `release`** | **This skill** / orch | Fallback only: chicken/egg (prod/orch broken) or human asks |
+
+```bash
+# Control-plane login + local SUT up first (batch does not start the SUT)
+rfhub auth login --hub-url https://rfhub.kerpo.org
+rfhub batch "Your Project" wip ./suites
+# Fallback only: rfhub batch "Your Project" pr ./suites
+```
+
+Do **not** stand up orch just to run `wip`. Do **not** default `pr`/`release` to offline batch when orch works.
+
+Suite repos: same CLI — `rfhub auth login`, portable hub `envVariables`, then `rfhub batch "<Project>" <level> ./suites`. Positional path after `<level>` is the suite root (same as `--suite`). Full consumer guide: hub docs `CONSUMING.md` § Offline `rfhub batch`. Redis marks whose label matches wave `includeTags` (often `wave:wip`) expand into identity `--include suite_id:` / `test_id:` (RFHUB-29).
 
 ## Instructions
 
@@ -54,7 +74,7 @@ Queue work to an **online** orchestrator for `project` + `branch`. Selection is 
    - Concrete leaves or parents: `suiteIds` as catalog `suite_id` UUIDs or longnames (`Synthetic.Smoke.Health`).
    - Project **wave** (say “the smoke **wave**”): `wave: "smoke"` — a reusable bundle of include tags plus a scheduling `parallelism`. It is a **slug**, not a suite name. Preferred when the same selection is run repeatedly (CI, nightly). Unioned with `tag`/`tags`, intersected with `suiteIds`.
    - Whole catalog: `all: true`.
-   - Label: `tag` (e.g. `wip`) — union of catalog static tags and Redis marks. Prefer `rfhub_tag_set` over committing `wip` file tags. Mark the **suite** (`kind: suite`, catalog `suite_id`): cases in a leaf are usually interdependent. Mark `kind: test` only when the suite is partially WIP. Do **not** use Robot `--include wip` for Redis marks (the tag is not in the `.robot` file).
+   - Label: `tag` (e.g. `wave:wip`) — union of catalog static tags and Redis marks. Prefer `rfhub_tag_set` over committing suite tags in `.robot` files. The mark’s `tag` string must match the wave/`includeTags` label you will select. Mark the **suite** (`kind: suite`, catalog `suite_id`): cases in a leaf are usually interdependent. Mark `kind: test` only when the suite is partially WIP. Do **not** use Robot `--include <label>` alone for Redis marks (the label is not in the `.robot` file) — orch expands to suite/test ids; offline batch expands to identity `--include suite_id:` / `test_id:`.
    - Scheduling: `parallelism` (`serial` | `suite` | `testcase`, default `suite`) works on any selection and overrides the wave’s mode. Use `parallelism: "serial"` when units share a fixture — do **not** split the run into several queue calls.
    - Environment: `environment` (slug) — selects the orchestrator serving that environment and stamps the run; the orchestrator appends that environment’s `excludeTags` at launch. **Required** when several environments run the same `project`+`branch`.
 
@@ -111,7 +131,7 @@ A project **acceptance definition** (see **rfhub-write-acceptance**) is the orde
 
 1. **Discover the definition(s) first** — `GET /api/agent/acceptances?project=…`. **Do not default to the `acceptance` slug** when the ask is a "PR acceptance gate" or similar: check the suite repo's own guidance (AGENTS.md, project docs) for the slug it expects (often `pr`). A missing/empty definition means there is nothing to run — author it first (**rfhub-write-acceptance**; definition CRUD has no MCP verbs, so that skill's REST recipe is the single create path); do not hand-pick waves as a substitute.
 2. Call `rfhub_acceptance_run({ project, branch, environment, gitSha, acceptance })`, where `acceptance` is the definition slug (defaults to `"acceptance"` — pass the discovered slug explicitly for a named gate like `pr`). `project`, `branch`, `environment`, `gitSha` are **required** — `environment` selects the orchestrator (there is no multi-environment acceptance), and `gitSha` (`git rev-parse HEAD`) binds every wave batch to the same commit. **Commits are never mixed** inside one acceptance run.
-3. A `pr`-style definition is commonly **WIP-scoped**: its waves only include suites/tests currently tagged `wip`. Before calling, determine the suites relevant to the change and `rfhub_tag_set` them `wip` (`kind: suite`, per the WIP guidance above). A `No suites or tests match tag(s) wip` (or "no acceptance") response means the WIP scope is empty or the slug is wrong — **not** license to fall back to a hand-composed wave/suite list; fix the WIP marks or the slug, or ask the user.
+3. For **local WIP** dogfood use **`rfhub batch … wip`** (offline), not this orch flow. When an orch-backed definition uses Redis marks, `rfhub_tag_set` the touched suites with the wave’s include label (e.g. `wave:wip`, `kind: suite`) before `rfhub_acceptance_run`. Empty match / "no acceptance" means fix marks/slug — not a hand-composed substitute.
 4. Poll with `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged`. Each wave runs as one batch; the next wave starts when the previous finishes.
 5. Read the auto-created acceptance report: `report.verdict` (`passed` / `failed`). `status` is the merge lifecycle, `verdict` is the criteria outcome — **full acceptance can fail**, and failed wave runs are allowed into the report. A failure is recorded evidence, not a reason to stop polling.
 6. A green report (`verdict: passed`) is release proof: `rfhub_acceptance_gate` counts it for the default criteria. Quote the report id **and the `gitSha`** in release notes.
@@ -130,7 +150,7 @@ REST equivalents: `GET /api/agent/acceptances?project=…`, `POST /api/agent/acc
 2. Poll **only as fallback** — if `rfhub_stream` errors, the cursor stalls, or the user / another agent explicitly asked to poll: `rfhub_batch({ handle, since })` → read `progress.newFails` / `progress.failSeq`, or `rfhub_live` / `rfhub_failures` with `runId` + `since`. Bump `since` to `failSeq` / `cursor` after each poll.
 3. On each **new** fail: dedupe by `testId` / `robotId`. Quick flake check with `rfhub_metrics_test` before rewriting flaky cases.
 4. Investigate (`rfhub_run_log` / **rfhub-investigate**) — live `message` may exist; attachments often wait for part XML.
-5. Edit suite sources in the suite worktree (`rfhub-write-*`). Optionally `rfhub_tag_set` `wip` on the leaf under edit.
+5. Edit suite sources in the suite worktree (`rfhub-write-*`). Optionally `rfhub_tag_set` the WIP wave label (e.g. `wave:wip`) on the leaf under edit.
 6. Do **not** `rfhub_rerun` until that leaf/part is idle or the whole batch finishes (overlay still joins the same handle).
 7. After the batch (or settled leaves): **rerun into the same handle** below.
 
@@ -150,7 +170,9 @@ WIP mark/list/clear shapes: [references/queue.md](references/queue.md).
 - **Do not sleep-poll `rfhub_batch` when `rfhub_stream` works.** Streaming pushes each fail the moment it happens; a poll loop delays every fix by a full sleep cycle. Poll only when the stream fails or the user / another agent explicitly asked to poll.
 - **Always pass `gitSha` on `rfhub_queue`** when the run may feed release preflight or acceptance reports. Omitting it is a consumer bug — the hub cannot invent the commit later from the Run column (that column is the run id).
 - Parents expand to leaves on the hub. Queueing a parent is enough; do not also list every child unless you want a subset.
-- Marking every test in a leaf `wip` is almost always wrong — mark the suite instead.
+- Marking every test in a leaf with the WIP label is almost always wrong — mark the suite instead.
+- **Do not** use orch + Redis marks as the default way to **run** local WIP — use `rfhub batch … wip` (offline; marks expand via batch-config).
+- **Do not** default `pr`/`release` to offline batch when orch is healthy — batch is chicken/egg / human-ask only.
 - **Select the `environment`** when a project + branch has more than one orchestrator; without it queue returns `409 Multiple orchestrators match`. The slug must exist under the project and an orchestrator must be registered for it (`404` otherwise).
 - `wave` is a slug, not a tag or longname. Waves are project-scoped (no per-branch variant); `wave` ∪ `tag`, ∩ `suiteIds`. A missing slug is `404`.
 - `testcase` fans out one executor per test (bounded by `EXECUTOR_PARALLEL`); `serial` caps the batch to a single executor at a time. Use it deliberately on shared fixtures.

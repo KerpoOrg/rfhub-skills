@@ -73,7 +73,7 @@ Customer sees the order on the dashboard
 5. On failure with a sidecar, include an `OUT_DIR`-relative path in the message (`attachment #1: test-results/…/test-failed-1.png`). Hub matches message text to uploads.
 6. Set a per-case `[Timeout]` from expected runtime / execution history (observed max × ~3, with a small floor for fast checks). Prefer case-level timeouts over one large suite `Test Timeout` when cases have very different costs.
 7. Keep the case in one leaf; do not rely on `--test` in a consumer args file for orch batches.
-8. `[Tags]` holds `test_id` and tags **unique to this case**. Do not repeat parent `Test Tags`. If every case in the leaf would get the same extra tag, put it on the suite (**rfhub-write-suite**). Do not stamp `wip` on each test — mark the suite via **rfhub-queue** Redis (`kind: suite`) unless the leaf is only partially WIP. Never use identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) as ephemeral labels.
+8. `[Tags]` holds `test_id` and tags **unique to this case**. Do not repeat parent `Test Tags`. If every case in the leaf would get the same extra tag, put it on the suite (**rfhub-write-suite**). Do not stamp ephemeral WIP on each test — mark the suite via Redis (`rfhub_tag_set`, `kind: suite`, label matching wave includeTags) and dogfood with **`rfhub batch … wip`**. Never use identity prefixes (`project_id`, `suite_id`, `test_id`, `exec_host_id`) as ephemeral labels.
 
 ## Gotchas
 

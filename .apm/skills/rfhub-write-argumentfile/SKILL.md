@@ -33,7 +33,7 @@ Consumer Robot argument files live in the **suite repo**. The hub runner already
 2. Use them for **variables and options**, not as the hub’s suite selection. Play-from-hub still queues `suiteIds` / `tag` / `all`.
 3. Pass into the image with `ROBOT_EXTRA_ARGS`, not by overwriting `OUT_DIR/rfhub.args` (that path is per-executor so parallel `--suite` cannot race on a shared `WORKDIR`).
 4. Do not put `--listener` in the args file — the image already attaches `rfhub_listener.py`.
-5. Do not use `--include wip` for hub Redis WIP marks (`rfhub_tag_set`); those tags are not in the `.robot` file. See **rfhub-queue**.
+5. Do not use `--include <wip-label>` for hub Redis WIP marks (`rfhub_tag_set`); those labels are not in the `.robot` file. Offline `rfhub batch` / orch expand marks to identity includes or suite ids — see **rfhub-queue**.
 6. `--suite` / `--test` in a consumer args file fight orchestrated leaf executors. Leave selection to the hub unless this is a one-shot `docker run` without orch.
 7. After writing, if they also need a new leaf or tags, switch to **rfhub-write-suite** / **rfhub-write-testcase**.
 

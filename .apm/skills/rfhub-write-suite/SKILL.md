@@ -42,7 +42,7 @@ Test Tags        suite_id:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 5. Tests go in sibling `*.robot` files; `__init__.robot` is Settings/tags/resources, not a dump of all cases. Adding a case → **rfhub-write-testcase**.
 6. Keep suite setup `--dryrun`-safe (catalog). No real browser/network in suite-level setup.
 7. Import shared keywords from `*.resource` (**rfhub-write-resourcekeyword**), not copy-paste.
-8. After the leaf exists, queue with **rfhub-queue** (`suiteIds` = this `suite_id` or parent). Do not encode order in the folder name. Ephemeral `wip` is a Redis suite mark, not `Test Tags    wip` on every test.
+8. After the leaf exists, dogfood WIP with Redis mark + offline batch: `rfhub_tag_set` (`kind: suite`, tag matching WIP wave includeTags, often `wave:wip`) then `rfhub batch "<Project>" wip ./suites`. Do not stamp WIP suite tags in `.robot` files. Orch **rfhub-queue** is for non-WIP / `pr`/`release` paths. Do not encode order in the folder name.
 
 Follow always-on instructions for ids, tag placement, leaves, Gherkin, and FAIL attachments.
 

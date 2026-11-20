@@ -12,7 +12,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.0"
+  version: "1.1"
 ---
 # rfhub
 
@@ -39,7 +39,8 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | User intent | Skill |
 |-------------|--------|
 | Wire MCP / OAuth login / “not connected” | `rfhub-connect` |
-| Run / play / queue suites, project **waves** / **environments** / parallelism, WIP tag, fix-while-running / mid-run fails, **acceptance reports** | `rfhub-queue` |
+| Run / play / queue suites, project **waves** / **environments** / parallelism, fix-while-running / mid-run fails, **`pr`/`release` acceptance**, **acceptance reports** | `rfhub-queue` |
+| Local **WIP** acceptance dogfood (offline `rfhub batch … wip`, Redis marks) | CLI — see **rfhub-queue** gate policy (not orch by default) |
 | Run project **acceptance** (ordered waves as criteria) in an environment, poll the group until merged | `rfhub-queue` |
 | Acceptance **report verdict** / which wave failed for a commit (`acceptanceGroupId` → report first) | `rfhub-investigate` |
 | What failed, why, flake, watchlist, metrics, mid-run live fail | `rfhub-investigate` |
@@ -56,7 +57,8 @@ Map skill for **consuming** Robot Framework Hub from a suite repo. Prefer hub MC
 | Python library keyword | `rfhub-write-pythonkeyword` |
 
 4. Always-on file rules (Cursor `.mdc` / Claude rules) already cover identity tags, tag placement (promote/demote, suite-level WIP), Gherkin cases, leaf layout, and FAIL attachment paths. Do not contradict them.
-5. Do not run Robot inside Next.js. Do not iframe `log.html` as the primary report. `output.xml` is canonical.
+5. Offline gates: `rfhub batch "<project>" <level> ./suites` after `rfhub auth login` (hub docs `CONSUMING.md`). **WIP** = always offline batch (Redis marks expand via batch-config `?branch=` — RFHUB-29). **`pr` / `release`** = orch first (`rfhub_acceptance_run`); offline batch only as chicken/egg fallback or when the human asks.
+6. Do not run Robot inside Next.js. Do not iframe `log.html` as the primary report. `output.xml` is canonical.
 
 MCP tool names and compact use-cases: [references/mcp-map.md](references/mcp-map.md).
 
@@ -66,4 +68,6 @@ MCP tool names and compact use-cases: [references/mcp-map.md](references/mcp-map
 - Prefer a project **wave** (`wave=<slug>`) over re-specifying long tag/suite lists; `wave` ∪ `tag`, ∩ `suiteIds`.
 - Pass `environment` when a project + branch has several orchestrators (`dev` / `accpt` / `prod`) — otherwise queue returns `409 Multiple orchestrators match`. The environment’s `excludeTags` are applied by the orchestrator at launch.
 - Identity tags (`project_id:`, `suite_id:`, `test_id:`) must stay stable across renames.
+- Ephemeral WIP labels belong in Redis (`rfhub_tag_set`), not committed suite tags. The mark’s `tag` must match the wave `includeTags` (often `wave:wip`). Offline `rfhub batch` and orch `tag`/`wave` both expand those marks.
+- Control-plane hub (`rfhub auth login` / `--hub-url`) is not the product SUT (`HUB_BASE`). Batch does not start a SUT.
 - Do not declare hub MCP as a static APM `mcp:` dependency — the URL is per environment and MCP auth is OAuth (or a manually minted key).

@@ -55,7 +55,7 @@ Not for a single "why did this fail" — that is **rfhub-investigate** alone, no
 - Per `test_id`: at most **3** fix attempts. Third red result → stop for that test.
 - Same `test_id`, **same error fingerprint** twice in a row (compare compact messages): rerunning again is not a fix — change something real, mark `wip`, or stop.
 - Failure outside suite sources (product code, hub infra, environment) is **not fixable here**. Stop; never keep rerunning to "see if it goes away".
-- **`wip` is an honest exit**: mark the suite via Redis (`rfhub_tag_set`, `kind: suite`) when the case is not ready, and say so.
+- **WIP is an honest exit**: mark the suite via Redis (`rfhub_tag_set`, `kind: suite`, tag matching WIP wave includeTags) when the case is not ready, and say so. Local re-checks use `rfhub batch … wip`, not a new orch queue.
 - Global stop: budget exhausted, zero `recovered` across two consecutive joins, or the user set an iteration cap ("fix up to twice") — the user cap wins.
 
 ## Loop invariants
