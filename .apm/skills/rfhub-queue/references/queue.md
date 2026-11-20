@@ -91,7 +91,7 @@ POST /api/agent/acceptance-runs
 
 MCP: `rfhub_acceptance_run` with the same fields (`project`, `branch`, `environment`, `gitSha` required; `acceptance` optional, defaults to `"acceptance"`) → returns a `groupId` → poll `rfhub_acceptance_run({ groupId })` (or `GET /api/agent/acceptance-runs?groupId=…`) until `status` is `merged` → read `report.verdict` (`passed` / `failed`).
 
-- The project's acceptance definition (**rfhub-write-acceptance**) supplies the ordered waves; waves run one batch at a time in definition order on that one environment.
+- The project's acceptance definition (**rfhub-write-acceptance**) supplies the ordered waves; waves run one batch at a time in definition order on that one environment. No definition yet? Author it with that skill first — definition CRUD has no MCP verbs, only `GET` / `PUT` / `DELETE /api/agent/acceptances`; an empty `acceptances: []` is a common greenfield state.
 - A `pr`-style definition is often WIP-scoped — its waves only include suites/tests currently tagged `wip`. Set the relevant `rfhub_tag_set` marks before calling, or the run fails with `No suites or tests match tag(s) wip`. That failure means fix the marks/slug, not fall back to a hand-picked wave or suite list.
 - `status` is the merge lifecycle; `verdict` is the criteria outcome. Full acceptance can fail — failed wave runs are allowed into the auto-created report.
 - A green report is release proof (`rfhub_acceptance_gate` counts it for the default criteria).
