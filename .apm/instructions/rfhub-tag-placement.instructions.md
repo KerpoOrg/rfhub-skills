@@ -9,4 +9,4 @@ applyTo: "**/*.{robot,resource}"
 - Use `Test Tags` for shared tags, never `Default Tags`. Hub cases always have `[Tags]    test_id:…`, and Default Tags are skipped once a case has any tags of its own.
 - Identity tags stay as today: one `project_id` on the product root, a `suite_id` on each selectable suite, a `test_id` only on the case. Do not promote `test_id`. Do not put identity prefixes on ephemeral labels (`wip`).
 - When marking WIP, mark the **entire suite**, not each test. Cases in a suite are usually interdependent. Mark individual tests only when the suite is partially WIP.
-- Ephemeral WIP still prefers hub Redis (`rfhub_tag_set` with `kind: suite`) over committing `Test Tags    wip`. The same suite-vs-test rule applies to Redis marks.
+- Ephemeral WIP prefers hub Redis (`rfhub_tag_set` with `kind: suite`, tag matching wave `includeTags` such as `wave:wip`) over committing `Test Tags    wip` / `wave:wip`. Run local WIP with offline `rfhub batch … wip` (marks expand via batch-config). The same suite-vs-test rule applies to Redis marks.

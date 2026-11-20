@@ -18,7 +18,7 @@ license: MIT
 compatibility: Designed for Claude Code and Cursor
 metadata:
   author: kerpo
-  version: "1.2"
+  version: "1.3"
 ---
 # rfhub-atdd
 
@@ -59,14 +59,15 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 ### Phase 0 — Preflight (environment must be runnable before any edit)
 
 1. Confirm hub access (**rfhub-connect** first if MCP is down).
-2. Confirm `project` + `branch` resolve and an **online orchestrator** is registered for that pair (`rfhub_projects` / orch UI) — Phase 3's RED confirmation and every Phase 4 rerun depend on it.
+2. Confirm control-plane login (`rfhub auth login` / MCP) and that the **product SUT** for this checkout is up — Phase 3 WIP RED uses offline `rfhub batch`, which does not start a SUT or require orch.
 3. If the SUT needs a local stack or other dev services to execute, start and verify them now.
-4. If any of the above cannot be satisfied, **stop before touching repository files**: report what's missing (no hub access, no credentials, stack down) and ask the user, or fix the environment first. Formulating specs or editing sources against an environment that cannot run them only defers the failure to Phase 3.
+4. If any of the above cannot be satisfied, **stop before touching repository files**: report what's missing (no hub access, no credentials, SUT down) and ask the user, or fix the environment first. Formulating specs or editing sources against an environment that cannot run them only defers the failure to Phase 3.
 
-**Phase 0 sets the environment up — it does not stop for it.** An ATDD agent runs the environment bring-up itself from this checkout; asking the human is only for true blockers (no hub access, no credentials, Docker unavailable), never for "orch still pointed at the previous branch". In particular:
+**Phase 0 sets the environment up — it does not stop for it.** An ATDD agent runs the environment bring-up itself from this checkout; asking the human is only for true blockers (no hub access, no credentials, Docker unavailable).
 
-- **Orchestrator missing or on the wrong branch is a setup task, not a stop.** When the queue probe returns no orchestrator for this `project`+`branch`+`environment` while an online orch advertises a previous branch, discover the project's documented orchestrator/SUT bring-up (repo docs, compose stack, scripts — consumer sites may use a lean `docker/rf-hub-runtime` stack rather than hub-repo tooling), run it from **this** checkout, and verify `rfhub_queue` works for `project`+`branch`+`environment`. Then continue to Phase 1.
-- **Greenfield suite repos need a full bootstrap before formulate.** If the project, environment, wave, or catalog do not exist yet on the hub, do the bootstrap yourself, in this order: create/register the **project** → **environment** → **wave** → bring an **orchestrator online** for this checkout → confirm the **catalog** has inventoried the suite tree → optionally a default `acceptance` definition. Project settings CRUD may not exist as MCP verbs yet — follow **rfhub-write-acceptance**'s documented REST path for those settings (never scrape orch `.env` blindly), then stay on MCP for queue/rerun/stream.
+- **WIP RED does not need an orchestrator.** Prefer offline `rfhub batch … wip` after SUT up. Bring orch online only when the horizon needs `pr`/`release` (`rfhub_acceptance_run`) or Play-from-hub.
+- **When orch is required later** and missing/wrong-branch: discover the project's documented orch/SUT bring-up, run it from **this** checkout, and verify queue for `project`+`branch`+`environment` before Phase 5 orch gates.
+- **Greenfield suite repos need bootstrap before formulate.** Create/register **project** → **environment** → **waves** / acceptance (incl. a WIP wave whose `includeTags` match Redis marks, e.g. `wave:wip`) → ensure CLI can `rfhub batch` against the SUT. Orch/catalog come later for `pr`/`release`. Follow **rfhub-write-acceptance** REST paths for settings CRUD.
 
   > If settings CRUD genuinely cannot be performed (no REST key, no docs), *that* is a true blocker: stop and ask the user.
 - After setup, assert the environment identity matches this checkout (orch registered for `project`+`branch` of *this* worktree) before formulating — a "red" confirmed against a mismatched environment is a broken harness, not RED (Phase 3).
@@ -84,16 +85,16 @@ If the wording is ambiguous ("ship it"), stop at the last completed tier and ask
 
 ### Phase 3 — RED on the hub
 
-1. Queue **only what you formulated** on the hub with `gitSha` (see "Running fast" below). Use `rfhub_tag_set` (`kind: suite`, `wip`) — the honest "spec written, feature not implemented yet" mark.
+1. Mark the formulated leaf with Redis (`rfhub_tag_set`, `kind: suite`, tag matching the WIP wave include label — often `wave:wip`). Run **only that WIP scope** offline against the local SUT: `rfhub batch "<Project>" wip ./suites` after SUT up. Bare `wip` ≡ `acceptance:wip`. **Do not** stand up orch / `rfhub_queue` just for WIP RED.
 2. Verify red **for the right reason** with **rfhub-investigate** (`rfhub_run_log`, excerpts first). Catalog/harness errors are not red — fix the harness first; still no SUT code.
 3. This gate is mandatory: **no implementation before red is confirmed.** An implementation before a failing acceptance test is not ATDD.
 
 ### Phase 4 — Inner loop to green
 
 1. Pick the first red acceptance case. Implement test-first with **kerpo-tdd**: unit red→green→refactor inside the SUT, minutes-level cadence.
-2. After each inner-loop increment, **rerun into the same handle** (`rfhub_rerun({ runId })` with the touched `suiteIds`/`testIds`) — never a new `rfhub_queue` per iteration. Watch the case approach green.
-3. If red persists, use the **rfhub-fixloop** discipline: one fix class per iteration, budget per `test_id`, `wip` as honest exit, never rerun-to-see-if-it-goes-away.
-4. Green case → next red case (process gate). Park a case with `wip` + a one-line report rather than drifting the spec.
+2. After each inner-loop increment, **re-run offline batch** for the WIP acceptance (`rfhub batch … wip`) or, if already on an orch handle, `rfhub_rerun` into that handle — never invent a new orch queue per iteration for WIP dogfood.
+3. If red persists, use the **rfhub-fixloop** discipline: one fix class per iteration, budget per `test_id`, honest park rather than rerun-to-see-if-it-goes-away.
+4. Green case → next red case (process gate). Park with Redis WIP mark + a one-line report rather than drifting the spec.
 
 ### Phase 5 — Confirm (Demo / Done)
 
@@ -137,10 +138,10 @@ The hub makes a slow ATDD loop fast; keep the executed set minimal:
 - Robot resolves `%{…}` as an **environment variable**, so a raw HTTP-status probe like `curl -w %{http_code}` fails with `Environment variable '%{http_code}' not found` — that looks like a missing feature but is a broken harness. In acceptance cases escape or avoid it: percent-escape (`%%{http_code}` in shell-processed strings), build the flag with `Catenate`, or prefer RequestsLibrary keywords (see **rfhub-write-suite**). Confirm the failure is a real missing-feature 404/missing-element, not this clash, before counting red.
 - Never edit `OUT_DIR/rfhub.args` (runner-generated) to make red go away.
 - Do not `rfhub_rerun` while that part is still executing; mid-run edits never reach running executors.
-- WIP marks live in hub Redis (TTL, per branch) — set via `rfhub_tag_set`, clear via `rfhub_tag_clear`; do not commit `wip` tags to files.
+- **WIP dogfood is offline batch** (`rfhub batch … wip`). Redis `rfhub_tag_set` marks (label = wave includeTags, often `wave:wip`) select which leaves batch-config expands — do not commit Force Tags.
 - The acceptance suite is also the deliverable: keep Gherkin case steps performable manually, keywords technical.
 - A deferral note in the issue body ("hub TXN coverage added to suite X in child issue") is not permission to skip the hub — follow the Phase 1 rule and surface the conflict to the user instead of silently swapping the test layer.
-- Confirming the hub/orchestrator before Phase 2 is not optional — a "red" confirmed against a missing orchestrator is a broken harness, not RED (Phase 0).
-- When rolling out to acceptance, do not assume the `acceptance` slug or fall back to hand-picked waves if the run reports no criteria or an empty WIP scope — discover the right definition and WIP marks per **rfhub-queue** instead.
+- Confirming the **SUT** (and control-plane login) before Phase 3 is not optional — a "red" against a down SUT is a broken harness, not RED. Orch is **not** required for WIP.
+- When rolling out to **`pr` / `release`**, use orch (`rfhub_acceptance_run`) by default — discover the right definition per **rfhub-queue**. Offline batch for those gates only if chicken/egg or the human asks. Local WIP remains offline batch.
 - A focused passed run plus a failed full gate (e.g. `wave:ui` / named definition with `URLError: Network is unreachable`) means the gate failed — stop. Do not rebrand the focused run or a handmade report as acceptance evidence and continue toward merge/production.
 - Saying “acceptance report” for a single `runId` or an agent-written summary is a false claim; only hub acceptance-report / gate artifacts count.

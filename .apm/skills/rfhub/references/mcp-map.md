@@ -14,7 +14,7 @@ Keep results small: `limit`, then detail only failing ids.
 | Acceptance definitions (ordered waves as criteria) | Agent API `GET` / `PUT` / `DELETE /api/agent/acceptances` via **rfhub-write-acceptance** (no MCP tools — ordered wave ids, slugs resolved on save) |
 | Run acceptance (definition order, one env, one commit) | `rfhub_acceptance_run` (`project`, `branch`, `environment`, `gitSha` — all required) → poll with `groupId` until `status=merged` → read `report.verdict` |
 | Rerun failed / missing parts (same handle) | `rfhub_rerun` (`runId`, optional `suiteIds`; default = failed leaves ∪ pending parts) → `mode=rerun` + `units` + `overlay`; poll **same** handle with `rfhub_batch` (`parts.pending`, `progress.recovered`). Do not open a new `rfhub_queue` to join. |
-| WIP without file tags | `rfhub_tag_set` / `rfhub_tags` / `rfhub_tag_clear` then queue with `tag` |
+| WIP without file tags | `rfhub_tag_set` / `rfhub_tags` / `rfhub_tag_clear` (label must match wave `includeTags`, e.g. `wave:wip`). **Run** local WIP with offline `rfhub batch … wip` (batch-config expands marks). Orch: queue with `tag` / `wave` when you need parallel executors |
 | Shared-fixture locks | No MCP tools — agent API + UI via **rfhub-use-locks** (`PUT /api/agent/lock-domains`, `PUT /api/agent/locks`, `GET /api/locks`, Live locks view) |
 | Live | `rfhub_live` (optional `runId`, `since`) |
 | What failed | `rfhub_failures` (`project`, optional `q`, optional `runId` + `since`) |
@@ -24,7 +24,7 @@ Keep results small: `limit`, then detail only failing ids.
 
 `rfhub_run` / `rfhub_run_log` include `attachments[]` when FAIL text matches uploads. Prefer that over `log.html`.
 
-Queue needs an **online** orchestrator for that `project` + `branch`. Optional `worktree`, or `environment`, when more than one orch matches.
+Queue needs an **online** orchestrator for that `project` + `branch`. Optional `worktree`, or `environment`, when more than one orch matches. **WIP dogfood does not use queue** — use offline `rfhub batch … wip` against the local SUT (control-plane login still required for batch-config + ingest).
 
 `wave` (slug) expands a project bundle of include tags + its `parallelism` (`serial` / `suite` (default) / `testcase`); `parallelism` can override it on any selection. `environment` co-selects the orchestrator that serves that env (`dev` / `accpt` / `prod`), stamps the run, and the runtime appends the env’s `excludeTags`. No MCP tools for these — manage via the agent API: `GET` / `PUT` / `DELETE /api/agent/waves` and `/api/agent/environments` (`?project=<id|name>`), or hub **Settings** (project → Waves / Environments). Runs carry `environment`.
 

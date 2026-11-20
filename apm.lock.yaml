@@ -1388,14 +1388,14 @@ mcp_configs:
     transport: http
     registry: false
     headers:
-      X-Rfhub-Skills-Version: 0.9.3
+      X-Rfhub-Skills-Version: 0.10.0
     url: https://rfhub.kerpo.org/api/mcp
   rfhub-dev:
     name: rfhub-dev
     transport: http
     registry: false
     headers:
-      X-Rfhub-Skills-Version: 0.9.3
+      X-Rfhub-Skills-Version: 0.10.0
     url: http://127.0.0.1:2998/api/mcp
 mcp_target_servers:
   claude:
